@@ -8,8 +8,9 @@ interface
 
 uses
   psptypes,
-  pspkerneltypes;
-
+  pspkerneltypes,
+  pspiofilemgr;
+  
 //#include <psptypes.h>
 //#include <pspkerneltypes.h>
 //#include <pspiofilemgr.h>

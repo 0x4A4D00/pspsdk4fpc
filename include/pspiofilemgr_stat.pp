@@ -102,6 +102,8 @@ type
 	(** Device-specific data. *)
 	st_private : array[0..5] of uint32;  
   end;
+  
+  PSceIoStat = ^SceIoStat;
 
 {$endif}
 

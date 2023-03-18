@@ -2,10 +2,8 @@ unit psptypes;
 
 interface
 
-{$ifndef _PSPTYPES_H_ }
-  {$define _PSPTYPES_H_ := 1}
-{$endif}
-
+{$ifndef _PSPTYPES_H_}
+{$define _PSPTYPES_H_ := 1}
 
 
 {$define null := nil}
@@ -45,16 +43,16 @@ type
 
 
 (* MIPS-like accessor macros. *) 			  
-function _lb(addr: u32): u8 ; static;  external; { return *(vu8 *)addr; }
-function _lh(addr: u32): u16; static;  external; { return *(vu16 *)addr; }
-function _lw(addr: u32): u32; static;  external; { return *(vu32 *)addr; }
-function _ld(addr: u32): u64; static;  external; { return *(vu64 *)addr; }
+function _lb(addr: u32): u8 ; static; cdecl; external; { return *(vu8 *)addr; }
+function _lh(addr: u32): u16; static; cdecl; external; { return *(vu16 *)addr; }
+function _lw(addr: u32): u32; static; cdecl; external; { return *(vu32 *)addr; }
+function _ld(addr: u32): u64; static; cdecl; external; { return *(vu64 *)addr; }
 
 
-procedure _sb(val: u8 ; addr: u32); static;  external;  { *(vu8 *)addr = val; }
-procedure _sh(val: u16; addr: u32); static;  external; { *(vu16 *)addr = val; }
-procedure _sw(val: u32; addr: u32); static;  external; { *(vu32 *)addr = val; }
-procedure _sd(val: u64; addr: u32); static;  external; { *(vu64 *)addr = val; }
+procedure _sb(val: u8 ; addr: u32); static; cdecl; external;  { *(vu8 *)addr = val; }
+procedure _sh(val: u16; addr: u32); static; cdecl; external; { *(vu16 *)addr = val; }
+procedure _sw(val: u32; addr: u32); static; cdecl; external; { *(vu32 *)addr = val; }
+procedure _sd(val: u64; addr: u32); static; cdecl; external; { *(vu64 *)addr = val; }
 
 
 (* SCE types. *)
@@ -65,15 +63,14 @@ type
   SceUInt64   = uint64;
   SceULong64  = uint64;
   
-(*typedef unsigned int SceULong128 __attribute__((mode(TI)));*)
-
+  
   SceChar8   = char;
   SceShort16 = int16;
   SceInt32	 = int32;
   SceInt64   = int64;
+  PSceInt64  = ^SceInt64;
   SceLong64  = int64;
 
-(*typedef int SceLong128 __attribute__((mode(TI)));*)
 
   SceFloat   = single;
   Scefloat32 = single;
@@ -85,8 +82,6 @@ type
   
   SceVoid	 = pointer;
   ScePVoid	 = pointer;
-
-//typedef void SceVoid;
 
 
 (* PSP types. *)
@@ -351,8 +346,6 @@ type
   ScePspRGBA5551 = uint16;
   ScePspRGB565   = uint16;
 
-
-
   (* Unions for converting between types. *)
   ScePspUnion32 = packed record
     case integer of
@@ -421,6 +414,8 @@ type
 	second 		: uint16;
 	microsecond : uint32;
   end;
+  
+{$endif}
 
 implementation
 

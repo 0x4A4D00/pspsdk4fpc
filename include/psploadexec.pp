@@ -29,7 +29,6 @@ function sceKernelLoadExec(const fileio: pchar; param: PsceKernelLoadExecParam):
 
 {$endif}
 
-
 implementation
 
 end.

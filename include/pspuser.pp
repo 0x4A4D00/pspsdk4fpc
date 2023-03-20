@@ -9,7 +9,9 @@ interface
 uses
   psptypes,
   pspkerneltypes,
-  pspiofilemgr;
+  pspiofilemgr,
+  psploadexec,
+  pspmoduleinfo;
   
 //#include <psptypes.h>
 //#include <pspkerneltypes.h>

@@ -2,9 +2,6 @@ unit pspmoduleinfo;
 
 interface
 
-{$Inline on}
-{$Macro  on}
-
 {$ifndef PSPMODULEINFO_H}
 {$define PSPMODULEINFO_H}
 
@@ -79,9 +76,6 @@ __lib_stub_bottom:\n"
 
 end;
 *)
-
-
-
 
 procedure PSP_MAIN_THREAD_PRIORITY(priority: uint32); inline;
 begin

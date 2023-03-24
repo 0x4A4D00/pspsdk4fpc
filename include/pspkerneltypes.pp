@@ -19,6 +19,8 @@ type
 
   SceUChar = uint8;
   SceUInt  = uint32;
+  
+  PsceUInt = ^SceUInt;
 
 (* File I/O types. *)
   SceMode  = int32;

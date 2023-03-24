@@ -11,7 +11,9 @@ uses
   pspkerneltypes,
   pspiofilemgr,
   psploadexec,
-  pspmoduleinfo;
+  pspmoduleinfo,
+  pspmodulemgr,
+  pspsysmem;
   
 //#include <psptypes.h>
 //#include <pspkerneltypes.h>

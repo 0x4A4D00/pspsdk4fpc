@@ -13,31 +13,26 @@ uses
 {$define PSP_MEMORY_PARTITION_USER   2}
 
 type
-  
   PsceKernelLMOption = ^SceKernelLMOption;
   
   SceKernelLMOption  = record
-    
 	size 	  : SceSize;
 	mpidtext  : SceUID;
 	mpiddata  : SceUID;
 	flags 	  : uint32;
 	position  : char;
 	access 	  : char;
-	creserved : array[0..1] of char;
-	
+	creserved : array[0..1] of char;	
   end;
 
   PsceKernelSMOption = ^SceKernelSMOption;
   
-  SceKernelSMOption  = record
-    
+  SceKernelSMOption  = record    
 	size 	  : SceSize;
 	mpidstack : SceUID;
 	stacksize : SceSize;
 	priority  : int32;
-	attribute : uint32;
-	
+	attribute : uint32;	
   end;
 
 // For loading a Module.
@@ -64,8 +59,7 @@ type
 	
   PsceKernelModuleInfo = ^SceKernelModuleInfo;
 
-  SceKernelModuleInfo  = record
-    
+  SceKernelModuleInfo  = record    
 	size: SceSize;
 	nsegment 	: char;
 	reserved 	: array[0..2] of char;
@@ -79,9 +73,7 @@ type
 	bss_size 	: uint32;
 	attribute	: uint16;
 	version		: array[0..1]  of uint8;
-	name 		: array[0..27] of char;
-	
-	
+	name 		: array[0..27] of char;	
   end;
 
 // Get Info About a Loaded Module.

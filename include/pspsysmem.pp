@@ -48,6 +48,10 @@ function sceKernelDevkitVersion: int32; cdecl; external;
 {$if _PSP_FW_VERSION >= '150'}
 
 procedure sceKernelPrintf(const format: pchar; args: array of const); cdecl; external;
+(*
+* Also you can use
+* procedure sceKernelPrintf(const format: pchar;); cdecl; external; varargs;
+*)
 
 {$endif}
 

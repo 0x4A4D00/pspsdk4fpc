@@ -7,7 +7,6 @@ interface
 
 type
   _scemoduleinfo = record
-  
 	modattribute : uint16;
 	modversion	 : array[0..1]  of uint8;
 	modname 	 : array[0..26] of char;
@@ -16,8 +15,7 @@ type
 	ent_top		 : pointer;
 	ent_end		 : pointer;
 	stub_top	 : pointer;
-	stub_end	 : pointer;	
-	
+	stub_end	 : pointer;
   end;
   
   PspModuleInfoAttr = 

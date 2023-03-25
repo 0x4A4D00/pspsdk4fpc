@@ -34,16 +34,16 @@ type
   
   SceKernelThreadEntry = function(args: SceSize; argp: pointer): int32;
 
-  PsceKernelThreadOptParam  = ^SceKernelThreadOptParam;
+  PsceKernelThreadOptParam = ^SceKernelThreadOptParam;
 
-  SceKernelThreadOptParam   = record
+  SceKernelThreadOptParam  = record
     size   : SceSize;
     SceUID : stackMpid;    
   end;
 
-  PsceKernelThreadInfo      = ^SceKernelThreadInfo;
+  PsceKernelThreadInfo = ^SceKernelThreadInfo;
 
-  SceKernelThreadInfo       = record
+  SceKernelThreadInfo  = record
     size               : SceSize;
     name               : array[0..31] of char;
     attr               : SceUInt;
@@ -168,9 +168,9 @@ type
     size : SceSize;
   end;
   
-  PsceKernelSemaInfo     = ^SceKernelSemaInfo;
+  PsceKernelSemaInfo = ^SceKernelSemaInfo;
   
-  SceKernelSemaInfo      = record
+  SceKernelSemaInfo  = record
     size           : SceSize;
     name           : array[0..31] of char;
     attr           : SceUInt;
@@ -195,132 +195,53 @@ function sceKernelPollSema(semaid: SceUID; signal: int32): int32; cdecl; externa
 function sceKernelReferSemaStatus(semaid: SceUID; info: PsceKernelSemaInfo): int32; cdecl; external;
 
 
-/* Event flags. */
+type
+  (* Event Flags *)
+  PsceKernelEventFlagInfo = ^SceKernelEventFlagInfo;
+  
+  SceKernelEventFlagInfo  = record
+    size           : SceSize;
+    name           : array[0..31] of char;
+    attr           : SceUInt;
+    initPattern    : SceUInt;
+    currentPattern : SceUInt;
+    numWaitThreads : int32;
+  end;
 
-/** Structure to hold the event flag information */
-typedef struct SceKernelEventFlagInfo {
-    SceSize     size;
-    char         name[32];
-    SceUInt     attr;
-    SceUInt     initPattern;
-    SceUInt     currentPattern;
-    int         numWaitThreads;
-} SceKernelEventFlagInfo;
+  PsceKernelEventFlagOptParam = ^SceKernelEventFlagOptParam;
+  
+  SceKernelEventFlagOptParam  = record
+    size: SceSize;
+  end;
+  
+  PspEventFlagAttributes =
+  (
+    PSP_EVENT_WAITMULTIPLE = $200;
+  );
+  
+  PspEventFlagWaitTypes  =
+  (
+    PSP_EVENT_WAITAND   = 0,
+    PSP_EVENT_WAITOR    = 1,
+    PSP_EVENT_WAITCLEAR = $20
+  );
 
-struct SceKernelEventFlagOptParam {
-    SceSize     size;
-};
+function sceKernelCreateEventFlag(const name: pchar; attr: int32; bits: int32; opt: PsceKernelEventFlagOptParam): SceUID; cdecl; external;
 
-typedef struct SceKernelEventFlagOptParam SceKernelEventFlagOptParam;
+function sceKernelSetEventFlag(evid: SceUID; bits: u32): int32; cdecl; external;
 
-/** Event flag creation attributes */
-enum PspEventFlagAttributes
-{
-    /** Allow the event flag to be waited upon by multiple threads */
-    PSP_EVENT_WAITMULTIPLE = 0x200
-};
+function sceKernelClearEventFlag(evid: SceUID; bits: u32): int32; cdecl; external;
 
-/** Event flag wait types */
-enum PspEventFlagWaitTypes
-{
-    /** Wait for all bits in the pattern to be set */
-    PSP_EVENT_WAITAND = 0,
-    /** Wait for one or more bits in the pattern to be set */
-    PSP_EVENT_WAITOR  = 1,
-    /** Clear the wait pattern when it matches */
-    PSP_EVENT_WAITCLEAR = 0x20
-};
+function sceKernelPollEventFlag(evid: int32; bits: u32; wait: u32; outBits: pinteger): int32; cdecl; external;
 
-/** 
-  * Create an event flag.
-  *
-  * @param name - The name of the event flag.
-  * @param attr - Attributes from ::PspEventFlagAttributes
-  * @param bits - Initial bit pattern.
-  * @param opt  - Options, set to NULL
-  * @return < 0 on error. >= 0 event flag id.
-  *
-  * @par Example:
-  * @code
-  * int evid;
-  * evid = sceKernelCreateEventFlag("wait_event", 0, 0, 0);
-  * @endcode
-  */
-SceUID sceKernelCreateEventFlag(const char *name, int attr, int bits, SceKernelEventFlagOptParam *opt);
+function sceKernelWaitEventFlag(evid: int32; bits: u32; wait: u32; outBits: pinteger; timeout: PsceUInt): int32; cdecl; external;
 
-/** 
-  * Set an event flag bit pattern.
-  *
-  * @param evid - The event id returned by sceKernelCreateEventFlag.
-  * @param bits - The bit pattern to set.
-  *
-  * @return < 0 On error
-  */
-int sceKernelSetEventFlag(SceUID evid, u32 bits);
+function sceKernelWaitEventFlagCB(evid: int32; bits: u32; wait: u32; outBits: pinteger; timeout: PsceUInt): int32; cdecl; external;
 
-/**
- * Clear a event flag bit pattern
- *
- * @param evid - The event id returned by ::sceKernelCreateEventFlag
- * @param bits - The bits to clean
- *
- * @return < 0 on Error
- */
-int sceKernelClearEventFlag(SceUID evid, u32 bits);
+function sceKernelDeleteEventFlag(evid: int32): int32; cdecl; external;
 
-/** 
-  * Poll an event flag for a given bit pattern.
-  *
-  * @param evid - The event id returned by sceKernelCreateEventFlag.
-  * @param bits - The bit pattern to poll for.
-  * @param wait - Wait type, one or more of ::PspEventFlagWaitTypes or'ed together
-  * @param outBits - The bit pattern that was matched.
-  * @return < 0 On error
-  */
-int sceKernelPollEventFlag(int evid, u32 bits, u32 wait, u32 *outBits);
+function sceKernelReferEventFlagStatus(event: SceUID; status: PsceKernelEventFlagInfo): int32; cdecl; external;
 
-/** 
-  * Wait for an event flag for a given bit pattern.
-  *
-  * @param evid - The event id returned by sceKernelCreateEventFlag.
-  * @param bits - The bit pattern to poll for.
-  * @param wait - Wait type, one or more of ::PspEventFlagWaitTypes or'ed together
-  * @param outBits - The bit pattern that was matched.
-  * @param timeout  - Timeout in microseconds
-  * @return < 0 On error
-  */
-int sceKernelWaitEventFlag(int evid, u32 bits, u32 wait, u32 *outBits, SceUInt *timeout);
-
-/** 
-  * Wait for an event flag for a given bit pattern with callback.
-  *
-  * @param evid - The event id returned by sceKernelCreateEventFlag.
-  * @param bits - The bit pattern to poll for.
-  * @param wait - Wait type, one or more of ::PspEventFlagWaitTypes or'ed together
-  * @param outBits - The bit pattern that was matched.
-  * @param timeout  - Timeout in microseconds
-  * @return < 0 On error
-  */
-int sceKernelWaitEventFlagCB(int evid, u32 bits, u32 wait, u32 *outBits, SceUInt *timeout);
-
-/** 
-  * Delete an event flag
-  *
-  * @param evid - The event id returned by sceKernelCreateEventFlag.
-  *
-  * @return < 0 On error
-  */
-int sceKernelDeleteEventFlag(int evid);
-
-/** 
-  * Get the status of an event flag.
-  * 
-  * @param event - The UID of the event.
-  * @param status - A pointer to a ::SceKernelEventFlagInfo structure.
-  *
-  * @return < 0 on error.
-  */
-int sceKernelReferEventFlagStatus(SceUID event, SceKernelEventFlagInfo *status);
 
 
 /* Message boxes. */

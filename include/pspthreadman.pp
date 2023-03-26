@@ -284,64 +284,28 @@ function sceKernelCancelReceiveMbx(mbxid: SceUID; pnum: Pinteger): int32; cdecl;
 function sceKernelReferMbxStatus(mbxid: SceUID; info: PsceKernelMbxInfo): int32; cdecl; external;
 
 
+type
+  (* Alarms *)
+  SceKernelAlarmHandler = function(common: pointer): PsceUInt;
 
-/* Alarms. */
+  PsceKernelAlarmInfo = ^SceKernelAlarmInfo;
 
-/** Prototype for alarm handlers. */
-typedef SceUInt (*SceKernelAlarmHandler)(void *common);
+  SceKernelAlarmInfo  = record
+    size     : SceSize;
+	schedule : SceKernelSysClock;
+	handler  : SceKernelAlarmHandler;
+	common   : pointer;
+  end;
 
-/** Struct containing alarm info */
-typedef struct SceKernelAlarmInfo {
-    /** Size of the structure (should be set before calling
-     * :: sceKernelReferAlarmStatus */
-    SceSize        size;
-    /* The current schedule */
-    SceKernelSysClock schedule;
-    /** Pointer to the alarm handler */
-    SceKernelAlarmHandler handler;
-    /** Common pointer argument */
-    void *        common;
-} SceKernelAlarmInfo;
+function sceKernelSetAlarm(clock: SceUInt; handler: SceKernelAlarmHandler; common: pointer): SceUID; cdecl; external;
 
-/** 
- * Set an alarm.
- * @param clock - The number of micro seconds till the alarm occurrs.
- * @param handler - Pointer to a ::SceKernelAlarmHandler
- * @param common - Common pointer for the alarm handler
- *
- * @return A UID representing the created alarm, < 0 on error.
- */
-SceUID sceKernelSetAlarm(SceUInt clock, SceKernelAlarmHandler handler, void *common);
+function sceKernelSetSysClockAlarm(clock: PsceKernelSysClock; handler: SceKernelAlarmHandler; common: pointer): SceUID; cdecl; external;
 
-/**
- * Set an alarm using a ::SceKernelSysClock structure for the time
- * 
- * @param clock - Pointer to a ::SceKernelSysClock structure
- * @param handler - Pointer to a ::SceKernelAlarmHandler
- * @param common - Common pointer for the alarm handler.
- * 
- * @return A UID representing the created alarm, < 0 on error.
- */
-SceUID sceKernelSetSysClockAlarm(SceKernelSysClock *clock, SceKernelAlarmHandler handler, void *common);
+function sceKernelCancelAlarm(alarmid: SceUID): int32; cdecl; external;
 
-/**
- * Cancel a pending alarm.
- *
- * @param alarmid - UID of the alarm to cancel.
- *
- * @return 0 on success, < 0 on error.
- */
-int sceKernelCancelAlarm(SceUID alarmid);
+function sceKernelReferAlarmStatus(alarmid: SceUID; info: PsceKernelAlarmInfo): int32; cdecl; external;
 
-/**
- * Refer the status of a created alarm.
- *
- * @param alarmid - UID of the alarm to get the info of
- * @param info - Pointer to a ::SceKernelAlarmInfo structure
- *
- * @return 0 on success, < 0 on error.
- */
-int sceKernelReferAlarmStatus(SceUID alarmid, SceKernelAlarmInfo *info);
+
 
 /* Callbacks. */
 

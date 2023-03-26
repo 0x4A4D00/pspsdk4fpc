@@ -18,8 +18,7 @@ type
   end;
   
   (* Attributes *)
-  PspThreadAttributes = 
-  (
+  PspThreadAttributes = (
     PSP_THREAD_ATTR_VFPU         = $00004000,
     PSP_THREAD_ATTR_USER         = $80000000,
     PSP_THREAD_ATTR_USBWLAN      = $a0000000,
@@ -79,8 +78,7 @@ type
     releaseCount       : SceUInt;
   end;
 
-  PspThreadStatus = 
-  (
+  PspThreadStatus = (
     PSP_THREAD_RUNNING = 1,
     PSP_THREAD_READY   = 2,
     PSP_THREAD_WAITING = 4,
@@ -214,13 +212,11 @@ type
     size: SceSize;
   end;
   
-  PspEventFlagAttributes =
-  (
+  PspEventFlagAttributes = (
     PSP_EVENT_WAITMULTIPLE = $200;
   );
   
-  PspEventFlagWaitTypes  =
-  (
+  PspEventFlagWaitTypes  = (
     PSP_EVENT_WAITAND   = 0,
     PSP_EVENT_WAITOR    = 1,
     PSP_EVENT_WAITCLEAR = $20
@@ -243,172 +239,50 @@ function sceKernelDeleteEventFlag(evid: int32): int32; cdecl; external;
 function sceKernelReferEventFlagStatus(event: SceUID; status: PsceKernelEventFlagInfo): int32; cdecl; external;
 
 
+type
+  (* Message Box *)
+  PsceKernelMbxOptParam = ^SceKernelMbxOptParam;
+  
+  SceKernelMbxOptParam  = record
+    size : SceSize;
+  end;
+  
+  PsceKernelMbxInfo = ^SceKernelMbxInfo;
+  
+  SceKernelMbxInfo  = record
+    size           : SceSize;
+	name           : array[0..31] of char;
+	attr           : SceUInt;
+	numWaitThreads : int32;
+	numMessages    : int32;
+	firstMessage   : pointer;
+  end;
 
-/* Message boxes. */
+  PsceKernelMsgPacket = ^SceKernelMsgPacket;
 
-/** Additional options used when creating messageboxes. */
-typedef struct SceKernelMbxOptParam {
-    /** Size of the ::SceKernelMbxOptParam structure. */
-    SceSize     size;
-} SceKernelMbxOptParam;
+  SceKernelMsgPacket  = record
+    next        : PsceKernelMsgPacket;
+	msgPriority : SceUChar;
+	dummy       : array[0..2] of SceUChar;
+  end;
 
-/** Current state of a messagebox.
- * @see sceKernelReferMbxStatus.
- */
-typedef struct SceKernelMbxInfo {
-    /** Size of the ::SceKernelMbxInfo structure. */
-    SceSize     size;
-    /** NUL-terminated name of the messagebox. */
-    char         name[32];
-    /** Attributes. */
-    SceUInt     attr;
-    /** The number of threads waiting on the messagebox. */
-    int         numWaitThreads;
-    /** Number of messages currently in the messagebox. */
-    int         numMessages;
-    /** The message currently at the head of the queue. */
-    void        *firstMessage;
-} SceKernelMbxInfo;
 
-/**
- * Header for a message box packet
- */
-typedef struct SceKernelMsgPacket {
-    /** Pointer to next msg (used by the kernel) */
-    struct SceKernelMsgPacket *next;
-    /** Priority ? */
-    SceUChar    msgPriority;
-    SceUChar    dummy[3];
-    /** After this can be any user defined data */
-} SceKernelMsgPacket;
+function sceKernelCreateMbx(const: name: pchar; attr: SceUInt; option: PsceKernelMbxOptParam): SceUID; cdecl; external;
 
-/**
- * Creates a new messagebox
- *
- * @par Example:
- * @code
- * int mbxid;
- * mbxid = sceKernelCreateMbx("MyMessagebox", 0, NULL);
- * @endcode
- *
- * @param name - Specifies the name of the mbx
- * @param attr - Mbx attribute flags (normally set to 0)
- * @param option - Mbx options (normally set to NULL)
- * @return A messagebox id
- */
-SceUID sceKernelCreateMbx(const char *name, SceUInt attr, SceKernelMbxOptParam *option);
+function sceKernelDeleteMbx(mbxid: SceUID): int32; cdecl; external;
 
-/**
- * Destroy a messagebox
- *
- * @param mbxid - The mbxid returned from a previous create call.
- * @return Returns the value 0 if its succesful otherwise an error code
- */
-int sceKernelDeleteMbx(SceUID mbxid);
+function sceKernelSendMbx(mbxid: SceUID; message: pointer): int32; cdecl; external;
 
-/**
- * Send a message to a messagebox
- *
- * @par Example:
- * @code
- * struct MyMessage {
- *     SceKernelMsgPacket header;
- *     char text[8];
- * };
- *
- * struct MyMessage msg = { {0}, "Hello" };
- * // Send the message
- * sceKernelSendMbx(mbxid, (void*) &msg);
- * @endcode
- *
- * @param mbxid - The mbx id returned from sceKernelCreateMbx
- * @param message - A message to be forwarded to the receiver.
- *                     The start of the message should be the 
- *                     ::SceKernelMsgPacket structure, the rest
- *
- * @return < 0 On error.
- */
-int sceKernelSendMbx(SceUID mbxid, void *message);
+function sceKernelReceiveMbx(mbxid: SceUID; pmessage: Ppointer; timeout: PsceUInt): int32; cdecl; external;
 
-/**
- * Wait for a message to arrive in a messagebox
- *
- * @par Example:
- * @code
- * void *msg;
- * sceKernelReceiveMbx(mbxid, &msg, NULL);
- * @endcode
- *
- * @param mbxid - The mbx id returned from sceKernelCreateMbx
- * @param pmessage - A pointer to where a pointer to the
- *                   received message should be stored
- * @param timeout - Timeout in microseconds
- *
- * @return < 0 on error.
- */
-int sceKernelReceiveMbx(SceUID mbxid, void **pmessage, SceUInt *timeout);
+function sceKernelReceiveMbxCB(mbxid: SceUID; pmessage: Ppointer; timeout: PsceUInt): int32; cdecl; external;
 
-/**
- * Wait for a message to arrive in a messagebox and handle callbacks if necessary.
- *
- * @par Example:
- * @code
- * void *msg;
- * sceKernelReceiveMbxCB(mbxid, &msg, NULL);
- * @endcode
- *
- * @param mbxid - The mbx id returned from sceKernelCreateMbx
- * @param pmessage - A pointer to where a pointer to the
- *                   received message should be stored
- * @param timeout - Timeout in microseconds
- *
- * @return < 0 on error.
- */
-int sceKernelReceiveMbxCB(SceUID mbxid, void **pmessage, SceUInt *timeout);
+function sceKernelPollMbx(mbxid: SceUID; pmessage: Ppointer): int32; cdecl; external;
 
-/**
- * Check if a message has arrived in a messagebox
- *
- * @par Example:
- * @code
- * void *msg;
- * sceKernelPollMbx(mbxid, &msg);
- * @endcode
- *
- * @param mbxid - The mbx id returned from sceKernelCreateMbx
- * @param pmessage - A pointer to where a pointer to the
- *                   received message should be stored
- *
- * @return < 0 on error (SCE_KERNEL_ERROR_MBOX_NOMSG if the mbx is empty).
- */
-int sceKernelPollMbx(SceUID mbxid, void **pmessage);
+function sceKernelCancelReceiveMbx(mbxid: SceUID; pnum: Pinteger): int32; cdecl; external;
 
-/**
- * Abort all wait operations on a messagebox
- *
- * @par Example:
- * @code
- * sceKernelCancelReceiveMbx(mbxid, NULL);
- * @endcode
- *
- * @param mbxid - The mbx id returned from sceKernelCreateMbx
- * @param pnum  - A pointer to where the number of threads which
- *                were waiting on the mbx should be stored (NULL
- *                if you don't care)
- *
- * @return < 0 on error
- */
-int sceKernelCancelReceiveMbx(SceUID mbxid, int *pnum);
+function sceKernelReferMbxStatus(mbxid: SceUID; info: PsceKernelMbxInfo): int32; cdecl; external;
 
-/**
- * Retrieve information about a messagebox.
- *
- * @param mbxid - UID of the messagebox to retrieve info for.
- * @param info - Pointer to a ::SceKernelMbxInfo struct to receive the info.
- *
- * @return < 0 on error.
- */
-int sceKernelReferMbxStatus(SceUID mbxid, SceKernelMbxInfo *info);
 
 
 /* Alarms. */

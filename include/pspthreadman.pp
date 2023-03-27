@@ -93,7 +93,7 @@ type
 * var thid : SceUID;
 * thid := sceKernelCreateThread('my_thread', threadFunc, $18, $10000, 0, nil);
 *)
-function sceKernelCreateThread(const name: pchar; entry: SceKernelThreadEntry; initPriority: int32; stackSize: int32; attr: SceUID; option: PsceKernelThreadOptParam): SceUID; cdecl; external;
+function sceKernelCreateThread(const name: Pchar; entry: SceKernelThreadEntry; initPriority: int32; stackSize: int32; attr: SceUID; option: PsceKernelThreadOptParam): SceUID; cdecl; external;
 
 function sceKernelDeleteThread(thid: SceUID): int32; cdecl; external;
 
@@ -178,7 +178,7 @@ type
     numWaitThreads : int32;
   end;
 
-function sceKernelCreateSema(const name: pchar; attr: SceUInt; initVal: int32; maxVal: int32; option: PsceKernelSemaOptParam): SceUID; cdecl; external;
+function sceKernelCreateSema(const name: Pchar; attr: SceUInt; initVal: int32; maxVal: int32; option: PsceKernelSemaOptParam): SceUID; cdecl; external;
 
 function sceKernelDeleteSema(semaid: SceUID): int32; cdecl; external;
 
@@ -222,17 +222,17 @@ type
     PSP_EVENT_WAITCLEAR = $20
   );
 
-function sceKernelCreateEventFlag(const name: pchar; attr: int32; bits: int32; opt: PsceKernelEventFlagOptParam): SceUID; cdecl; external;
+function sceKernelCreateEventFlag(const name: Pchar; attr: int32; bits: int32; opt: PsceKernelEventFlagOptParam): SceUID; cdecl; external;
 
 function sceKernelSetEventFlag(evid: SceUID; bits: u32): int32; cdecl; external;
 
 function sceKernelClearEventFlag(evid: SceUID; bits: u32): int32; cdecl; external;
 
-function sceKernelPollEventFlag(evid: int32; bits: u32; wait: u32; outBits: pinteger): int32; cdecl; external;
+function sceKernelPollEventFlag(evid: int32; bits: u32; wait: u32; outBits: Pinteger): int32; cdecl; external;
 
-function sceKernelWaitEventFlag(evid: int32; bits: u32; wait: u32; outBits: pinteger; timeout: PsceUInt): int32; cdecl; external;
+function sceKernelWaitEventFlag(evid: int32; bits: u32; wait: u32; outBits: Pinteger; timeout: PsceUInt): int32; cdecl; external;
 
-function sceKernelWaitEventFlagCB(evid: int32; bits: u32; wait: u32; outBits: pinteger; timeout: PsceUInt): int32; cdecl; external;
+function sceKernelWaitEventFlagCB(evid: int32; bits: u32; wait: u32; outBits: Pinteger; timeout: PsceUInt): int32; cdecl; external;
 
 function sceKernelDeleteEventFlag(evid: int32): int32; cdecl; external;
 
@@ -240,7 +240,7 @@ function sceKernelReferEventFlagStatus(event: SceUID; status: PsceKernelEventFla
 
 
 type
-  (* Message Box *)
+  (* Message Boxes *)
   PsceKernelMbxOptParam = ^SceKernelMbxOptParam;
   
   SceKernelMbxOptParam  = record
@@ -251,23 +251,23 @@ type
   
   SceKernelMbxInfo  = record
     size           : SceSize;
-	name           : array[0..31] of char;
-	attr           : SceUInt;
-	numWaitThreads : int32;
-	numMessages    : int32;
-	firstMessage   : pointer;
+    name           : array[0..31] of char;
+    attr           : SceUInt;
+    numWaitThreads : int32;
+    numMessages    : int32;
+    firstMessage   : pointer;
   end;
 
   PsceKernelMsgPacket = ^SceKernelMsgPacket;
 
   SceKernelMsgPacket  = record
     next        : PsceKernelMsgPacket;
-	msgPriority : SceUChar;
-	dummy       : array[0..2] of SceUChar;
+    msgPriority : SceUChar;
+    dummy       : array[0..2] of SceUChar;
   end;
 
 
-function sceKernelCreateMbx(const: name: pchar; attr: SceUInt; option: PsceKernelMbxOptParam): SceUID; cdecl; external;
+function sceKernelCreateMbx(const: name: Pchar; attr: SceUInt; option: PsceKernelMbxOptParam): SceUID; cdecl; external;
 
 function sceKernelDeleteMbx(mbxid: SceUID): int32; cdecl; external;
 
@@ -292,9 +292,9 @@ type
 
   SceKernelAlarmInfo  = record
     size     : SceSize;
-	schedule : SceKernelSysClock;
-	handler  : SceKernelAlarmHandler;
-	common   : pointer;
+    schedule : SceKernelSysClock;
+    handler  : SceKernelAlarmHandler;
+    common   : pointer;
   end;
 
 function sceKernelSetAlarm(clock: SceUInt; handler: SceKernelAlarmHandler; common: pointer): SceUID; cdecl; external;
@@ -306,94 +306,36 @@ function sceKernelCancelAlarm(alarmid: SceUID): int32; cdecl; external;
 function sceKernelReferAlarmStatus(alarmid: SceUID; info: PsceKernelAlarmInfo): int32; cdecl; external;
 
 
+type
+  (* Callbacks *)
+  SceKernelCallbackFunction = function(arg1: int32; arg2: int32; arg: pointer): Pinteger;
 
-/* Callbacks. */
+  PsceKernelCallbackInfo = ^SceKernelCallbackInfo;
 
-/** Callback function prototype */
-typedef int (*SceKernelCallbackFunction)(int arg1, int arg2, void *arg);
+  SceKernelCallbackInfo = record
+    size        : SceSize;
+    name        : array[0..31] of char;
+    threadId    : SceUID;
+    callback    : SceKernelCallbackFunction;
+    common      : pointer;
+    notifyCount : int32;
+    notifyArg   : int32;
+  end;
 
-/** Structure to hold the status information for a callback */
-typedef struct SceKernelCallbackInfo {
-    /** Size of the structure (i.e. sizeof(SceKernelCallbackInfo)) */
-    SceSize     size;
-    /** The name given to the callback */
-    char     name[32];
-    /** The thread id associated with the callback */
-    SceUID     threadId;
-    /** Pointer to the callback function */
-    SceKernelCallbackFunction     callback;
-    /** User supplied argument for the callback */
-    void *     common;
-    /** Unknown */
-    int     notifyCount;
-    /** Unknown */
-    int     notifyArg;
-} SceKernelCallbackInfo;
+function sceKernelCreateCallback(const: name: Pchar; func: SceKernelCallbackFunction; arg: pointer): int32; cdecl; external;
 
-/**
- * Create callback
- *
- * @par Example:
- * @code
- * int cbid;
- * cbid = sceKernelCreateCallback("Exit Callback", exit_cb, NULL);
- * @endcode
- *
- * @param name - A textual name for the callback
- * @param func - A pointer to a function that will be called as the callback
- * @param arg  - Argument for the callback ?
- *
- * @return >= 0 A callback id which can be used in subsequent functions, < 0 an error.
- */
-int sceKernelCreateCallback(const char *name, SceKernelCallbackFunction func, void *arg);
+function sceKernelReferCallbackStatus(cb: SceUID; status: PsceKernelCallbackInfo): int32; cdecl; external;
 
-/**
-  * Gets the status of a specified callback.
-  *
-  * @param cb - The UID of the callback to refer.
-  * @param status - Pointer to a status structure. The size parameter should be
-  * initialised before calling.
-  *
-  * @return < 0 on error.
-  */
-int sceKernelReferCallbackStatus(SceUID cb, SceKernelCallbackInfo *status);
+function sceKernelDeleteCallback(cb: SceUID): int32; cdecl; external;
 
-/**
- * Delete a callback
- *
- * @param cb - The UID of the specified callback
- *
- * @return 0 on success, < 0 on error
- */
-int sceKernelDeleteCallback(SceUID cb);
+function sceKernelNotifyCallback(cb: SceUID; arg2: int32): int32; cdecl; external;
 
-/**
- * Notify a callback
- *
- * @param cb - The UID of the specified callback
- * @param arg2 - Passed as arg2 into the callback function
- *
- * @return 0 on success, < 0 on error
- */
-int sceKernelNotifyCallback(SceUID cb, int arg2);
+function sceKernelCancelCallback(cb: SceUID): int32; cdecl; external;
 
-/**
- * Cancel a callback ?
- *
- * @param cb - The UID of the specified callback
- *
- * @return 0 on succes, < 0 on error
- */
-int sceKernelCancelCallback(SceUID cb);
+function sceKernelGetCallbackCount(cb: SceUID): int32; cdecl; external;
 
-/**
- * Get the callback count
- *
- * @param cb - The UID of the specified callback
- *
- * @return The callback count, < 0 on error
- */
-int sceKernelGetCallbackCount(SceUID cb);
+function sceKernelCheckCallback: int32; cdecl; external;
+
 
 /**
  * Check callback ?

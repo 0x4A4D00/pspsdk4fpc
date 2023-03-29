@@ -34,14 +34,12 @@ type
   SceKernelThreadEntry = function(args: SceSize; argp: pointer): int32;
 
   PsceKernelThreadOptParam = ^SceKernelThreadOptParam;
-
   SceKernelThreadOptParam  = record
     size   : SceSize;
     SceUID : stackMpid;    
   end;
 
   PsceKernelThreadInfo = ^SceKernelThreadInfo;
-
   SceKernelThreadInfo  = record
     size               : SceSize;
     name               : array[0..31] of char;
@@ -64,7 +62,6 @@ type
   end;
 
   PsceKernelThreadRunStatus = ^SceKernelThreadRunStatus;
-
   SceKernelThreadRunStatus  = record
     size               : SceSize;
     status             : int32;
@@ -160,14 +157,12 @@ function sceKernelReferThreadRunStatus(thid: SceUID; status: PsceKernelThreadRun
 
 type
   (* Semaphores  *)
-  PsceKernelSemaOptParam = ^SceKernelSemaOptParam;
-  
+  PsceKernelSemaOptParam = ^SceKernelSemaOptParam;  
   SceKernelSemaOptParam  = record
     size : SceSize;
   end;
   
-  PsceKernelSemaInfo = ^SceKernelSemaInfo;
-  
+  PsceKernelSemaInfo = ^SceKernelSemaInfo;  
   SceKernelSemaInfo  = record
     size           : SceSize;
     name           : array[0..31] of char;
@@ -195,8 +190,7 @@ function sceKernelReferSemaStatus(semaid: SceUID; info: PsceKernelSemaInfo): int
 
 type
   (* Event Flags *)
-  PsceKernelEventFlagInfo = ^SceKernelEventFlagInfo;
-  
+  PsceKernelEventFlagInfo = ^SceKernelEventFlagInfo;  
   SceKernelEventFlagInfo  = record
     size           : SceSize;
     name           : array[0..31] of char;
@@ -206,8 +200,7 @@ type
     numWaitThreads : int32;
   end;
 
-  PsceKernelEventFlagOptParam = ^SceKernelEventFlagOptParam;
-  
+  PsceKernelEventFlagOptParam = ^SceKernelEventFlagOptParam;  
   SceKernelEventFlagOptParam  = record
     size: SceSize;
   end;
@@ -242,13 +235,11 @@ function sceKernelReferEventFlagStatus(event: SceUID; status: PsceKernelEventFla
 type
   (* Message Boxes *)
   PsceKernelMbxOptParam = ^SceKernelMbxOptParam;
-  
   SceKernelMbxOptParam  = record
     size : SceSize;
   end;
   
-  PsceKernelMbxInfo = ^SceKernelMbxInfo;
-  
+  PsceKernelMbxInfo = ^SceKernelMbxInfo;  
   SceKernelMbxInfo  = record
     size           : SceSize;
     name           : array[0..31] of char;
@@ -259,7 +250,6 @@ type
   end;
 
   PsceKernelMsgPacket = ^SceKernelMsgPacket;
-
   SceKernelMsgPacket  = record
     next        : PsceKernelMsgPacket;
     msgPriority : SceUChar;
@@ -289,7 +279,6 @@ type
   SceKernelAlarmHandler = function(common: pointer): PsceUInt;
 
   PsceKernelAlarmInfo = ^SceKernelAlarmInfo;
-
   SceKernelAlarmInfo  = record
     size     : SceSize;
     schedule : SceKernelSysClock;
@@ -311,8 +300,7 @@ type
   SceKernelCallbackFunction = function(arg1: int32; arg2: int32; arg: pointer): Pinteger;
 
   PsceKernelCallbackInfo = ^SceKernelCallbackInfo;
-
-  SceKernelCallbackInfo = record
+  SceKernelCallbackInfo  = record
     size        : SceSize;
     name        : array[0..31] of char;
     threadId    : SceUID;
@@ -337,209 +325,74 @@ function sceKernelGetCallbackCount(cb: SceUID): int32; cdecl; external;
 function sceKernelCheckCallback: int32; cdecl; external;
 
 
-/**
- * Check callback ?
- *
- * @return Something or another
- */
-int sceKernelCheckCallback(void);
-
-/* Misc. */
-
-/** Threadman types for ::sceKernelGetThreadmanIdList */
-enum SceKernelIdListType
-{
-    SCE_KERNEL_TMID_Thread = 1,
-    SCE_KERNEL_TMID_Semaphore = 2,
-    SCE_KERNEL_TMID_EventFlag = 3,
-    SCE_KERNEL_TMID_Mbox = 4,
-    SCE_KERNEL_TMID_Vpl = 5,
-    SCE_KERNEL_TMID_Fpl = 6,
-    SCE_KERNEL_TMID_Mpipe = 7,
-    SCE_KERNEL_TMID_Callback = 8,
+type
+  (* Misc *)
+  SceKernelIdListType = (
+    SCE_KERNEL_TMID_Thread             = 1,
+    SCE_KERNEL_TMID_Semaphore          = 2,
+    SCE_KERNEL_TMID_EventFlag          = 3,
+    SCE_KERNEL_TMID_Mbox               = 4,
+    SCE_KERNEL_TMID_Vpl                = 5,
+    SCE_KERNEL_TMID_Fpl                = 6,
+    SCE_KERNEL_TMID_Mpipe              = 7,
+    SCE_KERNEL_TMID_Callback           = 8,
     SCE_KERNEL_TMID_ThreadEventHandler = 9,
-    SCE_KERNEL_TMID_Alarm = 10,
-    SCE_KERNEL_TMID_VTimer = 11,
-    SCE_KERNEL_TMID_SleepThread = 64,
-    SCE_KERNEL_TMID_DelayThread = 65,
-    SCE_KERNEL_TMID_SuspendThread = 66,
-    SCE_KERNEL_TMID_DormantThread = 67,
-};
+    SCE_KERNEL_TMID_Alarm              = 10,
+    SCE_KERNEL_TMID_VTimer             = 11,
+    SCE_KERNEL_TMID_SleepThread        = 64,
+    SCE_KERNEL_TMID_DelayThread        = 65,
+    SCE_KERNEL_TMID_SuspendThread      = 66,
+    SCE_KERNEL_TMID_DormantThread      = 67
+  );
 
-/**
-  * Get a list of UIDs from threadman. Allows you to enumerate 
-  * resources such as threads or semaphores.
-  *
-  * @param type - The type of resource to list, one of ::SceKernelIdListType.
-  * @param readbuf - A pointer to a buffer to store the list.
-  * @param readbufsize - The size of the buffer in SceUID units.
-  * @param idcount - Pointer to an integer in which to return the number of ids in the list.
-  *
-  * @return < 0 on error. Either 0 or the same as idcount on success.
-  */
-int sceKernelGetThreadmanIdList(enum SceKernelIdListType type, SceUID *readbuf, int readbufsize, int *idcount);
+function sceKernelGetThreadmanIdList(atype: SceKernelIdListType; readbuf: PsceUID; readbufsize: int32; idcount: Pinteger): int32; cdecl; external;
 
-/** Structure to contain the system status returned by ::sceKernelReferSystemStatus */
-typedef struct SceKernelSystemStatus {
-    /** Size of the structure (should be set prior to the call) */
-    SceSize     size;
-    /** The status ? */
-    SceUInt     status;
-    /** The number of cpu clocks in the idle thread */
-    SceKernelSysClock     idleClocks;
-    /** Number of times we resumed from idle */
-    SceUInt     comesOutOfIdleCount;
-    /** Number of thread context switches */
-    SceUInt     threadSwitchCount;
-    /** Number of vfpu switches ? */
-    SceUInt     vfpuSwitchCount;
-} SceKernelSystemStatus;
+type
+  PsceKernelSystemStatus = ^SceKernelSystemStatus;
+  SceKernelSystemStatus  = record
+    size                : SceSize;
+	status              : SceUInt;
+	idleClocks          : SceKernelSysClock;
+	comesOutOfIdleCount : SceUInt;
+	threadSwitchCount   : SceUInt;
+	vfpuSwitchCount     : SceUInt;
+  end;
 
-/**
-  * Get the current system status.
-  *
-  * @param status - Pointer to a ::SceKernelSystemStatus structure.
-  *
-  * @return < 0 on error.
-  */
-int sceKernelReferSystemStatus(SceKernelSystemStatus *status);
+function sceKernelReferSystemStatus(status: PsceKernelSystemStatus): int32; cdecl; external;
 
+function sceKernelCreateMsgPipe(const name: Pchar; part: int32; attr: int32; unk1: pointer; opt: pointer): SceUID; cdecl; external;
 
-/**
- * Create a message pipe
- *
- * @param name - Name of the pipe
- * @param part - ID of the memory partition
- * @param attr - Set to 0?
- * @param unk1 - Unknown
- * @param opt  - Message pipe options (set to NULL)
- *
- * @return The UID of the created pipe, < 0 on error
- */
-SceUID sceKernelCreateMsgPipe(const char *name, int part, int attr, void *unk1, void *opt);
+function sceKernelDeleteMsgPipe(uid: SceUID): int32; cdecl; external;
 
-/**
- * Delete a message pipe
- *
- * @param uid - The UID of the pipe
- *
- * @return 0 on success, < 0 on error
- */
-int sceKernelDeleteMsgPipe(SceUID uid);
+function sceKernelSendMsgPipe(uid: SceUID; message: pointer; size: uint32; unk1: int32; unk2: pointer; timeout: uint32): int32; cdecl; external;
 
-/**
- * Send a message to a pipe
- *
- * @param uid - The UID of the pipe
- * @param message - Pointer to the message
- * @param size - Size of the message
- * @param unk1 - Unknown
- * @param unk2 - Unknown
- * @param timeout - Timeout for send
- *
- * @return 0 on success, < 0 on error
- */
-int sceKernelSendMsgPipe(SceUID uid, void *message, unsigned int size, int unk1, void *unk2, unsigned int *timeout);
+function sceKernelSendMsgPipeCB(uid: SceUID; message: pointer; size: uint32; unk1: int32; unk2: pointer; timeout: uint32): int32; cdecl; external;
 
-/**
- * Send a message to a pipe (with callback)
- *
- * @param uid - The UID of the pipe
- * @param message - Pointer to the message
- * @param size - Size of the message
- * @param unk1 - Unknown
- * @param unk2 - Unknown
- * @param timeout - Timeout for send
- *
- * @return 0 on success, < 0 on error
- */
-int sceKernelSendMsgPipeCB(SceUID uid, void *message, unsigned int size, int unk1, void *unk2, unsigned int *timeout);
+function sceKernelTrySendMsgPipe(uid: SceUID; message: pointer; size: uint32; unk1: int32; unk2: pointer): int32; cdecl; external;
 
-/**
- * Try to send a message to a pipe
- *
- * @param uid - The UID of the pipe
- * @param message - Pointer to the message
- * @param size - Size of the message
- * @param unk1 - Unknown
- * @param unk2 - Unknown
- *
- * @return 0 on success, < 0 on error
- */
-int sceKernelTrySendMsgPipe(SceUID uid, void *message, unsigned int size, int unk1, void *unk2);
+function sceKernelReceiveMsgPipe(uid: SceUID; message: pointer; size: uint32; unk1: int32; unk2: pointer; timeout: uint32): int32; cdecl; external;
 
-/**
- * Receive a message from a pipe
- *
- * @param uid - The UID of the pipe
- * @param message - Pointer to the message
- * @param size - Size of the message
- * @param unk1 - Unknown
- * @param unk2 - Unknown
- * @param timeout - Timeout for receive
- *
- * @return 0 on success, < 0 on error
- */
-int sceKernelReceiveMsgPipe(SceUID uid, void *message, unsigned int size, int unk1, void *unk2, unsigned int *timeout);
+function sceKernelReceiveMsgPipeCB(uid: SceUID; message: pointer; size: uint32; unk1: int32; unk2: pointer; timeout: uint32): int32; cdecl; external;
 
-/**
- * Receive a message from a pipe (with callback)
- *
- * @param uid - The UID of the pipe
- * @param message - Pointer to the message
- * @param size - Size of the message
- * @param unk1 - Unknown
- * @param unk2 - Unknown
- * @param timeout - Timeout for receive
- *
- * @return 0 on success, < 0 on error
- */
-int sceKernelReceiveMsgPipeCB(SceUID uid, void *message, unsigned int size, int unk1, void *unk2, unsigned int *timeout);
+function sceKernelTryReceiveMsgPipe(uid: SceUID; message: pointer; size: uint32; unk1: int32; unk2: pointer): int32; cdecl; external;
 
-/**
- * Receive a message from a pipe
- *
- * @param uid - The UID of the pipe
- * @param message - Pointer to the message
- * @param size - Size of the message
- * @param unk1 - Unknown
- * @param unk2 - Unknown
- *
- * @return 0 on success, < 0 on error
- */
-int sceKernelTryReceiveMsgPipe(SceUID uid, void *message, unsigned int size, int unk1, void *unk2);
+function sceKernelCancelMsgPipe(uid: SceUID; psend: Pinteger; precv: Pinteger): int32; cdecl; external;
 
-/**
- * Cancel a message pipe
- *
- * @param uid - UID of the pipe to cancel
- * @param psend - Receive number of sending threads?
- * @param precv - Receive number of receiving threads?
- *
- * @return 0 on success, < 0 on error
- */
-int sceKernelCancelMsgPipe(SceUID uid, int *psend, int *precv);
+type
+  PsceKernelMppInfo = ^SceKernelMppInfo;
+  SceKernelMppInfo  = record
+    size                  : SceSize;
+	name                  : array[0..31] of char;
+	attr                  : SceUInt;
+	bufSize               : int32;
+	freeSize              : int32;
+	numSendWaitThreads    : int32;
+	numReceiveWaitThreads : int32;
+  end;
 
-/** Message Pipe status info */
-typedef struct SceKernelMppInfo {
-    SceSize     size;
-    char     name[32];
-    SceUInt     attr;
-    int     bufSize;
-    int     freeSize;
-    int     numSendWaitThreads;
-    int     numReceiveWaitThreads;
-} SceKernelMppInfo;
+function sceKernelReferMsgPipeStatus(uid: SceUID; info: PsceKernelMppInfo): int32; cdecl; external;
  
-/**
- * Get the status of a Message Pipe
- *
- * @param uid - The uid of the Message Pipe
- * @param info - Pointer to a ::SceKernelMppInfo structure
- *
- * @return 0 on success, < 0 on error
- */
-int sceKernelReferMsgPipeStatus(SceUID uid, SceKernelMppInfo *info);
+
 
 /* VPL Functions */
 

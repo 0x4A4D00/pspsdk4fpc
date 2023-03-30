@@ -351,11 +351,11 @@ type
   PsceKernelSystemStatus = ^SceKernelSystemStatus;
   SceKernelSystemStatus  = record
     size                : SceSize;
-	status              : SceUInt;
-	idleClocks          : SceKernelSysClock;
-	comesOutOfIdleCount : SceUInt;
-	threadSwitchCount   : SceUInt;
-	vfpuSwitchCount     : SceUInt;
+    status              : SceUInt;
+    idleClocks          : SceKernelSysClock;
+    comesOutOfIdleCount : SceUInt;
+    threadSwitchCount   : SceUInt;
+    vfpuSwitchCount     : SceUInt;
   end;
 
 function sceKernelReferSystemStatus(status: PsceKernelSystemStatus): int32; cdecl; external;
@@ -382,120 +382,50 @@ type
   PsceKernelMppInfo = ^SceKernelMppInfo;
   SceKernelMppInfo  = record
     size                  : SceSize;
-	name                  : array[0..31] of char;
-	attr                  : SceUInt;
-	bufSize               : int32;
-	freeSize              : int32;
-	numSendWaitThreads    : int32;
-	numReceiveWaitThreads : int32;
+    name                  : array[0..31] of char;
+    attr                  : SceUInt;
+    bufSize               : int32;
+    freeSize              : int32;
+    numSendWaitThreads    : int32;
+    numReceiveWaitThreads : int32;
   end;
 
 function sceKernelReferMsgPipeStatus(uid: SceUID; info: PsceKernelMppInfo): int32; cdecl; external;
  
+type
+  (* VPL Functions *)
+  PsceKernelVplOptParam = ^SceKernelVplOptParam;
+  SceKernelVplOptParam  = record
+    size : SceSize;
+  end;
+
+function sceKernelCreateVpl(const name: Pchar; part: int32; attr: int32; size: uint32; opt: PsceKernelVplOptParam): SceUID; cdecl; external;
+
+function sceKernelDeleteVpl(uid: SceUID): int32; cdecl; external;
+
+function sceKernelAllocateVpl(uid: SceUID; size: uint32; data: Ppointer; timeout: Puint32): int32; cdecl; external;
+
+function sceKernelAllocateVplCB(uid: SceUID; size: uint32; data: Ppointer; timeout: Puint32): int32; cdecl; external;
+
+function sceKernelTryAllocateVpl(uid: SceUID; size: uint32; data: Ppointer): int32; cdecl; external;
+
+function sceKernelFreeVpl(uid: SceUID; data: pointer): int32; cdecl; external;
+
+function sceKernelCancelVpl(uid: SceUID; pnum: Pinteger): int32; cdecl; external;
+
+type
+  PsceKernelVplInfo = ^SceKernelVplInfo;
+  SceKernelVplInfo  = record
+    size           : SceSize;
+    name           : array[0..31] of char;
+    poolSize       : int32;
+    freeSize       : int32;
+    numWaitThreads : int32;
+  end;
+
+function sceKernelReferVplStatus(uid: SceUID; info: PsceKernelVplInfo): int32; cdecl; external;
 
 
-/* VPL Functions */
-
-struct SceKernelVplOptParam {
-    SceSize     size;
-};
-
-/**
- * Create a variable pool
- *
- * @param name - Name of the pool
- * @param part - The memory partition ID
- * @param attr - Attributes
- * @param size - Size of pool
- * @param opt  - Options (set to NULL)
- *
- * @return The UID of the created pool, < 0 on error.
- */
-SceUID sceKernelCreateVpl(const char *name, int part, int attr, unsigned int size, struct SceKernelVplOptParam *opt);
-
-/**
- * Delete a variable pool
- *
- * @param uid - The UID of the pool
- *
- * @return 0 on success, < 0 on error
- */
-int sceKernelDeleteVpl(SceUID uid);
-
-/**
- * Allocate from the pool
- *
- * @param uid - The UID of the pool
- * @param size - The size to allocate
- * @param data - Receives the address of the allocated data
- * @param timeout - Amount of time to wait for allocation?
- *
- * @return 0 on success, < 0 on error
- */
-int sceKernelAllocateVpl(SceUID uid, unsigned int size, void **data, unsigned int *timeout);
-
-/**
- * Allocate from the pool (with callback)
- *
- * @param uid - The UID of the pool
- * @param size - The size to allocate
- * @param data - Receives the address of the allocated data
- * @param timeout - Amount of time to wait for allocation?
- *
- * @return 0 on success, < 0 on error
- */
-int sceKernelAllocateVplCB(SceUID uid, unsigned int size, void **data, unsigned int *timeout);
-
-/**
- * Try to allocate from the pool 
- *
- * @param uid - The UID of the pool
- * @param size - The size to allocate
- * @param data - Receives the address of the allocated data
- *
- * @return 0 on success, < 0 on error
- */
-int sceKernelTryAllocateVpl(SceUID uid, unsigned int size, void **data);
-
-/**
- * Free a block
- *
- * @param uid - The UID of the pool
- * @param data - The data block to deallocate
- *
- * @return 0 on success, < 0 on error
- */
-int sceKernelFreeVpl(SceUID uid, void *data);
-
-/**
- * Cancel a pool
- *
- * @param uid - The UID of the pool
- * @param pnum - Receives the number of waiting threads
- *
- * @return 0 on success, < 0 on error
- */
-int sceKernelCancelVpl(SceUID uid, int *pnum);
-
-/** Variable pool status info */
-typedef struct SceKernelVplInfo {
-    SceSize     size;
-    char     name[32];
-    SceUInt     attr;
-    int     poolSize;
-    int     freeSize;
-    int     numWaitThreads;
-} SceKernelVplInfo;
-
-/**
- * Get the status of an VPL
- *
- * @param uid - The uid of the VPL
- * @param info - Pointer to a ::SceKernelVplInfo structure
- *
- * @return 0 on success, < 0 on error
- */
-int sceKernelReferVplStatus(SceUID uid, SceKernelVplInfo *info);
 
 /* FPL Functions */
 

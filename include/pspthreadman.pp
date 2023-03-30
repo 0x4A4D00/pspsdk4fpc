@@ -391,7 +391,8 @@ type
   end;
 
 function sceKernelReferMsgPipeStatus(uid: SceUID; info: PsceKernelMppInfo): int32; cdecl; external;
- 
+
+
 type
   (* VPL Functions *)
   PsceKernelVplOptParam = ^SceKernelVplOptParam;
@@ -426,176 +427,58 @@ type
 function sceKernelReferVplStatus(uid: SceUID; info: PsceKernelVplInfo): int32; cdecl; external;
 
 
+type
+  (* FPL Functions *)
+  PsceKernelFplOptParam = ^SceKernelFplOptParam;
+  SceKernelFplOptParam  = record
+    size : SceSize;
+  end;
 
-/* FPL Functions */
+function sceKernelCreateFpl(const name: Pchar; attr: int32; size: uint32; blocks: uint32; PsceKernelFplOptParam): int32; cdecl; external;
 
-struct SceKernelFplOptParam {
-    SceSize     size;
-};
+function sceKernelDeleteFpl(uid: SceUID): int32; cdecl; external;
 
-/**
- * Create a fixed pool
- *
- * @param name - Name of the pool
- * @param part - The memory partition ID
- * @param attr - Attributes
- * @param size - Size of pool block
- * @param blocks - Number of blocks to allocate
- * @param opt  - Options (set to NULL)
- *
- * @return The UID of the created pool, < 0 on error.
- */
-int sceKernelCreateFpl(const char *name, int part, int attr, unsigned int size, unsigned int blocks, struct SceKernelFplOptParam *opt);
+function sceKernelAllocateFpl(uid: SceUID; data: Ppointer; timeout: Puint32): int32; cdecl; external;
 
-/**
- * Delete a fixed pool
- *
- * @param uid - The UID of the pool
- *
- * @return 0 on success, < 0 on error
- */
-int sceKernelDeleteFpl(SceUID uid);
+function sceKernelAllocateFplCB(uid: SceUID; data: Ppointer; timeout: Puint32): int32; cdecl; external;
 
-/**
- * Allocate from the pool
- *
- * @param uid - The UID of the pool
- * @param data - Receives the address of the allocated data
- * @param timeout - Amount of time to wait for allocation?
- *
- * @return 0 on success, < 0 on error
- */
-int sceKernelAllocateFpl(SceUID uid, void **data, unsigned int *timeout);
+function sceKernelTryAllocateFpl(uid: SceUID; data: Ppointer): int32; cdecl; external;
 
-/**
- * Allocate from the pool (with callback)
- *
- * @param uid - The UID of the pool
- * @param data - Receives the address of the allocated data
- * @param timeout - Amount of time to wait for allocation?
- *
- * @return 0 on success, < 0 on error
- */
-int sceKernelAllocateFplCB(SceUID uid, void **data, unsigned int *timeout);
+function sceKernelFreeFpl(uid: SceUID; data: Pointer): int32; cdecl; external;
 
-/**
- * Try to allocate from the pool 
- *
- * @param uid - The UID of the pool
- * @param data - Receives the address of the allocated data
- *
- * @return 0 on success, < 0 on error
- */
-int sceKernelTryAllocateFpl(SceUID uid, void **data);
+function sceKernelCancelFpl(uid: SceUID; pnum: Pinteger): int32; cdecl; external;
 
-/**
- * Free a block
- *
- * @param uid - The UID of the pool
- * @param data - The data block to deallocate
- *
- * @return 0 on success, < 0 on error
- */
-int sceKernelFreeFpl(SceUID uid, void *data);
+type
+  PsceKernelFplInfo = ^SceKernelFplInfo;
+  SceKernelFplInfo  = record
+    size : SceSize;
+    name : array[0..31] of char;
+    attr : SceUInt;
+    blockSize      : int32; 
+    numBlocks      : int32;
+    freeBlocks     : int32;
+    numWaitThreads : int32; 
+  end;
 
-/**
- * Cancel a pool
- *
- * @param uid - The UID of the pool
- * @param pnum - Receives the number of waiting threads
- *
- * @return 0 on success, < 0 on error
- */
-int sceKernelCancelFpl(SceUID uid, int *pnum);
+function sceKernelReferFplStatus(uid: SceUID; info: PsceKernelFplInfo): int32; cdecl; external;
 
-/** Fixed pool status information */
-typedef struct SceKernelFplInfo {
-    SceSize     size;
-    char     name[32];
-    SceUInt     attr;
-    int     blockSize;
-    int     numBlocks;
-    int     freeBlocks;
-    int     numWaitThreads;
-} SceKernelFplInfo;
+procedure _sceKernelReturnFromTimerHandler; cdecl; external;
 
-/**
- * Get the status of an FPL
- *
- * @param uid - The uid of the FPL
- * @param info - Pointer to a ::SceKernelFplInfo structure
- *
- * @return 0 on success, < 0 on error
- */
-int sceKernelReferFplStatus(SceUID uid, SceKernelFplInfo *info);
+procedure _sceKernelReturnFromCallback; cdecl; external;
 
-/**
- * Return from a timer handler (doesn't seem to do alot)
- */
-void _sceKernelReturnFromTimerHandler(void);
+function sceKernelUSec2SysClock(usec: uint32; clock: PsceKernelSysClock): int32; cdecl; external;
 
-/**
- * Return from a callback (used as a syscall for the return 
- * of the callback function)
- */
-void _sceKernelReturnFromCallback(void);
+function sceKernelUSec2SysClockWide(usec: uint32): int32; cdecl; external;
 
-/**
- * Convert a number of microseconds to a ::SceKernelSysClock structure
- *
- * @param usec - Number of microseconds
- * @param clock - Pointer to a ::SceKernelSysClock structure
- *
- * @return 0 on success, < 0 on error
- */
-int sceKernelUSec2SysClock(unsigned int usec, SceKernelSysClock *clock);
+function sceKernelSysClock2USec(clock: PsceKernelSysClock; low: Puint32; high: Puint32): int32; cdecl; external;
 
-/**
- * Convert a number of microseconds to a wide time
- * 
- * @param usec - Number of microseconds.
- *
- * @return The time
- */
-SceInt64 sceKernelUSec2SysClockWide(unsigned int usec);
+function sceKernelSysClock2USecWide(clock: SceInt64; low: Puint32; high: Puint32): int32; cdecl; external;
 
-/**
- * Convert a ::SceKernelSysClock structure to microseconds
- *
- * @param clock - Pointer to a ::SceKernelSysClock structure
- * @param low - Pointer to the low part of the time
- * @param high - Pointer to the high part of the time
- *
- * @return 0 on success, < 0 on error
- */
-int sceKernelSysClock2USec(SceKernelSysClock *clock, unsigned int *low, unsigned int *high);
+function sceKernelGetSystemTime(time: PsceKernelSysClock): int32; cdecl; external;
 
-/**
- * Convert a wide time to microseconds
- *
- * @param clock - Wide time
- * @param low - Pointer to the low part of the time
- * @param high - Pointer to the high part of the time
- *
- * @return 0 on success, < 0 on error
- */
-int sceKernelSysClock2USecWide(SceInt64 clock, unsigned *low, unsigned int *high);
+function sceKernelGetSystemTimeWide: SceInt64; cdecl; external;
 
-/**
- * Get the system time
- *
- * @param time - Pointer to a ::SceKernelSysClock structure
- *
- * @return 0 on success, < 0 on error
- */
-int sceKernelGetSystemTime(SceKernelSysClock *time);
-
-/**
- * Get the system time (wide version)
- *
- * @return The system time
- */
-SceInt64 sceKernelGetSystemTimeWide(void);
+function sceKernelGetSystemTimeLow: uint32; cdecl; external;
 
 /**
  * Get the low 32bits of the current system time

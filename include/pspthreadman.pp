@@ -7,12 +7,13 @@ interface
 
 uses
   psptypes,
-  pspkerneltypes;
-  //pspdebug;
+  pspkerneltypes,
+  pspdebug;
 
 type
   (* Threads *)
-  SceKernelSysClock = record
+  PsceKernelSysClock = ^SceKernelSysClock;
+  SceKernelSysClock  = record
     low : SceUInt32;
     hi  : SceUInt32;
   end;
@@ -20,9 +21,9 @@ type
   (* Attributes *)
   PspThreadAttributes = (
     PSP_THREAD_ATTR_VFPU         = $00004000,
-    PSP_THREAD_ATTR_USER         = $80000000,
-    PSP_THREAD_ATTR_USBWLAN      = $a0000000,
-    PSP_THREAD_ATTR_VSH          = $c0000000,
+    PSP_THREAD_ATTR_USER         = LongInt($80000000),
+    PSP_THREAD_ATTR_USBWLAN      = LongInt($a0000000),
+    PSP_THREAD_ATTR_VSH          = LongInt($c0000000),
     PSP_THREAD_ATTR_SCRATCH_SRAM = $00008000,
     PSP_THREAD_ATTR_NO_FILLSTACK = $00100000,
     PSP_THREAD_ATTR_CLEAR_STACK  = $00200000
@@ -35,8 +36,8 @@ type
 
   PsceKernelThreadOptParam = ^SceKernelThreadOptParam;
   SceKernelThreadOptParam  = record
-    size   : SceSize;
-    SceUID : stackMpid;    
+    size      : SceSize;
+    stackMpid : SceUID;    
   end;
 
   PsceKernelThreadInfo = ^SceKernelThreadInfo;
@@ -206,7 +207,7 @@ type
   end;
   
   PspEventFlagAttributes = (
-    PSP_EVENT_WAITMULTIPLE = $200;
+    PSP_EVENT_WAITMULTIPLE = $200
   );
   
   PspEventFlagWaitTypes  = (
@@ -257,7 +258,7 @@ type
   end;
 
 
-function sceKernelCreateMbx(const: name: Pchar; attr: SceUInt; option: PsceKernelMbxOptParam): SceUID; cdecl; external;
+function sceKernelCreateMbx(const name: Pchar; attr: SceUInt; option: PsceKernelMbxOptParam): SceUID; cdecl; external;
 
 function sceKernelDeleteMbx(mbxid: SceUID): int32; cdecl; external;
 
@@ -310,7 +311,7 @@ type
     notifyArg   : int32;
   end;
 
-function sceKernelCreateCallback(const: name: Pchar; func: SceKernelCallbackFunction; arg: pointer): int32; cdecl; external;
+function sceKernelCreateCallback(const name: Pchar; func: SceKernelCallbackFunction; arg: pointer): int32; cdecl; external;
 
 function sceKernelReferCallbackStatus(cb: SceUID; status: PsceKernelCallbackInfo): int32; cdecl; external;
 
@@ -434,7 +435,7 @@ type
     size : SceSize;
   end;
 
-function sceKernelCreateFpl(const name: Pchar; attr: int32; size: uint32; blocks: uint32; PsceKernelFplOptParam): int32; cdecl; external;
+function sceKernelCreateFpl(const name: Pchar; attr: int32; size: uint32; blocks: uint32; opt: PsceKernelFplOptParam): int32; cdecl; external;
 
 function sceKernelDeleteFpl(uid: SceUID): int32; cdecl; external;
 
@@ -480,260 +481,102 @@ function sceKernelGetSystemTimeWide: SceInt64; cdecl; external;
 
 function sceKernelGetSystemTimeLow: uint32; cdecl; external;
 
-/**
- * Get the low 32bits of the current system time
- *
- * @return The low 32bits of the system time
- */
-unsigned int sceKernelGetSystemTimeLow(void);
 
-struct SceKernelVTimerOptParam {
-    SceSize     size;
-};
+type
+  (* Virtual Timers *)
+  PsceKernelVTimerOptParam = ^SceKernelVTimerOptParam;
+  SceKernelVTimerOptParam  = record
+    size : SceSize;
+  end;
 
-/**
- * Create a virtual timer
- *
- * @param name - Name for the timer.
- * @param opt  - Pointer to an ::SceKernelVTimerOptParam (pass NULL)
- *
- * @return The VTimer's UID or < 0 on error.
- */
-SceUID sceKernelCreateVTimer(const char *name, struct SceKernelVTimerOptParam *opt);
+function sceKernelCreateVTimer(const name: Pchar; opt: PsceKernelVTimerOptParam): SceUID; cdecl; external;
 
-/**
- * Delete a virtual timer
- *
- * @param uid - The UID of the timer
- *
- * @return < 0 on error.
- */
-int sceKernelDeleteVTimer(SceUID uid);
+function sceKernelDeleteVTimer(uid: SceUID): int32; cdecl; external;
 
-/**
- * Get the timer base
- *
- * @param uid - UID of the vtimer
- * @param base - Pointer to a ::SceKernelSysClock structure
- *
- * @return 0 on success, < 0 on error
- */
-int sceKernelGetVTimerBase(SceUID uid, SceKernelSysClock *base);
+function sceKernelGetVTimerBase(uid: SceUID; base: PsceKernelSysClock): int32; cdecl; external;
 
-/**
- * Get the timer base (wide format)
- *
- * @param uid - UID of the vtimer
- *
- * @return The 64bit timer base
- */
-SceInt64 sceKernelGetVTimerBaseWide(SceUID uid);
+function sceKernelGetVTimerBaseWide(uid: SceUID): SceInt64; cdecl; external;
 
-/**
- * Get the timer time
- *
- * @param uid - UID of the vtimer
- * @param time - Pointer to a ::SceKernelSysClock structure
- *
- * @return 0 on success, < 0 on error
- */
-int sceKernelGetVTimerTime(SceUID uid, SceKernelSysClock *time);
+function sceKernelGetVTimerTime(uid: SceUID; time: PsceKernelSysClock): int32; cdecl; external;
 
-/**
- * Get the timer time (wide format)
- *
- * @param uid - UID of the vtimer
- *
- * @return The 64bit timer time
- */
-SceInt64 sceKernelGetVTimerTimeWide(SceUID uid);
+function sceKernelGetVTimerTimeWide(uid: SceUID): SceInt64; cdecl; external;
 
-/**
- * Set the timer time
- *
- * @param uid - UID of the vtimer
- * @param time - Pointer to a ::SceKernelSysClock structure
- *
- * @return 0 on success, < 0 on error
- */
-int sceKernelSetVTimerTime(SceUID uid, SceKernelSysClock *time);
+function sceKernelSetVTimerTime(uid: SceUID; time: PsceKernelSysClock): int32; cdecl; external;
 
-/**
- * Set the timer time (wide format)
- *
- * @param uid - UID of the vtimer
- * @param time - Pointer to a ::SceKernelSysClock structure
- *
- * @return Possibly the last time
- */
-SceInt64 sceKernelSetVTimerTimeWide(SceUID uid, SceInt64 time);
+function sceKernelSetVTimerTimeWide(uid: SceUID; time: SceInt64): SceInt64; cdecl; external;
 
-/**
- * Start a virtual timer
- *
- * @param uid - The UID of the timer
- *
- * @return < 0 on error
- */
-int sceKernelStartVTimer(SceUID uid);
+function sceKernelStartVTimer(uid: SceUID): int32; cdecl; external;
 
-/**
- * Stop a virtual timer
- *
- * @param uid - The UID of the timer
- *
- * @return < 0 on error
- */
-int sceKernelStopVTimer(SceUID uid);
+function sceKernelStopVTimer(uid: SceUID): int32; cdecl; external;
 
-typedef SceUInt (*SceKernelVTimerHandler)(SceUID uid, SceKernelSysClock *, SceKernelSysClock *, void *);
-typedef SceUInt (*SceKernelVTimerHandlerWide)(SceUID uid, SceInt64, SceInt64, void *);
+type
+  SceKernelVTimerHandler = function(uid: SceUID; time1: PsceKernelSysClock; time2: PsceKernelSysClock; parg: pointer): PsceUInt;
+  SceKernelVTimerHandlerWide = function(uid: SceUID; time1: PsceKernelSysClock; time2: PsceKernelSysClock; parg: pointer): PsceUInt;
 
-/**
- * Set the timer handler
- *
- * @param uid - UID of the vtimer
- * @param time - Time to call the handler?
- * @param handler - The timer handler
- * @param common  - Common pointer
- *
- * @return 0 on success, < 0 on error
- */
-int sceKernelSetVTimerHandler(SceUID uid, SceKernelSysClock *time, SceKernelVTimerHandler handler, void *common);
+function sceKernelSetVTimerHandler(uid: SceUID; time: PsceKernelSysClock; handler: SceKernelVTimerHandler; common: pointer): int32; cdecl; external;
 
-/**
- * Set the timer handler (wide mode)
- *
- * @param uid - UID of the vtimer
- * @param time - Time to call the handler?
- * @param handler - The timer handler
- * @param common  - Common pointer
- *
- * @return 0 on success, < 0 on error
- */
-int sceKernelSetVTimerHandlerWide(SceUID uid, SceInt64 time, SceKernelVTimerHandlerWide handler, void *common);
+function sceKernelSetVTimerHandlerWide(uid: SceUID; time: SceInt64; handler: SceKernelVTimerHandlerWide; common: pointer): int32; cdecl; external;
 
-/**
- * Cancel the timer handler
- *
- * @param uid - The UID of the vtimer
- *
- * @return 0 on success, < 0 on error
- */
-int sceKernelCancelVTimerHandler(SceUID uid);
+function sceKernelCancelVTimerHandler(uid: SceUID): int32; cdecl; external;
 
-typedef struct SceKernelVTimerInfo {
-    SceSize     size;
-    char     name[32];
-    int     active;
-    SceKernelSysClock     base;
-    SceKernelSysClock     current;
-    SceKernelSysClock     schedule;
-    SceKernelVTimerHandler     handler;
-    void *     common;
-} SceKernelVTimerInfo;
+type
+  PSceKernelVTimerInfo = ^SceKernelVTimerInfo;
+  SceKernelVTimerInfo  = record
+    size     : SceSize;
+    name     : array[0..31] of char;
+    base     : SceKernelSysClock;
+    current  : SceKernelSysClock;
+    schedule : SceKernelSysClock;
+    handler  : SceKernelVTimerHandler;
+    common   : pointer;
+  end;
 
-/**
- * Get the status of a VTimer
- *
- * @param uid - The uid of the VTimer
- * @param info - Pointer to a ::SceKernelVTimerInfo structure
- *
- * @return 0 on success, < 0 on error
- */
-int sceKernelReferVTimerStatus(SceUID uid, SceKernelVTimerInfo *info);
+function sceKernelReferVTimerStatus(uid: SceUID; info: PSceKernelVTimerInfo): int32; cdecl; external;
 
-/**
- * Exit the thread (probably used as the syscall when the main thread
- * returns
- */
-void _sceKernelExitThread(void);
+procedure _sceKernelExitThread; cdecl; external;
 
-/**
- * Get the type of a threadman uid
- *
- * @param uid - The uid to get the type from
- * 
- * @return The type, < 0 on error
- */
-enum SceKernelIdListType sceKernelGetThreadmanIdType(SceUID uid);
+function sceKernelGetThreadmanIdType(uid: SceUID): SceKernelIdListType; cdecl; external;
 
-typedef int (*SceKernelThreadEventHandler)(int mask, SceUID thid, void *common);
+type
+  SceKernelThreadEventHandler = function(mask: int32; thid: SceUID; common: pointer): Pinteger;
 
-/** Struct for event handler info */
-typedef struct SceKernelThreadEventHandlerInfo {
-    SceSize     size;
-    char     name[32];
-    SceUID     threadId;
-    int     mask;
-    SceKernelThreadEventHandler     handler;
-    void *     common;
-} SceKernelThreadEventHandlerInfo;
+  PsceKernelThreadEventHandlerInfo = ^SceKernelThreadEventHandlerInfo;
+  SceKernelThreadEventHandlerInfo  = record
+    size     : SceSize;
+    name     : array[0..31] of char;
+    threadId : SceUID;
+    mask     : int32;
+    handler  : SceKernelThreadEventHandler;
+    common   : pointer;
+  end;
 
-enum ThreadEventIds
-{
-    THREADEVENT_ALL = 0xFFFFFFFF,
-    THREADEVENT_KERN = 0xFFFFFFF8,
-    THREADEVENT_USER = 0xFFFFFFF0,
+  ThreadEventIds = (
+    THREADEVENT_ALL     = LongInt($FFFFFFFF),
+    THREADEVENT_KERN    = LongInt($FFFFFFF8),
+    THREADEVENT_USER    = LongInt($FFFFFFF0),
     THREADEVENT_CURRENT = 0
-};
+  );
 
-enum ThreadEvents
-{
+  ThreadEvents = (
     THREAD_CREATE = 1,
     THREAD_START  = 2,
     THREAD_EXIT   = 4,
-    THREAD_DELETE = 8,
-};
+    THREAD_DELETE = 8
+  );
 
-/**
- * Register a thread event handler
- *
- * @param name - Name for the thread event handler
- * @param threadID - Thread ID to monitor
- * @param mask - Bit mask for what events to handle (only lowest 4 bits valid)
- * @param handler - Pointer to a ::SceKernelThreadEventHandler function
- * @param common - Common pointer
- *
- * @return The UID of the create event handler, < 0 on error
- */
-SceUID sceKernelRegisterThreadEventHandler(const char *name, SceUID threadID, int mask, SceKernelThreadEventHandler handler, void *common);
+function sceKernelRegisterThreadEventHandler(const name: Pchar; threadId: SceUID; mask: int32; handler: SceKernelThreadEventHandler; common: pointer): int32; cdecl; external;
 
-/**
- * Release a thread event handler.
- *
- * @param uid - The UID of the event handler
- *
- * @return 0 on success, < 0 on error
- */
-int sceKernelReleaseThreadEventHandler(SceUID uid);
+function sceKernelReleaseThreadEventHandler(uid: SceUID): int32; cdecl; external;
 
-/**
- * Refer the status of an thread event handler
- *
- * @param uid - The UID of the event handler
- * @param info - Pointer to a ::SceKernelThreadEventHandlerInfo structure
- *
- * @return 0 on success, < 0 on error
- */
-int sceKernelReferThreadEventHandlerStatus(SceUID uid, struct SceKernelThreadEventHandlerInfo *info);
+function sceKernelReferThreadEventHandlerStatus(uid: SceUID; info: PsceKernelThreadEventHandlerInfo): int32; cdecl; external;
 
-/**
- * Get the thread profiler registers.
- * @return Pointer to the registers, NULL on error
- */
-PspDebugProfilerRegs *sceKernelReferThreadProfiler(void);
+function sceKernelReferThreadProfiler: PpspDebugProfilerRegs; cdecl; external;
 
-/**
- * Get the globile profiler registers.
- * @return Pointer to the registers, NULL on error
- */
-PspDebugProfilerRegs *sceKernelReferGlobalProfiler(void);
+function sceKernelReferGlobalProfiler: PpspDebugProfilerRegs; cdecl; external;
 
-/*@}*/
 
-#ifdef __cplusplus
-}
-#endif
+{$endif}
 
-#endif
+implementation
+
+end.

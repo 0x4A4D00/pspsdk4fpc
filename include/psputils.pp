@@ -1,20 +1,37 @@
 unit psputils;
 
-{$ndef __UTILS_H__}
-{$fine __UTILS_H__}
+interface
+
+{$ifndef __UTILS_H__}
+{$define __UTILS_H__}
 
 uses
   psptypes;
 
 type
+  TClock = uint64;
+  suseconds_t = int64;
+  TTime = uint64;
   Ptime = ^Ttime;
+  
+  Ptimeval = ^timeval;
+  timeval  = record
+    tv_sec  : Ttime;
+    tv_usec : suseconds_t;
+  end;
+
+  Ptimezone = ^timezone;
+  timezone  = record
+    tz_minuteswest : int32;
+    tz_dsttime     : int32;
+  end;
 
 (* Time Functions Not Tested *)
 function sceKernelLibcTime(t: Ptime): Ttime; cdecl; external; 
 
-function sceKernelLibcClock: Tdatetime; cdecl; external;
+function sceKernelLibcClock: TClock; cdecl; external;
 
-function sceKernelLibcGettimeofday(tp: Ptime; tzp: Ptime): int32; cdecl; external;
+function sceKernelLibcGettimeofday(tp: Ptimeval; tzp: Ptimezone): int32; cdecl; external;
 
 
 procedure sceKernelDcacheWritebackAll; cdecl; external;
@@ -47,7 +64,7 @@ type
   SceKernelUtilsMd5Context  = record
     h           : array[0..3] of uint32;
     pad         : uint32;
-    usRemains   : SceUShort16
+    usRemains   : SceUShort16;
     usComputed  : SceUShort16;
     ullTotalLen : SceULong64;
     buf         : array[0..63] of uint16;
@@ -65,7 +82,7 @@ type
   PSceKernelUtilsSha1Context = ^SceKernelUtilsSha1Context;
   SceKernelUtilsSha1Context  = record
     h           : array[0..3] of uint32;
-    usRemains   : SceUShort16
+    usRemains   : SceUShort16;
     usComputed  : SceUShort16;
     ullTotalLen : SceULong64;
     buf         : array[0..63] of uint16;

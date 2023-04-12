@@ -5,6 +5,9 @@ interface
 {$ifndef __LOADEXEC_H__}
 {$define __LOADEXEC_H__}
 
+uses
+  pspkerneltypes;
+
 function sceKernelRegisterExitCallback(): int32; cdecl; external;
 
 procedure sceKernelExitGame; external;

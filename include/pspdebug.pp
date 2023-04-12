@@ -85,8 +85,8 @@ type
     padding   : array[0..99] of u32;
   end;
 
-  PspDebugErrorHandler(regs: PpspDebugRegBlock): pointer;
-  PspDebugKprintfHandler(const format: Pchar; args: Puint32): int32;
+  PspDebugErrorHandler   = function(regs: PpspDebugRegBlock): pointer;
+  PspDebugKprintfHandler = function(const format: Pchar; args: Puint32): int32;
 
 function pspDebugInstallErrorHandler(handler: PspDebugErrorHandler): int32; cdecl; external;
 

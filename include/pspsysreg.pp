@@ -1,5 +1,7 @@
 unit pspsysreg;
 
+interface
+
 {$ifndef PSPSYSREG_H}
 {$define PSPSYSREG_H}
 

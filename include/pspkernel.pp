@@ -5,15 +5,15 @@ interface
 {$ifndef PSPKERNEL_H}
 {$define PSPKERNEL_H}
 
-//#include <pspuser.h>
-//#include <pspiofilemgr_kernel.h>
-//#include <psploadcore.h>
-//#include <pspstdio_kernel.h>
-//#include <pspsysreg.h>
-//#include <pspkdebug.h>
-//#include <pspintrman_kernel.h>
-//#include <pspmodulemgr_kernel.h>  
-  
+uses
+  pspuser,
+  pspiofilemgr_kernel,
+  psploadcore,
+  pspstdio_kernel,
+  pspsysreg,
+  pspkdebug,
+  pspintrman_kernel,
+  pspmodulemgr_kernel;  
   
 {$endif}
 
@@ -26,24 +26,24 @@ procedure SetKernelPC;
 begin
   asm
   	la     $8, 1
-	lui    $9, 0x8000
-	or     $8, $9
-	jr     $8
-	nop
+    lui    $9, 0x8000
+    or     $8, $9
+    jr     $8
+    nop
   end;
-  //sceKernelIcacheClearAll();
+  sceKernelIcacheClearAll;
 end;
 
 procedure SetUserPC;
 begin
   asm
   	la     $8, 1
-	li     $9, 0x7FFFFFFF
-	and    $8, $9
-	jr     $8
-	nop
+    li     $9, 0x7FFFFFFF
+    and    $8, $9
+    jr     $8
+    nop
   end;
-  //sceKernelIcacheClearAll();
+  sceKernelIcacheClearAll;
 end;
 
 end.

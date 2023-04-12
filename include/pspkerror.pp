@@ -1,8 +1,8 @@
 unit pspkerror;
 
-interface
-
 {$define L := LongInt}
+
+interface
 
 {$ifndef PSPKERROR_H}
 {$define PSPKERROR_H}

@@ -89,11 +89,11 @@ function sceGeListUpdateStallAddr(qid: int32; stall: pointer): int32; cdecl; ext
 
 type
   PspGeListState = (
-  	PSP_GE_LIST_DONE = 0,
-	PSP_GE_LIST_QUEUED,
-	PSP_GE_LIST_DRAWING_DONE,
-	PSP_GE_LIST_STALL_REACHED,
-	PSP_GE_LIST_CANCEL_DONE
+    PSP_GE_LIST_DONE = 0,
+    PSP_GE_LIST_QUEUED,
+    PSP_GE_LIST_DRAWING_DONE,
+    PSP_GE_LIST_STALL_REACHED,
+    PSP_GE_LIST_CANCEL_DONE
   );
 
 function sceGeListSync(qid: int32; syncType: int32): int32; cdecl; external;

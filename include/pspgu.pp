@@ -287,251 +287,61 @@ uses
 (* Color Macro, maps floating point channels (0..1) into one 32-bit value *)
 //#define GU_COLOR(r,g,b,a)    GU_RGBA((u32)((r) * 255.0f),(u32)((g) * 255.0f),(u32)((b) * 255.0f),(u32)((a) * 255.0f))
 
-typedef void (*GuSwapBuffersCallback)(void** display,void** render);
+//typedef void (*GuSwapBuffersCallback)(void** display,void** render);
 
-/** @addtogroup GU */
-/*@{*/
+type
+  GuSwapBuffersCallback = function(display: Ppointer; render: Ppointer): pointer; cdecl; external;
+  Tcallback = function(arg: int32): pointer;
 
-/**
-  * Set depth buffer parameters
-  *
-  * @param zbp - VRAM pointer where the depthbuffer should start
-  * @param zbw - The width of the depth-buffer (block-aligned)
-  *
-**/
-void sceGuDepthBuffer(void* zbp, int zbw);
+procedure sceGuDepthBuffer(zbp: pointer; zbw: int32); cdecl; external;
 
-/**
-  * Set display buffer parameters
-  *
-  * @par Example: Setup a standard 16-bit display buffer
-  * @code
-  * sceGuDispBuffer(480,272,(void*)512*272*2,512); // 480*272, skipping the draw buffer located at address 0
-  * @endcode
-  *
-  * @param width - Width of the display buffer in pixels
-  * @param height - Width of the display buffer in pixels
-  * @param dispbp - VRAM pointer to where the display-buffer starts
-  * @param dispbw - Display buffer width (block aligned)
-  *
-**/
-void sceGuDispBuffer(int width, int height, void* dispbp, int dispbw);
+procedure sceGuDispBuffer(width: int32; height: int32; dispbp: pointer; dispbw: int32); cdecl; external;
 
-/**
-  * Set draw buffer parameters (and store in context for buffer-swap)
-  *
-  * Available pixel formats are:
-  *   - GU_PSM_5650
-  *   - GU_PSM_5551
-  *   - GU_PSM_4444
-  *   - GU_PSM_8888
-  *
-  * @par Example: Setup a standard 16-bit draw buffer
-  * @code
-  * sceGuDrawBuffer(GU_PSM_5551,(void*)0,512);
-  * @endcode
-  *
-  * @param psm - Pixel format to use for rendering (and display)
-  * @param fbp - VRAM pointer to where the draw buffer starts
-  * @param fbw - Frame buffer width (block aligned)
-**/
-void sceGuDrawBuffer(int psm, void* fbp, int fbw);
+procedure sceGuDrawBuffer(psm: int32; fbp: pointer; fbw: int32); cdecl; external;
 
-/**
-  * Set draw buffer directly, not storing parameters in the context
-  *
-  * @param psm - Pixel format to use for rendering
-  * @param fbp - VRAM pointer to where the draw buffer starts
-  * @param fbw - Frame buffer width (block aligned)
-**/
-void sceGuDrawBufferList(int psm, void* fbp, int fbw);
+procedure sceGuDrawBufferList(psm: int32; fbp: pointer; fbw: int32); cdecl; external;
 
-/**
-  * Turn display on or off
-  *
-  * Available states are:
-  *   - GU_TRUE (1) - Turns display on
-  *   - GU_FALSE (0) - Turns display off
-  *
-  * @param state - Turn display on or off
-  * @return State of the display prior to this call
-**/
-int sceGuDisplay(int state);
+function sceGuDisplay(state: int32): int32; cdecl; external;
 
-/**
-  * Select which depth-test function to use
-  *
-  * Valid choices for the depth-test are:
-  *   - GU_NEVER - No pixels pass the depth-test
-  *   - GU_ALWAYS - All pixels pass the depth-test
-  *   - GU_EQUAL - Pixels that match the depth-test pass
-  *   - GU_NOTEQUAL - Pixels that doesn't match the depth-test pass
-  *   - GU_LESS - Pixels that are less in depth passes
-  *   - GU_LEQUAL - Pixels that are less or equal in depth passes
-  *   - GU_GREATER - Pixels that are greater in depth passes
-  *   - GU_GEQUAL - Pixels that are greater or equal passes
-  *
-  * @param function - Depth test function to use
-**/
-void sceGuDepthFunc(int function);
+procedure sceGuDepthFunc(func: int32); cdecl; external;
 
-/**
-  * Mask depth buffer writes
-  *
-  * @param mask - GU_TRUE(1) to disable Z writes, GU_FALSE(0) to enable
-**/
-void sceGuDepthMask(int mask);
+procedure sceGuDepthMask(mask: int32); cdecl; external;
 
-void sceGuDepthOffset(unsigned int offset);
+procedure sceGuDepthOffset(offset: uint32); cdecl; external;
 
-/**
-  * Set which range to use for depth calculations.
-  *
-  * @note The depth buffer is inversed, and takes values from 65535 to 0.
-  *
-  * Example: Use the entire depth-range for calculations:
-  * @code
-  * sceGuDepthRange(65535,0);
-  * @endcode
-  *
-  * @param near - Value to use for the near plane
-  * @param far - Value to use for the far plane
-**/
-void sceGuDepthRange(int near, int far);
+procedure sceGuDepthRange(near: int32; far: int32); cdecl; external;
 
-void sceGuFog(float near, float far, unsigned int color);
+procedure sceGuFog(near: single; far: single; color: uint32); cdecl; external;
 
-/**
-  * Initalize the GU system
-  *
-  * This function MUST be called as the first function, otherwise state is undetermined.
-**/
-void sceGuInit(void);
+procedure sceGuInit; cdecl; external;
 
-/**
-  * Shutdown the GU system
-  *
-  * Called when GU is no longer needed
-**/
-void sceGuTerm(void);
+procedure sceGuTerm; cdecl; external;
 
-void sceGuBreak(int a0);
-void sceGuContinue(void);
+procedure sceGuBreak(a0: int32); cdecl; external;
 
-/**
-  * Setup signal handler
-  *
-  * Available signals are:
-  *   - GU_CALLBACK_SIGNAL - Called when sceGuSignal is used
-  *   - GU_CALLBACK_FINISH - Called when display list is finished
-  *
-  * @param signal - Signal index to install a handler for
-  * @param callback - Callback to call when signal index is triggered
-  * @return The old callback handler
-**/
-void* sceGuSetCallback(int signal, void (*callback)(int));
+procedure sceGuContinue; cdecl; external;
 
-/**
-  * Trigger signal to call code from the command stream
-  *
-  * Available behaviors are:
-  *   - GU_BEHAVIOR_SUSPEND - Stops display list execution until callback function finished
-  *   - GU_BEHAVIOR_CONTINUE - Do not stop display list execution during callback
-  *
-  * @param signal - Signal to trigger
-  * @param behavior - Behavior type
-**/
-void sceGuSignal(int signal, int behavior);
+function sceGuSetCallback(signal: int32; callback: Tcallback): pointer; cdecl; external;
 
-/**
-  * Send raw float-command to the GE
-  *
-  * The argument is converted into a 24-bit float before transfer.
-  *
-  * @param cmd - Which command to send
-  * @param argument - Argument to pass along
-**/
-void sceGuSendCommandf(int cmd, float argument);
+procedure sceGuSignal(signal: int32; behavior: int32); cdecl; external;
 
-/**
-  * Send raw command to the GE
-  *
-  * Only the 24 lower bits of the argument is passed along.
-  *
-  * @param cmd - Which command to send
-  * @param argument - Argument to pass along
-**/
-void sceGuSendCommandi(int cmd, int argument);
+procedure sceGuSendCommandf(cmd: int32; argument: single); cdecl; external;
 
-/**
-  * Allocate memory on the current display list for temporary storage
-  *
-  * @note This function is NOT for permanent memory allocation, the
-  * memory will be invalid as soon as you start filling the same display
-  * list again.
-  *
-  * @param size - How much memory to allocate
-  * @return Memory-block ready for use
-**/
-void* sceGuGetMemory(int size);
+procedure sceGuSendCommandi(cmd: int32; argument: int32); cdecl; external;
 
-/**
-  * Start filling a new display-context
-  *
-  * Contexts available are:
-  *   - GU_DIRECT - Rendering is performed as list is filled
-  *   - GU_CALL - List is setup to be called from the main list
-  *   - GU_SEND - List is buffered for a later call to sceGuSendList()
-  *
-  * The previous context-type is stored so that it can be restored at sceGuFinish().
-  *
-  * @param cid - Context Type
-  * @param list - Pointer to display-list (16 byte aligned)
-**/
-void sceGuStart(int cid, void* list);
+function sceGuGetMemory(size: int32): pointer; cdecl; external;
 
-/**
-  * Finish current display list and go back to the parent context
-  *
-  * If the context is GU_DIRECT, the stall-address is updated so that the entire list will
-  * execute. Otherwise, only the terminating action is written to the list, depending on
-  * context-type.
-  *
-  * The finish-callback will get a zero as argument when using this function.
-  *
-  * This also restores control back to whatever context that was active prior to this call.
-  *
-  * @return Size of finished display list
-**/
-int sceGuFinish(void);
+procedure sceGuStart(cid: int32; list: pointer); cdecl; external;
 
-/**
-  * Finish current display list and go back to the parent context, sending argument id for
-  * the finish callback.
-  *
-  * If the context is GU_DIRECT, the stall-address is updated so that the entire list will
-  * execute. Otherwise, only the terminating action is written to the list, depending on
-  * context-type.
-  *
-  * @param id - Finish callback id (16-bit)
-  * @return Size of finished display list
-**/
-int sceGuFinishId(unsigned int id);
+function sceGuFinish: int32; cdecl; external;
 
-/**
-  * Call previously generated display-list
-  *
-  * @param list - Display list to call
-**/
-void sceGuCallList(const void* list);
+function sceGuFinishId(id: uint32): int32; cdecl; external;
 
-/**
-  * Set wether to use stack-based calls or signals to handle execution of called lists.
-  *
-  * @param mode - GU_TRUE(1) to enable signals, GU_FALSE(0) to disable signals and use
-  * normal calls instead.
-**/
-void sceGuCallMode(int mode);
+procedure sceGuCallList(const list: pointer); cdecl; external;
+
+procedure sceGuCallMode(mode: int32); cdecl; external;
+
+function sceGuCheckList: int32; cdecl; external;
 
 /**
   * Check how large the current display-list is

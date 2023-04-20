@@ -343,608 +343,91 @@ procedure sceGuCallMode(mode: int32); cdecl; external;
 
 function sceGuCheckList: int32; cdecl; external;
 
-/**
-  * Check how large the current display-list is
-  *
-  * @return The size of the current display list
-**/
-int sceGuCheckList(void);
+procedure sceGuSendList(mode: int32; const list: pointer; context: PpspGeContext); cdecl; external;
 
-/**
-  * Send a list to the GE directly
-  *
-  * Available modes are:
-  *   - GU_TAIL - Place list last in the queue, so it executes in-order
-  *   - GU_HEAD - Place list first in queue so that it executes as soon as possible
-  *
-  * @param mode - Whether to place the list first or last in queue
-  * @param list - List to send
-  * @param context - Temporary storage for the GE context
-**/
-void sceGuSendList(int mode, const void* list, PspGeContext* context);
+function sceGuSwapBuffers: pointer; cdecl; external;
 
-/**
-  * Swap display and draw buffer
-  *
-  * @return Pointer to the new drawbuffer
-**/
-void* sceGuSwapBuffers(void);
+function sceGuSync(mode: int32; what: int32): int32; cdecl; external;
 
-/**
-  * Wait until display list has finished executing
-  *
-  * @par Example: Wait for the currently executing display list
-  * @code
-  * sceGuSync(0,0);
-  * @endcode
-  *
-  * Available what are:
-  *   - GU_SYNC_WHAT_DONE
-  *   - GU_SYNC_WHAT_QUEUED
-  *   - GU_SYNC_WHAT_DRAW
-  *   - GU_SYNC_WHAT_STALL
-  *   - GU_SYNC_WHAT_CANCEL
-  *
-  * Available mode are:
-  *   - GU_SYNC_FINISH - Wait until the last sceGuFinish command is reached
-  *   - GU_SYNC_SIGNAL - Wait until the last (?) signal is executed
-  *   - GU_SYNC_DONE - Wait until all commands currently in list are executed
-  *   - GU_SYNC_LIST - Wait for the currently executed display list (GU_DIRECT)
-  *   - GU_SYNC_SEND - Wait for the last send list
-  *
-  * @param mode - What to wait for
-  * @param what - What to sync to
-  * @return Unknown at this time
-**/
-int sceGuSync(int mode, int what);
+procedure sceGuDrawArray(prim: int32; vtype: int32; count: int32; const indices: pointer; const vertices: pointer); cdecl; external;
 
-/**
-  * Draw array of vertices forming primitives
-  *
-  * Available primitive-types are:
-  *   - GU_POINTS - Single pixel points (1 vertex per primitive)
-  *   - GU_LINES - Single pixel lines (2 vertices per primitive)
-  *   - GU_LINE_STRIP - Single pixel line-strip (2 vertices for the first primitive, 1 for every following)
-  *   - GU_TRIANGLES - Filled triangles (3 vertices per primitive)
-  *   - GU_TRIANGLE_STRIP - Filled triangles-strip (3 vertices for the first primitive, 1 for every following)
-  *   - GU_TRIANGLE_FAN - Filled triangle-fan (3 vertices for the first primitive, 1 for every following)
-  *   - GU_SPRITES - Filled blocks (2 vertices per primitive)
-  *
-  * The vertex-type decides how the vertices align and what kind of information they contain.
-  * The following flags are ORed together to compose the final vertex format:
-  *   - GU_TEXTURE_8BIT - 8-bit texture coordinates
-  *   - GU_TEXTURE_16BIT - 16-bit texture coordinates
-  *   - GU_TEXTURE_32BITF - 32-bit texture coordinates (float)
-  *
-  *   - GU_COLOR_5650 - 16-bit color (R5G6B5A0)
-  *   - GU_COLOR_5551 - 16-bit color (R5G5B5A1)
-  *   - GU_COLOR_4444 - 16-bit color (R4G4B4A4)
-  *   - GU_COLOR_8888 - 32-bit color (R8G8B8A8)
-  *
-  *   - GU_NORMAL_8BIT - 8-bit normals
-  *   - GU_NORMAL_16BIT - 16-bit normals
-  *   - GU_NORMAL_32BITF - 32-bit normals (float)
-  *
-  *   - GU_VERTEX_8BIT - 8-bit vertex position
-  *   - GU_VERTEX_16BIT - 16-bit vertex position
-  *   - GU_VERTEX_32BITF - 32-bit vertex position (float)
-  *
-  *   - GU_WEIGHT_8BIT - 8-bit weights
-  *   - GU_WEIGHT_16BIT - 16-bit weights
-  *   - GU_WEIGHT_32BITF - 32-bit weights (float)
-  *
-  *   - GU_INDEX_8BIT - 8-bit vertex index
-  *   - GU_INDEX_16BIT - 16-bit vertex index
-  *
-  *   - GU_WEIGHTS(n) - Number of weights (1-8)
-  *   - GU_VERTICES(n) - Number of vertices (1-8)
-  *
-  *   - GU_TRANSFORM_2D - Coordinate is passed directly to the rasterizer
-  *   - GU_TRANSFORM_3D - Coordinate is transformed before passed to rasterizer
-  *
-  * @note Every vertex must align to 32 bits, which means that you HAVE to pad if it does not add up!
-  *
-  * Vertex order:
-  * [for vertices(1-8)]
-  * [weights (0-8)]
-  * [texture uv]
-  * [color]
-  * [normal]
-  * [vertex]
-  * [/for]
-  *
-  * @par Example: Render 400 triangles, with floating-point texture coordinates, and floating-point position, no indices
-  * @code
-  * sceGuDrawArray(GU_TRIANGLES,GU_TEXTURE_32BITF|GU_VERTEX_32BITF,400*3,0,vertices);
-  * @endcode
-  *
-  * @param prim - What kind of primitives to render
-  * @param vtype - Vertex type to process
-  * @param count - How many vertices to process
-  * @param indices - Optional pointer to an index-list
-  * @param vertices - Pointer to a vertex-list
-**/
-void sceGuDrawArray(int prim, int vtype, int count, const void* indices, const void* vertices);
+procedure sceGuBeginObject(vtype: int32; count: int32; const indices: pointer; const vertices: pointer); cdecl; external;
 
-/**
-  * Begin conditional rendering of object
-  *
-  * If no vertices passed into this function are inside the scissor region, it will skip rendering
-  * the object. There can be up to 32 levels of conditional testing, and all levels HAVE to
-  * be terminated by sceGuEndObject().
-  *
-  * @par Example: test a boundingbox against the frustum, and if visible, render object
-  * @code
-  * sceGuBeginObject(GU_VERTEX_32BITF,8,0,boundingBox);
-  *   sceGuDrawArray(GU_TRIANGLES,GU_TEXTURE_32BITF|GU_VERTEX_32BITF,vertexCount,0,vertices);
-  * sceGuEndObject();
-  * @endcode
-  *
-  * @param vtype - Vertex type to process
-  * @param count - Number of vertices to test
-  * @param indices - Optional list to an index-list
-  * @param vertices - Pointer to a vertex-list
-**/
-void sceGuBeginObject(int vtype, int count, const void* indices, const void* vertices);
+procedure sceGuEndObject; cdecl; external;
 
-/**
-  * End conditional rendering of object
-**/
-void sceGuEndObject(void);
+procedure sceGuSetStatus(state: int32; status: int32); cdecl; external;
 
-/**
-  * Enable or disable GE state
-  *
-  * Look at sceGuEnable() for a list of states
-  *
-  * @param state - Which state to change
-  * @param status - Wether to enable or disable the state
-**/
-void sceGuSetStatus(int state, int status);
+function sceGuGetStatus(state: int32): int32; cdecl; external;
 
-/**
-  * Get if state is currently enabled or disabled
-  *
-  * Look at sceGuEnable() for a list of states
-  *
-  * @param state - Which state to query about
-  * @return Wether state is enabled or not
-**/
-int sceGuGetStatus(int state);
+procedure sceGuSetAllStatus(status: int32); cdecl; external;
 
-/**
-  * Set the status on all 22 available states
-  *
-  * Look at sceGuEnable() for a list of states
-  *
-  * @param status - Bit-mask (0-21) containing the status of all 22 states
-**/
-void sceGuSetAllStatus(int status);
+function sceGuGetAllStatus: int32; cdecl; external;
 
-/**
-  * Query status on all 22 available states
-  *
-  * Look at sceGuEnable() for a list of states
-  *
-  * @return Status of all 22 states as a bitmask (0-21)
-**/
-int sceGuGetAllStatus(void);
+procedure sceGuEnable(state: int32); cdecl; external;
 
-/**
-  * Enable GE state
-  *
-  * The currently available states are:
-  *   - GU_ALPHA_TEST
-  *   - GU_DEPTH_TEST
-  *   - GU_SCISSOR_TEST
-  *   - GU_BLEND
-  *   - GU_CULL_FACE
-  *   - GU_DITHER
-  *   - GU_CLIP_PLANES
-  *   - GU_TEXTURE_2D
-  *   - GU_LIGHTING
-  *   - GU_LIGHT0
-  *   - GU_LIGHT1
-  *   - GU_LIGHT2
-  *   - GU_LIGHT3
-  *   - GU_COLOR_LOGIC_OP
-  *
-  * @param state - Which state to enable
-**/
-void sceGuEnable(int state);
+procedure sceGuDisable(state: int32); cdecl; external;
 
-/**
-  * Disable GE state
-  *
-  * Look at sceGuEnable() for a list of states
-  *
-  * @param state - Which state to disable
-**/
-void sceGuDisable(int state);
+procedure sceGuLight(light: int32; atype: int32; components: int32; const position: PscePspFVector3); cdecl; external;
 
-/**
-  * Set light parameters
-  *
-  * Available light types are:
-  *   - GU_DIRECTIONAL - Directional light
-  *   - GU_POINTLIGHT - Single point of light
-  *   - GU_SPOTLIGHT - Point-light with a cone
-  *
-  * Available light components are:
-  *   - GU_AMBIENT_AND_DIFFUSE
-  *   - GU_DIFFUSE_AND_SPECULAR
-  *   - GU_UNKNOWN_LIGHT_COMPONENT
-  *
-  * @param light - Light index
-  * @param type - Light type
-  * @param components - Light components
-  * @param position - Light position
-**/
-void sceGuLight(int light, int type, int components, const ScePspFVector3* position);
+procedure sceGuLightAtt(light: int32; atteng0: single; atten1: single; atten2: single); cdecl; external;
 
-/**
-  * Set light attenuation
-  *
-  * @param light - Light index
-  * @param atten0 - Constant attenuation factor
-  * @param atten1 - Linear attenuation factor
-  * @param atten2 - Quadratic attenuation factor
-**/
-void sceGuLightAtt(int light, float atten0, float atten1, float atten2);
+procedure sceGuLightColor(light: int32; component: int32; color: uint32); cdecl; external;
 
-/**
-  * Set light color
-  *
-  * Available light components are:
-  *   - GU_AMBIENT
-  *   - GU_DIFFUSE
-  *   - GU_SPECULAR
-  *   - GU_AMBIENT_AND_DIFFUSE
-  *   - GU_DIFFUSE_AND_SPECULAR
-  *
-  * @param light - Light index
-  * @param component - Which component to set
-  * @param color - Which color to use
-**/
-void sceGuLightColor(int light, int component, unsigned int color);
+procedure sceGuLightMode(mode: int32); cdecl; external;
 
-/**
-  * Set light mode
-  *
-  * Available light modes are:
-  *   - GU_SINGLE_COLOR
-  *   - GU_SEPARATE_SPECULAR_COLOR
-  *
-  * Separate specular colors are used to interpolate the specular component
-  * independently, so that it can be added to the fragment after the texture color.
-  *
-  * @param mode - Light mode to use
-**/
-void sceGuLightMode(int mode);
+procedure sceGuLightSpot(light: int32; const direction: PscePspFVector3; exponent: single; cutoff: single); cdecl; external;
 
-/**
-  * Set spotlight parameters
-  *
-  * @param light - Light index
-  * @param direction - Spotlight direction
-  * @param exponent - Spotlight exponent
-  * @param cutoff - Spotlight cutoff angle (in radians)
-**/
-void sceGuLightSpot(int light, const ScePspFVector3* direction, float exponent, float cutoff);
+procedure sceGuClear(flags: int32); cdecl; external;
 
-/**
-  * Clear current drawbuffer
-  *
-  * Available clear-flags are (OR them together to get final clear-mode):
-  *   - GU_COLOR_BUFFER_BIT - Clears the color-buffer
-  *   - GU_STENCIL_BUFFER_BIT - Clears the stencil-buffer
-  *   - GU_DEPTH_BUFFER_BIT - Clears the depth-buffer
-  *
-  * @param flags - Which part of the buffer to clear
-**/
-void sceGuClear(int flags);
+procedure sceGuClearColor(color: uint32); cdecl; external;
 
-/**
-  * Set the current clear-color
-  *
-  * @param color - Color to clear with
-**/
-void sceGuClearColor(unsigned int color);
+procedure sceGuClearDepth(depth: uint32); cdecl; external;
 
-/**
-  * Set the current clear-depth
-  *
-  * @param depth - Set which depth to clear with (0x0000-0xffff)
-**/
-void sceGuClearDepth(unsigned int depth);
+procedure sceGuClearStencil(stencil: uint32); cdecl; external;
 
-/**
-  * Set the current stencil clear value
-  *
-  * @param stencil - Set which stencil value to clear with (0-255)
-  *
-**/
-void sceGuClearStencil(unsigned int stencil);
+procedure sceGuPixelMask(mask: uint32); cdecl; external;
 
-/**
-  * Set mask for which bits of the pixels to write
-  *
-  * @param mask - Which bits to filter against writes
-  *
-**/
-void sceGuPixelMask(unsigned int mask);
+procedure sceGuColor(color: uint32); cdecl; external;
 
-/**
-  * Set current primitive color
-  *
-  * @param color - Which color to use (overriden by vertex-colors)
-**/
-void sceGuColor(unsigned int color);
+procedure sceGuColorFunc(func: int32; color: uint32; mask: uint32); cdecl; external;
 
-/**
-  * Set the color test function
-  *
-  * The color test is only performed while GU_COLOR_TEST is enabled.
-  *
-  * Available functions are:
-  *   - GU_NEVER
-  *   - GU_ALWAYS
-  *   - GU_EQUAL
-  *   - GU_NOTEQUAL
-  *
-  * @par Example: Reject any pixel that does not have 0 as the blue channel
-  * @code
-  * sceGuColorFunc(GU_EQUAL,0,0xff0000);
-  * @endcode
-  *
-  * @param func - Color test function
-  * @param color - Color to test against
-  * @param mask - Mask ANDed against both source and destination when testing
-**/
-void sceGuColorFunc(int func, unsigned int color, unsigned int mask);
+procedure sceGuColorMaterial(components: int32); cdecl; external;
 
-/**
-  * Set which color components that the material will receive
-  *
-  * The components are ORed together from the following values:
-  *   - GU_AMBIENT
-  *   - GU_DIFFUSE
-  *   - GU_SPECULAR
-  *
-  * @param components - Which components to receive
-**/
-void sceGuColorMaterial(int components);
+procedure sceGuAlphaFunc(func: int32; value: int32; mask: int32); cdecl; external;
 
-/**
-  * Set the alpha test parameters
-  * 
-  * Available comparison functions are:
-  *   - GU_NEVER
-  *   - GU_ALWAYS
-  *   - GU_EQUAL
-  *   - GU_NOTEQUAL
-  *   - GU_LESS
-  *   - GU_LEQUAL
-  *   - GU_GREATER
-  *   - GU_GEQUAL
-  *
-  * @param func - Specifies the alpha comparison function.
-  * @param value - Specifies the reference value that incoming alpha values are compared to.
-  * @param mask - Specifies the mask that both values are ANDed with before comparison.
-**/
-void sceGuAlphaFunc(int func, int value, int mask);
+procedure sceGuAmbient(color: uint32); cdecl; external;
 
-void sceGuAmbient(unsigned int color);
-void sceGuAmbientColor(unsigned int color);
+procedure sceGuAmbientColor(color: uint32); cdecl; external;
 
-/**
-  * Set the blending-mode
-  *
-  * Keys for the blending operations:
-  *   - Cs - Source color
-  *   - Cd - Destination color
-  *   - Bs - Blend function for source fragment
-  *   - Bd - Blend function for destination fragment
-  *
-  * Available blending-operations are:
-  *   - GU_ADD - (Cs*Bs) + (Cd*Bd)
-  *   - GU_SUBTRACT - (Cs*Bs) - (Cd*Bd)
-  *   - GU_REVERSE_SUBTRACT - (Cd*Bd) - (Cs*Bs)
-  *   - GU_MIN - Cs < Cd ? Cs : Cd
-  *   - GU_MAX - Cs < Cd ? Cd : Cs
-  *   - GU_ABS - |Cs-Cd|
-  *
-  * Available blending-functions are:
-  *   - GU_SRC_COLOR
-  *   - GU_ONE_MINUS_SRC_COLOR
-  *   - GU_SRC_ALPHA
-  *   - GU_ONE_MINUS_SRC_ALPHA
-  *   - GU_DST_ALPHA
-  *   - GU_ONE_MINUS_DST_ALPHA
-  *   - GU_DST_COLOR
-  *   - GU_ONE_MINUS_DST_COLOR
-  *   - GU_FIX
-  *
-  * @param op - Blending Operation
-  * @param src - Blending function for source operand
-  * @param dest - Blending function for dest operand
-  * @param srcfix - Fix value for GU_FIX (source operand)
-  * @param destfix - Fix value for GU_FIX (dest operand)
-**/
-void sceGuBlendFunc(int op, int src, int dest, unsigned int srcfix, unsigned int destfix);
+procedure sceGuBlendFunc(op: int32; src: int32; dest: int32; srcfix: int32; destfix: int32); cdecl; external;
 
-void sceGuMaterial(int mode, int color);
+procedure sceGuMaterial(mode: int32; color: int32); cdecl; external;
 
-/**
-  *
-**/
-void sceGuModelColor(unsigned int emissive, unsigned int ambient, unsigned int diffuse, unsigned int specular);
+procedure sceGuModelColor(emissive: uint32; ambient: uint32; diffuse: uint32; specular: uint32); cdecl; external;
 
-/**
-  * Set stencil function and reference value for stencil testing
-  *
-  * Available functions are:
-  *   - GU_NEVER
-  *   - GU_ALWAYS
-  *   - GU_EQUAL
-  *   - GU_NOTEQUAL
-  *   - GU_LESS
-  *   - GU_LEQUAL
-  *   - GU_GREATER
-  *   - GU_GEQUAL
-  *
-  * @param func - Test function
-  * @param ref - The reference value for the stencil test
-  * @param mask - Mask that is ANDed with both the reference value and stored stencil value when the test is done
-**/
-void sceGuStencilFunc(int func, int ref, int mask);
+procedure sceGuStencilFunc(func: int32; ref: int32; mask: int32); cdecl; external;
 
-/**
-  * Set the stencil test actions
-  *
-  * Available actions are:
-  *   - GU_KEEP - Keeps the current value
-  *   - GU_ZERO - Sets the stencil buffer value to zero
-  *   - GU_REPLACE - Sets the stencil buffer value to ref, as specified by sceGuStencilFunc()
-  *   - GU_INCR - Increments the current stencil buffer value
-  *   - GU_DECR - Decrease the current stencil buffer value
-  *   - GU_INVERT - Bitwise invert the current stencil buffer value
-  *
-  * As stencil buffer shares memory with framebuffer alpha, resolution of the buffer
-  * is directly in relation.
-  *
-  * @param fail - The action to take when the stencil test fails
-  * @param zfail - The action to take when stencil test passes, but the depth test fails
-  * @param zpass - The action to take when both stencil test and depth test passes
-**/
-void sceGuStencilOp(int fail, int zfail, int zpass);
+procedure sceGuStencilOp(fail: int32; zfail: int32; zpass: int32); cdecl; external;
 
-/**
-  * Set the specular power for the material
-  *
-  * @param power - Specular power
-  *
-**/
-void sceGuSpecular(float power);
+procedure sceGuSpecular(power: single); cdecl; external;
 
-/**
-  * Set the current face-order (for culling)
-  *
-  * This only has effect when culling is enabled (GU_CULL_FACE)
-  *
-  * Culling order can be:
-  *   - GU_CW - Clockwise primitives are not culled
-  *   - GU_CCW - Counter-clockwise are not culled
-  *
-  * @param order - Which order to use
-**/
-void sceGuFrontFace(int order);
+procedure sceGuFrontFace(order: int32); cdecl; external;
 
-/**
-  * Set color logical operation
-  *
-  * Available operations are:
-  *   - GU_CLEAR
-  *   - GU_AND
-  *   - GU_AND_REVERSE 
-  *   - GU_COPY
-  *   - GU_AND_INVERTED
-  *   - GU_NOOP
-  *   - GU_XOR
-  *   - GU_OR
-  *   - GU_NOR
-  *   - GU_EQUIV
-  *   - GU_INVERTED
-  *   - GU_OR_REVERSE
-  *   - GU_COPY_INVERTED
-  *   - GU_OR_INVERTED
-  *   - GU_NAND
-  *   - GU_SET
-  *
-  * This operation only has effect if GU_COLOR_LOGIC_OP is enabled.
-  *
-  * @param op - Operation to execute
-**/
-void sceGuLogicalOp(int op);
+procedure sceGuLogicalOp(op: int32); cdecl; external;
 
-/**
-  * Set ordered pixel dither matrix
-  *
-  * This dither matrix is only applied if GU_DITHER is enabled.
-  *
-  * @param matrix - Dither matrix
-**/
-void sceGuSetDither(const ScePspIMatrix4* matrix);
+procedure sceGuSetDither(const matrix: PscePspIMatrix4); cdecl; external;
 
-/**
-  * Set how primitives are shaded
-  *
-  * The available shading-methods are:
-  *   - GU_FLAT - Primitives are flatshaded, the last vertex-color takes effet
-  *   - GU_SMOOTH - Primtives are gouraud-shaded, all vertex-colors take effect
-  *
-  * @param mode - Which mode to use
-**/
-void sceGuShadeModel(int mode);
+procedure sceGuShadeModel(mode: int32); cdecl; external;
 
-/**
-  * Image transfer using the GE
-  *
-  * @note Data must be aligned to 1 quad word (16 bytes)
-  *
-  * @par Example: Copy a fullscreen 32-bit image from RAM to VRAM
-  * @code
-  * sceGuCopyImage(GU_PSM_8888,0,0,480,272,512,pixels,0,0,512,(void*)(((unsigned int)framebuffer)+0x4000000));
-  * @endcode
-  *
-  * @param psm - Pixel format for buffer
-  * @param sx - Source X
-  * @param sy - Source Y
-  * @param width - Image width
-  * @param height - Image height
-  * @param srcw - Source buffer width (block aligned)
-  * @param src - Source pointer
-  * @param dx - Destination X
-  * @param dy - Destination Y
-  * @param destw - Destination buffer width (block aligned)
-  * @param dest - Destination pointer
-**/
-void sceGuCopyImage(int psm, int sx, int sy, int width, int height, int srcw, void* src, int dx, int dy, int destw, void* dest);
+procedure sceGuCopyImage(psm: int32; sx: int32; sy: int32; width: int32; heigth: int32; srcw: int32; src: pointer; dx: int32; dy: int32; destw: int32; dest: pointer); cdecl; external;
 
-/**
-  * Specify the texture environment color
-  *
-  * This is used in the texture function when a constant color is needed.
-  *
-  * See sceGuTexFunc() for more information.
-  *
-  * @param color - Constant color (0x00BBGGRR)
-**/
-void sceGuTexEnvColor(unsigned int color);
+procedure sceGuTexEnvColor(color: uint32); cdecl; external;
 
-/**
-  * Set how the texture is filtered
-  *
-  * Available filters are:
-  *   - GU_NEAREST
-  *   - GU_LINEAR
-  *   - GU_NEAREST_MIPMAP_NEAREST
-  *   - GU_LINEAR_MIPMAP_NEAREST
-  *   - GU_NEAREST_MIPMAP_LINEAR
-  *   - GU_LINEAR_MIPMAP_LINEAR
-  *
-  * @param min - Minimizing filter
-  * @param mag - Magnifying filter
-**/
-void sceGuTexFilter(int min, int mag);
+procedure sceGuTexFilter(min: int32; mag: int32); cdecl; external;
 
-/**
-  * Flush texture page-cache
-  *
-  * Do this if you have copied/rendered into an area currently in the texture-cache
-  *
-**/
-void sceGuTexFlush(void);
+procedure sceGuTexFlush; cdecl; external;
+
+
 
 /**
   * Set how textures are applied

@@ -1,4 +1,6 @@
-unit psp.gu;
+unit pspgu;
+
+interface
 
 {$ifndef __pspgu_h__}
 {$define __pspgu_h__}
@@ -97,7 +99,7 @@ uses
 {$define GU_TRANSFORM_3D   := GU_TRANSFORM_SHIFT(0)}
 {$define GU_TRANSFORM_2D   := GU_TRANSFORM_SHIFT(1)}
 {$define GU_TRANSFORM_BITS := GU_TRANSFORM_SHIFT(1)}
-/* Vertex Declarations End */
+(* Vertex Declarations End *)
 
 (* Pixel Formats *)
 {$define GU_PSM_5650 := (0)} (* Display, Texture, Palette *)
@@ -290,7 +292,7 @@ uses
 //typedef void (*GuSwapBuffersCallback)(void** display,void** render);
 
 type
-  GuSwapBuffersCallback = function(display: Ppointer; render: Ppointer): pointer; cdecl; external;
+  TGuSwapBuffersCallback = function(display: Ppointer; render: Ppointer): pointer;
   Tcallback = function(arg: int32): pointer;
 
 procedure sceGuDepthBuffer(zbp: pointer; zbw: int32); cdecl; external;
@@ -427,340 +429,62 @@ procedure sceGuTexFilter(min: int32; mag: int32); cdecl; external;
 
 procedure sceGuTexFlush; cdecl; external;
 
+procedure sceGuTexFunc(tfx: int32; tcc: int32); cdecl; external;
 
+procedure sceGuTexImage(mipmap: int32; width: int32; heigth: int32; tbw: int32; const tbp: pointer); cdecl; external;
 
-/**
-  * Set how textures are applied
-  *
-  * Key for the apply-modes:
-  *   - Cv - Color value result
-  *   - Ct - Texture color
-  *   - Cf - Fragment color
-  *   - Cc - Constant color (specified by sceGuTexEnvColor())
-  *
-  * Available apply-modes are: (TFX)
-  *   - GU_TFX_MODULATE - Cv=Ct*Cf TCC_RGB: Av=Af TCC_RGBA: Av=At*Af
-  *   - GU_TFX_DECAL - TCC_RGB: Cv=Ct,Av=Af TCC_RGBA: Cv=Cf*(1-At)+Ct*At Av=Af
-  *   - GU_TFX_BLEND - Cv=(Cf*(1-Ct))+(Cc*Ct) TCC_RGB: Av=Af TCC_RGBA: Av=At*Af
-  *   - GU_TFX_REPLACE - Cv=Ct TCC_RGB: Av=Af TCC_RGBA: Av=At
-  *   - GU_TFX_ADD - Cv=Cf+Ct TCC_RGB: Av=Af TCC_RGBA: Av=At*Af
-  *
-  * The fields TCC_RGB and TCC_RGBA specify components that differ between
-  * the two different component modes.
-  *
-  *   - GU_TFX_MODULATE - The texture is multiplied with the current diffuse fragment
-  *   - GU_TFX_REPLACE - The texture replaces the fragment
-  *   - GU_TFX_ADD - The texture is added on-top of the diffuse fragment
-  *   
-  * Available component-modes are: (TCC)
-  *   - GU_TCC_RGB - The texture alpha does not have any effect
-  *   - GU_TCC_RGBA - The texture alpha is taken into account
-  *
-  * @param tfx - Which apply-mode to use
-  * @param tcc - Which component-mode to use
-**/
-void sceGuTexFunc(int tfx, int tcc);
+procedure sceGuTexLevelMode(mode: uint32; bias: single); cdecl; external;
 
-/**
-  * Set current texturemap
-  *
-  * Textures may reside in main RAM, but it has a huge speed-penalty. Swizzle textures
-  * to get maximum speed.
-  *
-  * @note Data must be aligned to 1 quad word (16 bytes)
-  *
-  * @param mipmap - Mipmap level
-  * @param width - Width of texture (must be a power of 2)
-  * @param height - Height of texture (must be a power of 2)
-  * @param tbw - Texture Buffer Width (block-aligned)
-  * @param tbp - Texture buffer pointer (16 byte aligned)
-**/
-void sceGuTexImage(int mipmap, int width, int height, int tbw, const void* tbp);
+procedure sceGuTexMapMode(mode: int32; a1: uint32; a2: uint32); cdecl; external;
 
-/**
-  * Set texture-level mode (mipmapping)
-  *
-  * Available modes are:
-  *   - GU_TEXTURE_AUTO
-  *   - GU_TEXTURE_CONST
-  *   - GU_TEXTURE_SLOPE
-  *
-  * @param mode - Which mode to use
-  * @param bias - Which mipmap bias to use
-**/
-void sceGuTexLevelMode(unsigned int mode, float bias);
+procedure sceGuTexMode(tpsm: int32; maxmips: int32; a2: int32; swizzle: int32); cdecl; external;
 
-/**
-  * Set the texture-mapping mode
-  *
-  * Available modes are:
-  *   - GU_TEXTURE_COORDS
-  *   - GU_TEXTURE_MATRIX
-  *   - GU_ENVIRONMENT_MAP
-  *
-  * @param mode - Which mode to use
-  * @param a1 - Unknown
-  * @param a2 - Unknown
-**/
-void sceGuTexMapMode(int mode, unsigned int a1, unsigned int a2);
+procedure sceGuTexOffset(u: single; v: single); cdecl; external;
 
-/**
-  * Set texture-mode parameters
-  *
-  * Available texture-formats are:
-  *   - GU_PSM_5650 - Hicolor, 16-bit
-  *   - GU_PSM_5551 - Hicolor, 16-bit
-  *   - GU_PSM_4444 - Hicolor, 16-bit
-  *   - GU_PSM_8888 - Truecolor, 32-bit
-  *   - GU_PSM_T4 - Indexed, 4-bit (2 pixels per byte)
-  *   - GU_PSM_T8 - Indexed, 8-bit
-  *
-  * @param tpsm - Which texture format to use
-  * @param maxmips - Number of mipmaps to use (0-8)
-  * @param a2 - Unknown, set to 0
-  * @param swizzle - GU_TRUE(1) to swizzle texture-reads
-**/
-void sceGuTexMode(int tpsm, int maxmips, int a2, int swizzle);
+procedure sceGuTexProjMapMode(mode: int32); cdecl; external;
 
-/**
-  * Set texture offset
-  *
-  * @note Only used by the 3D T&L pipe, renders done with GU_TRANSFORM_2D are
-  * not affected by this.
-  *
-  * @param u - Offset to add to the U coordinate
-  * @param v - Offset to add to the V coordinate
-**/
-void sceGuTexOffset(float u, float v);
+procedure sceGuTexScale(u: single; v: single); cdecl; external;
 
-/**
-  * Set texture projection-map mode
-  *
-  * Available modes are:
-  *   - GU_POSITION
-  *   - GU_UV
-  *   - GU_NORMALIZED_NORMAL
-  *   - GU_NORMAL
-  *
-  * @param mode - Which mode to use
-**/
-void sceGuTexProjMapMode(int mode);
+procedure sceGuTexSlope(slope: single); cdecl; external;
 
-/**
-  * Set texture scale
-  *
-  * @note Only used by the 3D T&L pipe, renders ton with GU_TRANSFORM_2D are
-  * not affected by this.
-  *
-  * @param u - Scalar to multiply U coordinate with
-  * @param v - Scalar to multiply V coordinate with
-**/
-void sceGuTexScale(float u, float v);
-void sceGuTexSlope(float slope);
+procedure sceGuTexSync; cdecl; external;
 
-/**
-  * Synchronize rendering pipeline with image upload.
-  *
-  * This will stall the rendering pipeline until the current image upload initiated by
-  * sceGuCopyImage() has completed.
-**/
-void sceGuTexSync();
+procedure sceGuTexWrap(u: int32; v: int32); cdecl; external;
 
-/**
-  * Set if the texture should repeat or clamp
-  *
-  * Available modes are:
-  *   - GU_REPEAT - The texture repeats after crossing the border
-  *   - GU_CLAMP - Texture clamps at the border
-  *
-  * @param u - Wrap-mode for the U direction
-  * @param v - Wrap-mode for the V direction
-**/
-void sceGuTexWrap(int u, int v);
+procedure sceGuClutLoad(num_blocks: int32; const cbp: pointer); cdecl; external;
 
-/**
-  * Upload CLUT (Color Lookup Table)
-  *
-  * @note Data must be aligned to 1 quad word (16 bytes)
-  *
-  * @param num_blocks - How many blocks of 8 entries to upload (32*8 is 256 colors)
-  * @param cbp - Pointer to palette (16 byte aligned)
-**/
-void sceGuClutLoad(int num_blocks, const void* cbp);
+procedure sceGuClutMode(cpsm: uint32; shift: uint32; mask: uint32; a3: uint32); cdecl; external;
 
-/**
-  * Set current CLUT mode
-  *
-  * Available pixel formats for palettes are:
-  *   - GU_PSM_5650
-  *   - GU_PSM_5551
-  *   - GU_PSM_4444
-  *   - GU_PSM_8888
-  *
-  * @param cpsm - Which pixel format to use for the palette
-  * @param shift - Shifts color index by that many bits to the right
-  * @param mask - Masks the color index with this bitmask after the shift (0-0xFF)
-  * @param a3 - Unknown, set to 0
-**/
-void sceGuClutMode(unsigned int cpsm, unsigned int shift, unsigned int mask, unsigned int a3);
+procedure sceGuOffset(x: uint32; y: uint32); cdecl; external;
 
-/**
-  * Set virtual coordinate offset
-  *
-  * The PSP has a virtual coordinate-space of 4096x4096, this controls where rendering is performed
-  * 
-  * @par Example: Center the virtual coordinate range
-  * @code
-  * sceGuOffset(2048-(480/2),2048-(480/2));
-  * @endcode
-  *
-  * @param x - Offset (0-4095)
-  * @param y - Offset (0-4095)
-**/
-void sceGuOffset(unsigned int x, unsigned int y);
+procedure sceGuScissor(x: int32; y: int32; w: int32; h: int32); cdecl; external;
 
-/**
-  * Set what to scissor within the current viewport
-  *
-  * Note that scissoring is only performed if the custom scissoring is enabled (GU_SCISSOR_TEST)
-  *
-  * @param x - Left of scissor region
-  * @param y - Top of scissor region
-  * @param w - Width of scissor region
-  * @param h - Height of scissor region
-**/
-void sceGuScissor(int x, int y, int w, int h);
+procedure sceGuViewport(cx: int32; cy: int32; width: int32; heigth: int32); cdecl; external;
 
-/**
-  * Set current viewport
-  *
-  * @par Example: Setup a viewport of size (480,272) with origo at (2048,2048)
-  * @code
-  * sceGuViewport(2048,2048,480,272);
-  * @endcode
-  *
-  * @param cx - Center for horizontal viewport
-  * @param cy - Center for vertical viewport
-  * @param width - Width of viewport
-  * @param height - Height of viewport
-**/
-void sceGuViewport(int cx, int cy, int width, int height);
+procedure sceGuDrawBezier(vtype: int32; ucount: int32; vcount: int32; const indices: pointer; const vertices: pointer); cdecl; external;
 
-/**
-  * Draw bezier surface
-  *
-  * @param vtype - Vertex type, look at sceGuDrawArray() for vertex definition
-  * @param ucount - Number of vertices used in the U direction
-  * @param vcount - Number of vertices used in the V direction
-  * @param indices - Pointer to index buffer
-  * @param vertices - Pointer to vertex buffer
-**/
-void sceGuDrawBezier(int vtype, int ucount, int vcount, const void* indices, const void* vertices);
+procedure sceGuPatchDivide(ulevel: uint32; vlevel: uint32); cdecl; external;
 
-/**
-  * Set dividing for patches (beziers and splines)
-  *
-  * @param ulevel - Number of division on u direction
-  * @param vlevel - Number of division on v direction
-**/
-void sceGuPatchDivide(unsigned int ulevel, unsigned int vlevel);
+procedure sceGuPatchFrontFace(a0: uint32); cdecl; external;
 
-void sceGuPatchFrontFace(unsigned int a0);
+procedure sceGuPatchPrim(prim: int32); cdecl; external;
 
-/**
-  * Set primitive for patches (beziers and splines)
-  *
-  * @param prim - Desired primitive type (GU_POINTS | GU_LINE_STRIP | GU_TRIANGLE_STRIP)
-**/
-void sceGuPatchPrim(int prim);
+procedure sceGuDrawSpline(vtype: int32; ucount: int32; vcount: int32; uedge: int32; vedge: int32; const indices: pointer; const vertices: pointer); cdecl; external;
 
-void sceGuDrawSpline(int vtype, int ucount, int vcount, int uedge, int vedge, const void* indices, const void* vertices);
+procedure sceGuSetMatrix(atype: int32; const matrix: PscePspFMatrix4); cdecl; external;
 
-/**
-  * Set transform matrices
-  *
-  * Available matrices are:
-  *   - GU_PROJECTION - View->Projection matrix
-  *   - GU_VIEW - World->View matrix
-  *   - GU_MODEL - Model->World matrix
-  *   - GU_TEXTURE - Texture matrix
-  *
-  * @param type - Which matrix-type to set
-  * @param matrix - Matrix to load
-**/
-void sceGuSetMatrix(int type, const ScePspFMatrix4* matrix);
+procedure sceGuBoneMatrix(index: uint32; const matrix: PscePspFMatrix4); cdecl; external;
 
-/**
-  * Specify skinning matrix entry
-  *
-  * To enable vertex skinning, pass GU_WEIGHTS(n), where n is between
-  * 1-8, and pass available GU_WEIGHT_??? declaration. This will change
-  * the amount of weights passed in the vertex araay, and by setting the skinning,
-  * matrices, you will multiply each vertex every weight and vertex passed.
-  *
-  * Please see sceGuDrawArray() for vertex format information.
-  *
-  * @param index - Skinning matrix index (0-7)
-  * @param matrix - Matrix to set
-**/
-void sceGuBoneMatrix(unsigned int index, const ScePspFMatrix4* matrix);
+procedure sceGuMorphWeight(index: int32; weigth: single); cdecl; external;
 
-/**
-  * Specify morph weight entry
-  *
-  * To enable vertex morphing, pass GU_VERTICES(n), where n is between
-  * 1-8. This will change the amount of vertices passed in the vertex array,
-  * and by setting the morph weights for every vertex entry in the array,
-  * you can blend between them.
-  *
-  * Please see sceGuDrawArray() for vertex format information.
-  *
-  * @param index - Morph weight index (0-7)
-  * @param weight - Weight to set
-**/
-void sceGuMorphWeight(int index, float weight);
+procedure sceGuDrawArrayN(primitive_type: int32; vertex_type: int32; count: int32; a3: int32; const indices: pointer; const vertices: pointer); cdecl; external;
 
-void sceGuDrawArrayN(int primitive_type, int vertex_type, int count, int a3, const void* indices, const void* vertices);
+procedure guSwapBuffersBehaviour(behaviour: int32); cdecl; external;
 
-/**
-  * Set how the display should be set
-  *
-  * Available behaviours are:
-  *   - PSP_DISPLAY_SETBUF_IMMEDIATE - Display is swapped immediately
-  *   - PSP_DISPLAY_SETBUF_NEXTFRAME - Display is swapped on the next frame
-  *
-  * Do remember that this swaps the pointers internally, regardless of setting, so be careful to wait until the next
-  * vertical blank or use another buffering algorithm (see guSwapBuffersCallback()).
-**/
-void guSwapBuffersBehaviour(int behaviour);
+procedure guSwapBuffersCallback(callback: TGuSwapBuffersCallback); cdecl; external;
 
-/**
-  * Set a buffer swap callback to allow for more advanced buffer methods without hacking the library.
-  *
-  * The GuSwapBuffersCallback is defined like this:
-  * @code
-  * void swapBuffersCallback(void** display, void** render);
-  * @endcode
-  * and on entry they contain the variables that are to be set. To change the pointers that will be used, just
-  * write the new pointers. Example of a triple-buffering algorithm:
-  * @code
-  * void* doneBuffer;
-  * void swapBuffersCallback(void** display, void** render)
-  * {
-  *  void* active = doneBuffer;
-  *  doneBuffer = *display;
-     *display = active;
-  * }
-  * @endcode
-  *
-  * @param callback - Callback to access when buffers are swapped. Pass 0 to disable.
-**/
-void guSwapBuffersCallback(GuSwapBuffersCallback callback);
+{$endif}
 
-/*@}*/
+implementation
 
-#if defined(__cplusplus)
-};
-#endif
-
-#endif
+end.

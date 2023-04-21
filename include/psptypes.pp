@@ -165,7 +165,8 @@ type
     z : SceLong64;  
   end;
   
-  ScePspFVector3 = record
+  PscePspFVector3 = ^scePspFVector3;
+  ScePspFVector3  = record
     x : single;
     y : single;
     z : single;  
@@ -271,7 +272,8 @@ type
   end;  
 
   (* 4D matrix types. *)
-  ScePspIMatrix4 = record
+  PscePspIMatrix4 = ^ScePspIMatrix4;
+  ScePspIMatrix4  = record
     x : ScePspIVector4;
     y : ScePspIVector4;
     z : ScePspIVector4;
@@ -285,7 +287,8 @@ type
     w : ScePspIVector4;    
   end;
   
-  ScePspFMatrix4 = record
+  PscePspFMatrix4 = ^ScePspFMatrix4;
+  ScePspFMatrix4  = record
     x : ScePspFVector4;
     y : ScePspFVector4;
     z : ScePspFVector4;

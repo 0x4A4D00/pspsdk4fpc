@@ -29,79 +29,28 @@ procedure sceGumMatrixMode(mode: int32);
 
 procedure sceGumMultMatrix(const m: PscePspFMatrix4);
 
+procedure sceGumOrtho(left: single; right: single; bottom: single; top: single; anear: single; afar: single);
 
-/**
-  * Apply ortho projection matrix
-  *
-  * @note The matrix loses its orthonogal status after executing this function.
-**/
-void sceGumOrtho(float left, float right, float bottom, float top, float near, float far);
+procedure sceGumPerspective(fovy: single; aspect: single; anear: single; afar: single);
 
-/**
-  * Apply perspective projection matrix
-  *
-  * @note The matrix loses its orthonogal status after executing this function.
-**/
-void sceGumPerspective(float fovy, float aspect, float near, float far);
+procedure sceGumPopMatrix;
 
-/**
-  * Pop matrix from stack
-**/
-void sceGumPopMatrix(void);
+procedure sceGumPushMatrix;
 
-/**
-  * Push current matrix onto stack
-**/
-void sceGumPushMatrix(void);
+procedure sceGumRotateX(angle: single);
 
-/**
-  * Rotate around the X axis
-  *
-  * @param angle - Angle in radians
-**/
-void sceGumRotateX(float angle);
+procedure sceGumRotateY(angle: single);
 
-/**
-  * Rotate around the Y axis
-  *
-  * @param angle - Angle in radians
-**/
-void sceGumRotateY(float angle);
+procedure sceGumRotateZ(angle: single);
 
-/**
-  * Rotate around the Z axis
-  *
-  * @param angle - Angle in radians
-**/
-void sceGumRotateZ(float angle);
+procedure sceGumRotateXYZ(const v: PscePspFVector3);
 
-/**
-  * Rotate around all 3 axis in order X, Y, Z
-  *
-  * @param v - Pointer to vector containing angles
-**/
-void sceGumRotateXYZ(const ScePspFVector3* v);
+procedure sceGumRotateZYX(const v: PscePspFVector3);
 
-/**
-  * Rotate around all 3 axis in order Z, Y, X
-  *
-  * @param v - Pointer to vector containing angles
-**/
-void sceGumRotateZYX(const ScePspFVector3* v);
+procedure sceGumScale(const v: PscePspFVector3);
 
-/**
-  * Scale matrix
-  *
-  * @note The matrix loses its orthonogal status after executing this function.
-**/
-void sceGumScale(const ScePspFVector3* v);
+procedure sceGumStoreMatrix(m: PscePspFMatrix4);
 
-/**
-  * Store current matrix in the stack
-  *
-  * @param m - Matrix to write result to
-**/
-void sceGumStoreMatrix(ScePspFMatrix4* m);
 
 /**
   * Translate coordinate system

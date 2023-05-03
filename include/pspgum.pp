@@ -51,73 +51,26 @@ procedure sceGumScale(const v: PscePspFVector3);
 
 procedure sceGumStoreMatrix(m: PscePspFMatrix4);
 
+procedure sceGumTranslate(const v: PscePspFVector3);
 
-/**
-  * Translate coordinate system
-  *
-  * @param v - Translation coordinates
-**/
-void sceGumTranslate(const ScePspFVector3* v);
+procedure sceGumUpdateMatrix;
 
-/**
-  * Explicitly flush dirty matrices to the hardware
-**/
-void sceGumUpdateMatrix(void);
+procedure sceGumFullInverse;
 
-/**
-  * Invert 4x4 matrix
-  *
-  * This invert algorithm can operate on matrices that are not orthongal (See sceGumFastInverse())
-**/
-void sceGumFullInverse();
+procedure sceGumFastInverse;
 
-/**
-  * Invert orthonogal 4x4 matrix
-  *
-  * Note that the matrix in the stack has to be orthonogal (that is, all rotational axises must be unit length & orthonogal against the others),
-  * otherwise the result of the function cannot be depended on. If you need to invert a matrix that is not orthonogal, use sceGumFullInverse().
-**/
-void sceGumFastInverse();
+procedure sceGumBeginObject(vtype: int32; count: int32; const indices: pointer; cosnt vertices: pointer);
 
-/**
-  * Stack-aware version of sceGuBeginObject() (look in pspgu.h for description)
-  *
-  * @note NOT YET IMPLEMENTED
-  *
-  * @param vtype - Vertex type to process
-  * @param count - Number of vertices to test
-  * @param indices - Optional index-list
-  * @param vertices - Vertex-list
-**/
-void sceGumBeginObject(int vtype, int count, const void* indices, const void* vertices);
+procedure sceGumEndObject;
 
-/**
-  * Stack-aware version of sceGuEndObject()
-  *
-  * @note NOT YET IMPLEMENTED
-**/
-void sceGumEndObject();
+procedure gumInit;
 
-// unimplemented functions
+procedure gumLoadIdentity(m: PscePspFMatrix4);
 
-//sceGumLoadContext
-//sceGumSetCurMatrix
-//sceGumSetMatrixStack
-//sceGumStoreContext
+procedure gumLoadMatrix(r: PscePspFMatrix4; const a: PscePspFMatrix4);
 
-// standalone functions
+procedure gumLookAt(m: PscePspFMatrix4; eye: PscePspFMatrixe; center: PscePspFMatrix3; up: PscePspFMatrix3);
 
-void gumInit(void);
-
-/**
-  * Load matrix with identity
-  *
-  * @param m - Matrix to load with identity
-**/
-void gumLoadIdentity(ScePspFMatrix4* m);
-
-void gumLoadMatrix(ScePspFMatrix4* r, const ScePspFMatrix4* a);
-void gumLookAt(ScePspFMatrix4* m, ScePspFVector3* eye, ScePspFVector3* center, ScePspFVector3* up);
 void gumMultMatrix(ScePspFMatrix4* result, const ScePspFMatrix4* a, const ScePspFMatrix4* b);
 void gumOrtho(ScePspFMatrix4* m, float left, float right, float bottom, float top, float near, float far);
 void gumPerspective(ScePspFMatrix4* m, float fovy, float aspect, float near, float far);

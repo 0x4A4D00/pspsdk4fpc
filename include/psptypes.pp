@@ -254,7 +254,8 @@ type
     z : ScePspIVector3;
   end;  
 
-  ScePspFMatrix3 = record
+  PscePspFMatrix3 = ^ScePspFMatrix3;
+  ScePspFMatrix3  = record
     x : ScePspFVector3;
     y : ScePspFVector3;
     z : ScePspFVector3;

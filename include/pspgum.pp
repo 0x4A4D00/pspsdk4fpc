@@ -21,87 +21,88 @@ procedure sceGumDrawSpline(vtype: int32; ucount: int32; vcount: int32; uedge: in
 
 procedure sceGumLoadIdentity; cdecl; external;
 
-procedure sceGumLoadMatrix(const m: PscePspFMatrix4); 
+procedure sceGumLoadMatrix(const m: PscePspFMatrix4); cdecl; external;
 
-procedure sceGumLookAt(eye: PscePspFVector3; center: PscePspFVector3; up: PscePspFVector3);
+procedure sceGumLookAt(eye: PscePspFVector3; center: PscePspFVector3; up: PscePspFVector3); cdecl; external;
 
-procedure sceGumMatrixMode(mode: int32);
+procedure sceGumMatrixMode(mode: int32); cdecl; external;
 
-procedure sceGumMultMatrix(const m: PscePspFMatrix4);
+procedure sceGumMultMatrix(const m: PscePspFMatrix4); cdecl; external;
 
-procedure sceGumOrtho(left: single; right: single; bottom: single; top: single; anear: single; afar: single);
+procedure sceGumOrtho(left: single; right: single; bottom: single; top: single; anear: single; afar: single); cdecl; external;
 
-procedure sceGumPerspective(fovy: single; aspect: single; anear: single; afar: single);
+procedure sceGumPerspective(fovy: single; aspect: single; anear: single; afar: single); cdecl; external;
 
-procedure sceGumPopMatrix;
+procedure sceGumPopMatrix; cdecl; external;
 
-procedure sceGumPushMatrix;
+procedure sceGumPushMatrix; cdecl; external;
 
-procedure sceGumRotateX(angle: single);
+procedure sceGumRotateX(angle: single); cdecl; external;
 
-procedure sceGumRotateY(angle: single);
+procedure sceGumRotateY(angle: single); cdecl; external;
 
-procedure sceGumRotateZ(angle: single);
+procedure sceGumRotateZ(angle: single); cdecl; external;
 
-procedure sceGumRotateXYZ(const v: PscePspFVector3);
+procedure sceGumRotateXYZ(const v: PscePspFVector3); cdecl; external;
 
-procedure sceGumRotateZYX(const v: PscePspFVector3);
+procedure sceGumRotateZYX(const v: PscePspFVector3); cdecl; external;
 
-procedure sceGumScale(const v: PscePspFVector3);
+procedure sceGumScale(const v: PscePspFVector3); cdecl; external;
 
-procedure sceGumStoreMatrix(m: PscePspFMatrix4);
+procedure sceGumStoreMatrix(m: PscePspFMatrix4); cdecl; external;
 
-procedure sceGumTranslate(const v: PscePspFVector3);
+procedure sceGumTranslate(const v: PscePspFVector3); cdecl; external;
 
-procedure sceGumUpdateMatrix;
+procedure sceGumUpdateMatrix; cdecl; external;
 
-procedure sceGumFullInverse;
+procedure sceGumFullInverse; cdecl; external;
 
-procedure sceGumFastInverse;
+procedure sceGumFastInverse; cdecl; external;
 
-procedure sceGumBeginObject(vtype: int32; count: int32; const indices: pointer; cosnt vertices: pointer);
+procedure sceGumBeginObject(vtype: int32; count: int32; const indices: pointer; const vertices: pointer); cdecl; external;
 
-procedure sceGumEndObject;
+procedure sceGumEndObject; cdecl; external;
 
-procedure gumInit;
+procedure gumInit; cdecl; external;
 
-procedure gumLoadIdentity(m: PscePspFMatrix4);
+procedure gumLoadIdentity(m: PscePspFMatrix4); cdecl; external;
 
-procedure gumLoadMatrix(r: PscePspFMatrix4; const a: PscePspFMatrix4);
+procedure gumLoadMatrix(r: PscePspFMatrix4; const a: PscePspFMatrix4); cdecl; external;
 
-procedure gumLookAt(m: PscePspFMatrix4; eye: PscePspFMatrixe; center: PscePspFMatrix3; up: PscePspFMatrix3);
+procedure gumLookAt(m: PscePspFMatrix4; eye: PscePspFMatrix3; center: PscePspFMatrix3; up: PscePspFMatrix3); cdecl; external;
 
-void gumMultMatrix(ScePspFMatrix4* result, const ScePspFMatrix4* a, const ScePspFMatrix4* b);
-void gumOrtho(ScePspFMatrix4* m, float left, float right, float bottom, float top, float near, float far);
-void gumPerspective(ScePspFMatrix4* m, float fovy, float aspect, float near, float far);
-void gumRotateX(ScePspFMatrix4* m, float angle);
-void gumRotateXYZ(ScePspFMatrix4* m, const ScePspFVector3* v);
-void gumRotateY(ScePspFMatrix4* m, float angle);
-void gumRotateZ(ScePspFMatrix4* m, float angle);
-void gumRotateZYX(ScePspFMatrix4* m, const ScePspFVector3* v);
-void gumScale(ScePspFMatrix4* m, const ScePspFVector3* v);
-void gumTranslate(ScePspFMatrix4* m, const ScePspFVector3* v);
-void gumFullInverse(ScePspFMatrix4* r, const ScePspFMatrix4* a);
+procedure gumMultMatrix(result: PscePspFMatrix4; const a: PscePspFMatrix4; const b: PscePspFMatrix4); cdecl; external;
 
-/**
-  * Invert orthonogal 4x4 matrix
-  *
-  * Note that the matrix in the stack has to be orthonogal (that is, all rotational axises must be unit length & orthonogal against the others),
-  * otherwise the result of the function cannot be depended on. If you need to invert a matrix that is not orthonogal, use gumFullInverse().
-  *
-  * @param r - Matrix receiving result
-  * @param a - Orthonogal matrix that is to be inverted
-**/
-void gumFastInverse(ScePspFMatrix4* r, const ScePspFMatrix4* a);
+procedure gumOrtho(m: PscePspFMatrix4; left: single; right: single; bottom: single; top: single; anear: single; afar: single); cdecl; external;
 
-// vector functions
+procedure gumPerspective(m: PscePspFMatrix4; fovy: single; aspect: single; anear: single; afar: single); cdecl; external;
 
-void gumCrossProduct(ScePspFVector3* r, const ScePspFVector3* a, const ScePspFVector3* b);
-float gumDotProduct(const ScePspFVector3* a, const ScePspFVector3* b);
-void gumNormalize(ScePspFVector3* v);
+procedure gumRotateX(m: PscePspFMatrix4; angle: single); cdecl; external;
 
-#if defined(__cplusplus)
-}
-#endif
+procedure gumRotateXYZ(m: PscePspFMatrix4; const v: PscePspFMatrix3); cdecl; external;
 
-#endif
+procedure gumRotateY(m: PscePspFMatrix4; angle: single); cdecl; external;
+
+procedure gumRotateZ(m: PscePspFMatrix4; angle: single); cdecl; external;
+
+procedure gumRotateZYX(m: PscePspFMatrix4; const v: PscePspFMatrix3); cdecl; external;
+
+procedure gumScale(m: PscePspFMatrix4; const v: PscePspFMatrix3); cdecl; external;
+
+procedure gumTranslate(m: PscePspFMatrix4; const v: PscePspFMatrix3); cdecl; external;
+
+procedure gumFullInverse(r: PscePspFMatrix4; const a: PscePspFMatrix4); cdecl; external;
+
+procedure gumFastInverse(r: PscePspFMatrix4; const a: PscePspFMatrix4); cdecl; external;
+
+procedure gumCrossProduct(r: PscePspFMatrix3; const a: PscePspFMatrix3; const b: PscePspFMatrix3); cdecl; external;
+
+function gumDotProduct(const a: PscePspFMatrix3; const b: PscePspFMatrix3): single; cdecl; external;
+
+procedure gumNormalize(v: PscePspFVector3); cdecl; external;
+
+{$endif}
+
+implementation
+
+end.

@@ -5,16 +5,12 @@ interface
 {$ifndef __PSPFPU_H__}
 {$define __PSPFPU_H__}
 
-
-
-//#include <stdint.h>
-
 type
    PspFpuRoundMode = (
    PSP_FPU_RN = 0,
 	 PSP_FPU_RZ = 1,
 	 PSP_FPU_RP = 2,
-	 PSP_FPU_RM = 3,
+	 PSP_FPU_RM = 3
   );
 
 {$define PSP_FPU_RM_MASK := $03}
@@ -49,229 +45,122 @@ function pspFpuGetFCR31: uint32; cdecl; external;
 
 procedure pspFpuSetFCR31(avar: uint32); cdecl; external;
 
-procedure pspFpuSetRoundmode(mode: PspFpuRoundMode);
+procedure pspFpuSetRoundmode(mode: PspFpuRoundMode); cdecl; external;
 
-function pspFpuGetRoundmode: PspFpuRoundMode;
+function pspFpuGetRoundmode: PspFpuRoundMode; cdecl; external;
 
-function pspFpuGetFlags: uint32;
+function pspFpuGetFlags: uint32; cdecl; external;
 
-procedure pspFpuClearFlags(clear: uint32);
+procedure pspFpuClearFlags(clear: uint32); cdecl; external;
 
-function pspFpuGetEnable: uint32;
+function pspFpuGetEnable: uint32; cdecl; external;
 
-procedure pspFpuSetEnable(enable: uint32);
+procedure pspFpuSetEnable(enable: uint32); cdecl; external;
 
-function pspFpuGetCause: uint32;
+function pspFpuGetCause: uint32; cdecl; external;
 
-procedure pspFpuClearCause(clear: uint32);
+procedure pspFpuClearCause(clear: uint32); cdecl; external;
 
-function pspFpuGetFS: uint32;
+function pspFpuGetFS: uint32; cdecl; external;
 
-procedure pspFpuSetFS(fs: uint32);
+procedure pspFpuSetFS(fs: uint32); cdecl; external;
 
-function pspFpuGetCondbits: uint32;
+function pspFpuGetCondbits: uint32; cdecl; external;
 
-procedure pspFpuClearCondbits(clear: uint32);
+procedure pspFpuClearCondbits(clear: uint32); cdecl; external;
 
-function pspFpuAbs(f: single): single;
+function pspFpuAbs(f: single): single; cdecl; external;
 
-function pspFpuCeil(f: single): integer;
+function pspFpuCeil(f: single): integer; cdecl; external;
 
-function pspFpuFloor(f: single): integer;
+function pspFpuFloor(f: single): integer; cdecl; external;
 
-function pspFpuMax(f1: single; f2: single): single;
+function pspFpuMax(f1: single; f2: single): single; cdecl; external;
 
-function pspFpuMin(f1: single; f2: single): single;
+function pspFpuMin(f1: single; f2: single): single; cdecl; external;
 
-function pspFpuNeg(f: single): single;
+function pspFpuNeg(f: single): single; cdecl; external;
 
-function pspFpuRound(f: single): integer;
+function pspFpuRound(f: single): integer; cdecl; external;
 
-function pspFpuRsqrt(f: single): single;
+function pspFpuRsqrt(f: single): single; cdecl; external;
 
-function pspFpuSqrt(f: single): single;
+function pspFpuSqrt(f: single): single; cdecl; external;
 
-function pspFpuTrunc(f: single): integer;
+function pspFpuTrunc(f: single): integer; cdecl; external;
 
-function pspFpuFmod(fs: single; fd: single): single;
+function pspFpuFmod(fs: single; fd: single): single; cdecl; external;
 
-/**
- *
- */
-float pspFpuFmod(float fs, float fd);
+function pspFpuFrac(f: single): single; cdecl; external;
 
-/**
- *
- */
-float pspFpuFrac(float f);
+function pspFpuReinterpretFloat(ui: uint32): single; cdecl; external;
 
-/**
- *
- */
-float pspFpuReinterpretFloat(uint32_t ui);
+function pspFpuReinterpretUint(f: single): uint32; cdecl; external;
 
-/**
- *
- */
-uint32_t pspFpuReinterpretUint(float f);
+function pspFpuIsEqual(f1: single; f2: single): int32; cdecl; external;
 
-/**
- *
- */
-int pspFpuIsEqual(float f1, float f2);
+function pspFpuSingFloat(f: single): single; cdecl; external;
 
-/**
- *
- */
-float pspFpuSignFloat(float f);
+function pspFpuSingInt(f: single): int32; cdecl; external;
 
-/**
- *
- */
-int pspFpuSignInt(float f);
+function pspFpuPostitiveZero: single; cdecl; external;
 
-/**
- * Positive zero
- */
-float pspFpuPositiveZero(void);
+function pspFpuNegativeZero: single; cdecl; external;
 
-/**
- * Negative zero
- */
-float pspFpuNegativeZero(void);
+function pspFpuIsZero(f: single): int32; cdecl; external;
 
-/**
- * Test for zero value
- */
-int pspFpuIsZero(float f);
+function pspFpuIsPositiveZero(f: single): int32; cdecl; external;
 
-/**
- * Test for positive zero
- */
-int pspFpuIsPositiveZero(float f);
+function pspFpuIsNegativeZero(f: single): int32; cdecl; external;
 
-/**
- * Test for negative zero
- */
-int pspFpuIsNegativeZero(float f);
+function pspFpuIsDenormal(f: single): int32; cdecl; external;
 
-/**
- * Test for denormalized number
- */
-int pspFpuIsDenormal(float f);
+function pspFpuIsZeroOrDenormal(f: single): int32; cdecl; external;
 
-/**
- * Test for zero or denormalized number
- */
-int pspFpuIsZeroOrDenormal(float f);
+function pspFpuPositiveInf: single; cdecl; external;
 
-/**
- * Positive infinity
- */
-float pspFpuPositiveInf(void);
+function pspFpuNegativeInf: single; cdecl; external;
 
-/**
- * Negative infinity
- */
-float pspFpuNegativeInf(void);
+function pspFpuIsInf(f: single): int32; cdecl; external;
 
-/**
- * Test for infinity
- */
-int pspFpuIsInf(float f);
+function pspFpuPositiveNaN: single; cdecl; external;
 
-/**
- * NaN (positive SNaN)
- */
-float pspFpuPositiveNaN(void);
+function pspFpuNegativeNaN: single; cdecl; external;
 
-/**
- * NaN (negative SNaN)
- */
-float pspFpuNegativeNaN(void);
+function pspFpuPositiveQNaN: single; cdecl; external;
 
-/**
- * Quiet NaN (positive QNaN)
- */
-float pspFpuPositiveQNaN(void);
+function pspFpuNegativeQNaN: single; cdecl; external;
 
-/**
- * Quiet NaN (positive QNaN)
- */
-float pspFpuNegativeQNaN(void);
+function pspFpuPosititveSNaN(uiSignall: Uint32): single; cdecl; external;
 
-/**
- * Signaling NaN (positive SNaN)
- */
-float pspFpuPositiveSNaN(unsigned int uiSignal);
+function pspFpuNegativeSNaN(uiSignal: uint32): single; cdecl; external;
 
-/**
- * Signaling NaN (negative SNaN)
- */
-float pspFpuNegativeSNaN(unsigned int uiSignal);
+function pspFpuIsNaN(f: single): single; cdecl; external;
 
-/**
- * Test for NaN
- */
-int pspFpuIsNaN(float f);
+function pspFpuIsInfOrNaN(f: single): int32; cdecl; external;
 
-/**
- * Test for infinity or NaN
- */
-int pspFpuIsInfOrNaN(float f);
+function pspFpuNormalizePhase(f: single): single; cdecl; external;
 
-/**
- *
- */
-float pspFpuNormalizePhase(float f);
+function pspFpuSin(x: single): single; cdecl; external;
 
-/**
- * Sine
- */
-float pspFpuSin(float x);
+function pspFpuCos(x: single): single; cdecl; external;
 
-/**
- * Cosine
- */
-float pspFpuCos(float x);
+function pspFpuAtan(x: single): single; cdecl; external;
 
-/**
- * Arc tangent
- */
-float pspFpuAtan(float x);
+function pspFpuLog(x: single): single; cdecl; external;
 
-/**
- * Natural Logarithm
- */
-float pspFpuLog(float x);
+function pspFpuExp(x: single): single; cdecl; external;
 
-/**
- * Exponential
- */
-float pspFpuExp(float x);
+function pspFpuAsin(x: single): single; cdecl; external;
 
-/**
- * ArcSin
- */
-float pspFpuAsin(float x);
+function pspFpuAcos(x: single): single; cdecl; external;
 
-/**
- * ArcCos
- */
-float pspFpuAcos(float x);
+function pspFpuFloatToDouble(a: single): double; cdecl; external;
 
-/**
- * convert float to double
- */
-double pspFpuFloatToDouble(float a);
+function pspFpuDoubletoFloat(a: double): single; cdecl; external;
 
-/**
- * convert double to float
- */
-float  pspFpuDoubleToFloat(double a);
+{$endif}
 
-#ifdef __cplusplus
-}
-#endif
+implementation
 
-#endif	/* __PSPFPU_H__ */
+end.

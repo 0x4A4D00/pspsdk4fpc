@@ -42,6 +42,8 @@ uses
 {$define PSP_ATRAC_LOOP_STREAM_DATA_IS_ON_MEMORY    := (-3)}
 
 type
+  PPuint8  = ^Puint8;
+  
   PspBufferInfo = record
     uiWritableByteFirstBuf    : Puint8;
     uiMinWriteByteFirstBuf    : uint32;
@@ -61,85 +63,23 @@ function sceAtracDecodeData(atracID: int32; outSamples: uint16; outN: Pint32; ou
 
 function sceAtracGetRemainFrame(atracID: int32; outRemainFrame: Pint32): int32; cdecl; external;
 
-function
+function sceAtracGetStreamDataInfo(atracID: int32; writePointer: PPuint8; AvailableBytes: Puint32; readOffset: Puint32): integer; cdecl; external;
 
-/**
- *
- * @param atracID - the atrac ID
- * @param writePointer - Pointer to where to read the atrac data
- * @param availableBytes - Number of bytes available at the writePointer location
- * @param readOffset - Offset where to seek into the atrac file before reading
- *
- * @return < 0 on error, otherwise 0
- *
-*/
+function sceAtracAddStreamData(atracID: int32; bytesToAdd: uint32): integer; cdecl; external;
 
-int sceAtracGetStreamDataInfo(int atracID, u8** writePointer, u32* availableBytes, u32* readOffset);
+function sceAtracGetBitrate(atracID: int32; outBitrate: Pinteger): integer; cdecl; external;
 
-/**
- *
- * @param atracID - the atrac ID
- * @param bytesToAdd - Number of bytes read into location given by sceAtracGetStreamDataInfo().
- *
- * @return < 0 on error, otherwise 0
-*/
-int sceAtracAddStreamData(int atracID, unsigned int bytesToAdd);
+function sceAtracSetLoopNum(atracID: int32; nloops: int32): integer; cdecl; external;
 
-/**
- * Gets the bitrate.
- *
- * @param atracID - the atracID
- * @param outBitrate - pointer to a integer that receives the bitrate in kbps
- *
- * @return < 0 on error, otherwise 0
- *
-*/
-int sceAtracGetBitrate(int atracID, int *outBitrate);
+function sceAtracReleaseAtracID(atracID: int32): integer; cdecl; external;
 
-/**
- * Sets the number of loops for this atrac ID
- *
- * @param atracID - the atracID
- * @param nloops - the number of loops to set
- *
- * @return < 0 on error, otherwise 0
- *
-*/
-int sceAtracSetLoopNum(int atracID, int nloops);
+function sceAtracGetNextSample(atracID: int32; outN: Pinteger): integer; cdecl; external;
 
-/**
- * It releases an atrac ID
- *
- * @param atracID - the atrac ID to release
- *
- * @return < 0 on error
- *
-*/
-int sceAtracReleaseAtracID(int atracID);
+function sceAtracGetMaxSample(atracID: int32; outMax: Pinteger): integer; cdecl;; external;
 
-/**
- * Gets the number of samples of the next frame to be decoded.
- *
- * @param atracID - the atrac ID
- * @param outN - pointer to receives the number of samples of the next frame.
- *
- * @return < 0 on error, otherwise 0
- *
- */
-int sceAtracGetNextSample(int atracID, int *outN);
+function sceAtracGetBufferInfoForReseting(atracID: int32; uiSample: uint32; pBufferInfo: PpspBufferInfo)
 
-/**
- * Gets the maximum number of samples of the atrac3 stream.
- *
- * @param atracID - the atrac ID
- * @param outMax  - pointer to a integer that receives the maximum number of samples.
- *
- * @return < 0 on error, otherwise 0
- *
- */
-int sceAtracGetMaxSample(int atracID, int *outMax); 
 
-int sceAtracGetBufferInfoForReseting(int atracID, u32 uiSample, PspBufferInfo *pBufferInfo);
 
 int sceAtracGetChannel(int atracID, u32 *puiChannel);
 

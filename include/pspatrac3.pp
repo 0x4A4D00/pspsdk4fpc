@@ -8,7 +8,7 @@ interface
 uses
   psptypes;
 
-/* Error code definition */
+
 {$define PSP_ATRAC_SUCCESS := SCE_OK}
 
 {$define PSP_ATRAC_ERROR_PARAM_FAIL              := ($80630001)}
@@ -36,7 +36,7 @@ uses
 {$define PSP_ATRAC_AT3PLUS                       := ($00001000)}
 {$define PSP_ATRAC_AT3                           := ($00001001)}
 
-/* Remain Frame typical Status */
+
 {$define PSP_ATRAC_ALLDATA_IS_ON_MEMORY             := (-1)}
 {$define PSP_ATRAC_NONLOOP_STREAM_DATA_IS_ON_MEMORY := (-2)}
 {$define PSP_ATRAC_LOOP_STREAM_DATA_IS_ON_MEMORY    := (-3)}
@@ -77,34 +77,32 @@ function sceAtracGetNextSample(atracID: int32; outN: Pinteger): integer; cdecl; 
 
 function sceAtracGetMaxSample(atracID: int32; outMax: Pinteger): integer; cdecl;; external;
 
-function sceAtracGetBufferInfoForReseting(atracID: int32; uiSample: uint32; pBufferInfo: PpspBufferInfo)
+function sceAtracGetBufferInfoForReseting(atracID: int32; uiSample: uint32; pBufferInfo: PpspBufferInfo): integer; cdecl; external;
 
+function sceAtracGetChannel(atracID: int32; puiChannel: Puint32): integer; cdecl; external;
 
+function sceAtracGetInternalErrorInfo(atracID: int32; piResult: Pinteger): integer; cdecl; external;
 
-int sceAtracGetChannel(int atracID, u32 *puiChannel);
+function sceAtracGetLoopStatus(atracID: int32; piLoopNum: Pinteger; puiLoopStatus: Puint32): integer; cdecl; external;
 
-int sceAtracGetInternalErrorInfo(int atracID, int *piResult);
+function sceAtracGetNextDecodePosition(atracID: int32; puiSamplePosition: Puint32): integer; cdecl; external;
 
-int sceAtracGetLoopStatus(int atracID, int *piLoopNum, u32 *puiLoopStatus);
+function sceAtracGetSecondBufferInfo(atracID: int32; puiPosition: Puint32; puiDataByte: Puint32): integer; cdecl; external;
 
-int sceAtracGetNextDecodePosition(int atracID, u32 *puiSamplePosition);
+function sceAtracGetSoundSample(atracID: int32; piEndSample: int32; piLoopStartSample: Pinteger; piLoopEndSample: Pinteger): integer; cdecl; external;
 
-int sceAtracGetSecondBufferInfo(int atracID, u32 *puiPosition, u32 *puiDataByte);
+function sceAtracResetPlayPosition(atracID: int32; uiSample: uint32; uiWriteByteFirstBuf: uint32; uiWriteByteSecondBuf: uint32): integer; cdecl; external;
 
-int sceAtracGetSoundSample(int atracID, int *piEndSample, int *piLoopStartSample, int *piLoopEndSample);
+function sceAtracSetData(atracID: int32; pucBufferAddr: Puint8; uiBufferByte: uint32): cdecl; external;
 
-int sceAtracResetPlayPosition(int atracID, u32 uiSample, u32 uiWriteByteFirstBuf, u32 uiWriteByteSecondBuf);
+function sceAtracSetHalfwayBuffer(atracID: int32; pucBufferAddr: Puint9: uiReadByte: uint32; uiBufferByte: uint32): integer; cdecl; external;
 
-int sceAtracSetData(int atracID, u8 *pucBufferAddr, u32 uiBufferByte);
+function sceAtracSetHalfwayBufferAndGetID(pucBufferAdd: Puint8: uiReadByte: uint32; uiBufferByte: uint32): integer; cdecl; external;
 
-int sceAtracSetHalfwayBuffer(int atracID, u8 *pucBufferAddr, u32 uiReadByte, u32 uiBufferByte);
+function sceAtracSetSecondBuffer(atracID: int32; pucSecondBufferAddr: Puint8: uiSecondBufferByte: uint32): integer; cdecl;e external;
 
-int sceAtracSetHalfwayBufferAndGetID(u8 *pucBufferAddr, u32 uiReadByte, u32 uiBufferByte);
+{$endif}
 
-int sceAtracSetSecondBuffer(int atracID, u8 *pucSecondBufferAddr, u32 uiSecondBufferByte);
+implementation
 
-#ifdef __cplusplus
-}
-#endif
-
-#endif
+end.

@@ -20,6 +20,13 @@ type
     pcmBuf         : Pointer;
     pcmBufSize     : SceInt32;
   end;
+  
+  PsceShort16 = ^SceShort16;
+  PpSceShort16 = ^PsceShort16;
+  
+  PsceUChar8 = ^SceUChar8;
+  PpsceUChar8 = ^PsceUChar8;
+  
 
 function sceMpe3ReseveMp3Handle(args: PsceMp3InitArg): SceInt32; cdecl; external;
 
@@ -31,125 +38,34 @@ function sceMp3TermResource: SceInt32; cdecl; external;
 
 function sceMp3Init(handle: SceInt32): SceInt32; cdecl; external;
 
+function sceMp3Decode(handle: SceInt32; dst: PpSceShort16);
 
+function sceMp3GetInfoToAddStreamData(handle: SceInt32; dst: PpsceUChar8; towrite: Pinteger; srcpos: Pinteger): SceInt32; cdecl; external;
 
-/**
- * sceMp3Decode
- *
- * @param handle - sceMp3 handle
- * @param dst - Pointer to destination pcm samples buffer
- *
- * @return number of bytes in decoded pcm buffer, < 0 on error.
- */
-SceInt32 sceMp3Decode(SceInt32 handle, SceShort16** dst);
+//SceInt32 sceMp3GetInfoToAddStreamData(SceInt32 handle, SceUChar8** dst, SceInt32* towrite, SceInt32* srcpos);
 
-/**
- * sceMp3GetInfoToAddStreamData
- *
- * @param handle - sceMp3 handle
- * @param dst - Pointer to stream data buffer
- * @param towrite - Space remaining in stream data buffer
- * @param srcpos - Position in source stream to start reading from
- *
- * @return 0 if success, < 0 on error.
- */
-SceInt32 sceMp3GetInfoToAddStreamData(SceInt32 handle, SceUChar8** dst, SceInt32* towrite, SceInt32* srcpos);
+function sceMp3NotifyAddStreamData(handle: SceInt32; size: SceInt32): SceINt32; cdecl; external;
 
-/**
- * sceMp3NotifyAddStreamData
- *
- * @param handle - sceMp3 handle
- * @param size - number of bytes added to the stream data buffer
- *
- * @return 0 if success, < 0 on error.
- */
-SceInt32 sceMp3NotifyAddStreamData(SceInt32 handle, SceInt32 size);
+function sceMp3CheckStreamDataNeeded(handle: SceInt32): SceInt32; cdecl; external;
 
-/**
- * sceMp3CheckStreamDataNeeded
- *
- * @param handle - sceMp3 handle
- *
- * @return 1 if more stream data is needed, < 0 on error.
- */
-SceInt32 sceMp3CheckStreamDataNeeded(SceInt32 handle);
+function sceMp3SetLoopNum(handle: SceInt32; loop: SceInt32): SceInt32; cdecl; external;
 
-/**
- * sceMp3SetLoopNum
- *
- * @param handle - sceMp3 handle
- * @param loop - Number of loops
- *
- * @return 0 if success, < 0 on error.
- */
-SceInt32 sceMp3SetLoopNum(SceInt32 handle, SceInt32 loop);
+function sceMp3GetLoopNum(handle: SceInt32): SceInt32; cdecl; external;
 
-/**
- * sceMp3GetLoopNum
- *
- * @param handle - sceMp3 handle
- *
- * @return Number of loops
- */
-SceInt32 sceMp3GetLoopNum(SceInt32 handle);
+function sceMP3GetSumDecodedSample(handle: SceInt32): SceInt32; cdecl; external;
 
-/**
- * sceMp3GetSumDecodedSample
- *
- * @param handle - sceMp3 handle
- *
- * @return Number of decoded samples
- */
-SceInt32 sceMp3GetSumDecodedSample(SceInt32 handle);
+function sceMp3GetMaxOutputSample(handle: SceInt32): SceInt32; cdecl; external;
 
-/**
- * sceMp3GetMaxOutputSample
- *
- * @param handle - sceMp3 handle
- *
- * @return Number of max samples to output
- */
-SceInt32 sceMp3GetMaxOutputSample(SceInt32 handle);
+function sceMp3GetSamplingRate(handle: SceInt32): SceInt32; cdecl; external;
 
-/**
- * sceMp3GetSamplingRate
- *
- * @param handle - sceMp3 handle
- *
- * @return Sampling rate of the mp3
- */
-SceInt32 sceMp3GetSamplingRate(SceInt32 handle);
+function sceMp3GetBitRate(Handle: SceInt32): SceInt32; cdecl; external;
 
-/**
- * sceMp3GetBitRate
- *
- * @param handle - sceMp3 handle
- *
- * @return Bitrate of the mp3
- */
-SceInt32 sceMp3GetBitRate(SceInt32 handle);
+function sceMP3GetMp3ChannelNum(handle: SceInt32): SceInt32; cdecl; external;
 
-/**
- * sceMp3GetMp3ChannelNum
- *
- * @param handle - sceMp3 handle
- *
- * @return Number of channels of the mp3
- */
-SceInt32 sceMp3GetMp3ChannelNum(SceInt32 handle);
+function sceMp3ResetPlayPosition(handle: SceInt32): SceInt32; cdecl; external;
 
-/**
- * sceMp3ResetPlayPosition
- *
- * @param handle - sceMp3 handle
- *
- * @return < 0 on error
- */
-SceInt32 sceMp3ResetPlayPosition(SceInt32 handle); 
+{$endif}
 
+implementation
 
-#ifdef __cplusplus
-}
-#endif
-
-#endif
+end.

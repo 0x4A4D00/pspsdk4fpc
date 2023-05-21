@@ -85,180 +85,47 @@ function sceHttpAbortRequest(requestid: int32): integer; cdecl; external;
 
 function sceHttpReadData(requestid: int32; data: pointer; datasize: uint8): integer; cdecl; external;
 
+function sceHttpGetContentLength(requestid: int32; contentlength: PsceULong64): integer; cdecl; external;
+
+function sceHttpGetStatusCode(requestid: int32; statuscode: Pinteger): integer; cdecl; external;
+
+function sceHttpSetResolveTimeOut(id: int32; timeout: uint32): integer; cdecl; external;
+
+function sceHttpSetResolveRetry(id: int32; count: int32): integer; cdecl; external;
+
+function sceHttpSetConnectTimeOut(id: int32; timeout: uint32): integer; cdecl; external;
+
+function sceHttpSetSendTimeOut(id: int32; timeout: uint32): integer; cdecl; external;
+
+function sceHttpSetRecvTimeOut(id: int32; timeout: uint32): integer; cdecl; external;
+
+function sceHttpEnableKeepAlive(id: int32): integer; cdecl; external;
+
+function sceHttpDisableKeepAlive(id: int32): integer; cdecl; external;
+
+function sceHttpEnableRedirect(id: int32): integer; cdecl; external;
+
+function sceHttpDisableRedirect(id: int32): integer; cdecl; external;
+
+function sceHttpEnableCookie(id: int32): integer; cdecl; external;
+
+function sceHttpDisableCookie(id: int32): integer; cdecl; external;
+
+function sceHttpSaveSystemCookie: integer; cdecl; external;
+
+function sceHttpLoadSystemCookie: integer; cdecl; external;
+
+function sceHttpAddExtraHeader(id: int32; name: Pchar; value: Pchar; unknown1: int32): integer; cdecl; external;
+
+function sceHttpDeleteHeader(id: int32; const name: Pchar): integer; cdecl; external;
+
+function sceHttpsInit(unknown1: int32; unknown2: int32; unknown3: int32; unknown4: int32): integer; cdecl; external;
+
+function sceHttpsEnd: integer; cdecl; external;
+
+function sceHttpsLoadDefaultCert(unknown1: int32; unknown2: int32): integer; cdecl; external;
 
 
-/**
- * Get http request response length.
- *
- * @param requestid - ID of the request created by sceHttpCreateRequest or sceHttpCreateRequestWithURL
- * @param contentlength - The size of the content
- * @return 0 on success, < 0 on error.
- */
-int sceHttpGetContentLength(int requestid, SceULong64 *contentlength);
-
-/**
- * Get http request status code.
- *
- * @param requestid - ID of the request created by sceHttpCreateRequest or sceHttpCreateRequestWithURL
- * @param statuscode - The status code from the host (200 is ok, 404 is not found etc)
- * @return 0 on success, < 0 on error.
- */
-int sceHttpGetStatusCode(int requestid, int *statuscode);
-
-/**
- * Set resolver timeout
- *
- * @param id - ID of the template or connection 
- * @param timeout - Timeout value in microseconds
- * @return 0 on success, < 0 on error.
- */
-int sceHttpSetResolveTimeOut(int id, unsigned int timeout);
-
-/**
- * Set resolver retry
- *
- * @param id - ID of the template or connection 
- * @param count - Number of retries
- * @return 0 on success, < 0 on error.
- */
-int sceHttpSetResolveRetry(int id, int count);
-
-/**
- * Set connect timeout
- *
- * @param id - ID of the template, connection or request 
- * @param timeout - Timeout value in microseconds
- * @return 0 on success, < 0 on error.
- */
-int sceHttpSetConnectTimeOut(int id, unsigned int timeout);
-
-/**
- * Set send timeout
- *
- * @param id - ID of the template, connection or request 
- * @param timeout - Timeout value in microseconds
- * @return 0 on success, < 0 on error.
- */
-int sceHttpSetSendTimeOut(int id, unsigned int timeout);
-
-/**
- * Set receive timeout
- *
- * @param id - ID of the template or connection 
- * @param timeout - Timeout value in microseconds
- * @return 0 on success, < 0 on error.
- */
-int sceHttpSetRecvTimeOut(int id, unsigned int timeout);
-
-/**
- * Enable keep alive
- *
- * @param id - ID of the template or connection 
- * @return 0 on success, < 0 on error.
- */
-int sceHttpEnableKeepAlive(int id);
-
-/**
- * Disable keep alive
- *
- * @param id - ID of the template or connection 
- * @return 0 on success, < 0 on error.
- */
-int sceHttpDisableKeepAlive(int id);
-
-/**
- * Enable redirect
- *
- * @param id - ID of the template or connection 
- * @return 0 on success, < 0 on error.
- */
-int sceHttpEnableRedirect(int id);
-
-/**
- * Disable redirect
- *
- * @param id - ID of the template or connection 
- * @return 0 on success, < 0 on error.
- */
-int sceHttpDisableRedirect(int id);
-
-/**
- * Enable cookie
- *
- * @param id - ID of the template or connection 
- * @return 0 on success, < 0 on error.
- */
-int sceHttpEnableCookie(int id);
-
-/**
- * Disable cookie
- *
- * @param id - ID of the template or connection 
- * @return 0 on success, < 0 on error.
- */
-int sceHttpDisableCookie(int id);
-
-/**
- * Save cookie
- *
- * @return 0 on success, < 0 on error.
- */
-int sceHttpSaveSystemCookie(void);
-
-/**
- * Load cookie
- *
- * @return 0 on success, < 0 on error.
- */
-int sceHttpLoadSystemCookie(void);
-
-/**
- * Add content header
- *
- * @param id - ID of the template, connection or request 
- * @param name - Name of the content
- * @param value - Value of the content
- * @param unknown1 - Pass 0
- * @return 0 on success, < 0 on error.
- */
-int sceHttpAddExtraHeader(int id, char *name, char *value, int unknown1);
-
-/**
- * Delete content header
- *
- * @param id - ID of the template, connection or request 
- * @param name - Name of the content
- * @return 0 on success, < 0 on error.
- */
-int sceHttpDeleteHeader(int id, const char *name);
-
-/**
- * Init the https library.
- *
- * @param unknown1 - Pass 0
- * @param unknown2 - Pass 0
- * @param unknown3 - Pass 0
- * @param unknown4 - Pass 0
- *
- * @return 0 on success, < 0 on error.
-*/
-int sceHttpsInit(int unknown1, int unknown2, int unknown3, int unknown4);
-
-/**
- * Terminate the https library
- *
- * @return 0 on success, < 0 on error.
-*/
-int sceHttpsEnd(void);
-
-/**
- * Load default certificate
- *
- * @param unknown1 - Pass 0
- * @param unknown2 - Pass 0
- * @return 0 on success, < 0 on error.
-*/
-int sceHttpsLoadDefaultCert(int unknown1, int unknown2);
 
 int sceHttpDisableAuth(int id);
 

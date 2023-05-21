@@ -1,11 +1,21 @@
-psphttp;
+unit psphttp;
 
 interface
  
 {$ifndef __PSPHTTP_H__}
 {$define __PSPHTTP_H__}
 
+uses
+  psptypes,
+  pspkerneltypes;
+
 type
+  Ppuint8 = ^Puint8;
+  
+  PSceBool = ^SceBool;
+  PSceSize = ^SceSize;
+  PsceULong64 = ^SceULong64;
+  
   PspHttpHttpVersion = (
     PSP_HTTP_VERSION_1_0,
 	  PSP_HTTP_VERSION_1_1
@@ -36,7 +46,7 @@ type
   PspHttpReallocFunction = function (p: pointer; size: SceSize): Ppointer;
   PspHttpFreeFunction    = function(p: pointer): pointer;
   
-  PspHttpPasswordCB  function(request: int32; auth_type: PspHttpAuthType; const Puint8 realm; Puint8: username; Puint8: password; need_entity: SceBool; entity_body: Ppuint8; entity_size: PSceSize; save: PSceBool): Pinteger;
+  PspHttpPasswordCB = function(request: int32; auth_type: PspHttpAuthType; const realm: Puint8; username: Puint8; password: Puint8; need_entity: SceBool; entity_body: Ppuint8; entity_size: PSceSize; save: PSceBool): Pinteger;
 
 
 function sceHttpInit(unknown1: uint32): int32; cdecl; external;
@@ -69,7 +79,7 @@ function sceHttpCreateConnection(templateid: int32; host: Pchar; unknown1: Pchar
  * @param unknown1 - Pass 0
  * @return A connection ID on success, < 0 on error.
  *)
-function sceHttpCreateConnectionWithURL(templateid: int32; const url: Pchar; unknown1; int32): integer; cdecl; external;
+function sceHttpCreateConnectionWithURL(templateid: int32; const url: Pchar; unknown1: int32): integer; cdecl; external;
 
 function sceHttpDeleteConnection(connectionid: int32): integer; cdecl; external;
 
@@ -79,7 +89,7 @@ function sceHttpCreateRequestWithURL(connectionid: int32; method: PspHttpMethod;
 
 function sceHttpDeleteRequest(requestid: int32): integer; cdecl; external;
 
-function sceHttpSendRequest(requestid: int32; data: pointer; datasize: uint9): integer; cdecl; external;
+function sceHttpSendRequest(requestid: int32; data: pointer; datasize: uint8): integer; cdecl; external;
 
 function sceHttpAbortRequest(requestid: int32): integer; cdecl; external;
 
@@ -125,36 +135,34 @@ function sceHttpsEnd: integer; cdecl; external;
 
 function sceHttpsLoadDefaultCert(unknown1: int32; unknown2: int32): integer; cdecl; external;
 
+function sceHttpDisableAuth(id: int32): integer; cdecl; external;
 
+function sceHttpDisableCache(id: int32): integer; cdecl; external;
 
-int sceHttpDisableAuth(int id);
+function sceHttpEnableAuth(id: int32): integer; cdecl; external;
 
-int sceHttpDisableCache(int id);
+function sceHttpEnableCache(id: int32): integer; cdecl; external;
 
-int sceHttpEnableAuth(int id);
+function sceHttpEndCache: integer; cdecl; external;
 
-int sceHttpEnableCache(int id);
+function sceHttpGetAllHeader(request: int32; header: Ppuint8; header_size: Puint32): integer; cdecl; external;
 
-int sceHttpEndCache(void);
+function sceHttpGetNetworkErrno(request: int32; err_num: Pint32): integer; cdecl; external;
 
-int sceHttpGetAllHeader(int request, unsigned char **header, unsigned int *header_size);
+function sceHttpGetProxy(id: int32; activate_flag: Pint32; mode: Pint32; proxy_host: Pchar; len: SceSize; proxy_port: Puint16): integer; cdecl; external;
 
-int sceHttpGetNetworkErrno(int request, int *err_num);
+function sceHttpInitCache(max_size: SceSize): integer; cdecl; external;
 
-int sceHttpGetProxy(int id, int *activate_flag, int *mode, unsigned char *proxy_host, SceSize len, unsigned short *proxy_port);
+function sceHttpSetAuthInfoCB(id: int32; cbfunc: PspHttpPasswordCB): integer; cdecl; external;
 
-int sceHttpInitCache(SceSize max_size);
+function sceHttpSetProxy(id: int32; activate_flag: int32; mode: int32; const new_proxy_host: Puint8; new_proxy_port: uint16): integer; cdecl; external;
 
-int sceHttpSetAuthInfoCB(int id, PspHttpPasswordCB cbfunc);
+function sceHttpSetResHeaderMaxSize(id: int32; header_size: uint32): integer; cdecl; external;
 
-int sceHttpSetProxy(int id, int activate_flag, int mode, const unsigned char *new_proxy_host, unsigned short new_proxy_port);
+function sceHttpSetMallocFunction(malloc_func: PspHttpMallocFunction; free_func: PspHttpFreeFunction; realloc_func: PspHttpreallocFunction): integer; cdecl; external;
 
-int sceHttpSetResHeaderMaxSize(int id, unsigned int header_size);
+{$endif}
 
-int sceHttpSetMallocFunction(PspHttpMallocFunction malloc_func, PspHttpFreeFunction free_func, PspHttpReallocFunction realloc_func);
+implementation
 
-#if defined(__cplusplus)
-};
-#endif
-
-#endif
+end.

@@ -6,8 +6,8 @@ interface
 {$define __PSPOPENPSID_H__}
 
 type
-  PpspOpenPSID = ^PspOpenPSID;
-  PspOpenPSID  = record
+  PpspOpenPSID = ^TPspOpenPSID;
+  TPspOpenPSID  = record
     data : array[0..15] of char;
   end;
 

@@ -55,7 +55,7 @@ function sceNetAdhocPtpRecv(id: int32; data: pointer; datasize: Pinteger; timeou
 
 function sceNetAdhocPtpFlush(id: int32; timeout: uint32; nonblock: int32): integer; cdecl; external;
 
-function sceNetAdhocPtpClose(id: int32; unk1: int32): integer; cdecl; external;s
+function sceNetAdhocPtpClose(id: int32; unk1: int32): integer; cdecl; external;
 
 type
   PptpStatStruct = ^ptpStatStruct;

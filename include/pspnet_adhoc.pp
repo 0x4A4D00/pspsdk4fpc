@@ -29,6 +29,49 @@ type
 
 function sceNetAdhocGetPdpStat(size: Pinteger; stat: PpdpStatRecord): integer; cdecl; external;
 
+function sceNetAdhocGameModeCreateMaster(data: pointer; size: int32): integer; cdecl; external;
+
+function sceNetAdhocGameModeCreateReplica(mac: Pchar; data: pointer; size: int32): integer; cdecl; external;
+
+function sceNetAdhocGameModeUpdateMaster: integer; cdecl; external;
+
+function sceNetAdhocGameModeUpdateReplica(id: int32; unk1: int32): integer; cdecl; external;
+
+function sceNetAdhocGameModeDeleteMaster: integer; cdecl; external;
+
+function sceNetAdhocGameModeDeleteReplica(id: int32): integer; cdecl; external;
+
+function sceNetAdhocPtpOpen(srcmac: Pchar; srcport: uint16; destmac: Pchar; destport: uint16; bufsize: uint16; delay: uint16; count: int32; ukn1: int32): integer; cdecl; external; 
+
+function sceNetAdhocPtpConnect(id: int32; timeout: uint32; nonblock: int32): integer; cdecl; external;
+
+function sceNetADhocPtpListen(srcmac: Pchar; srcport: uint16; bufsize: uint32; delay: uint32; count: int32; queue: int32; unk1: int32): integer; cdecl; external;
+
+function sceNetAdhocPtpAccept(id: int32; mac: Pchar; port: uint16; timeout: uint32; nonblock: int32): integer; cdecl; external;
+
+function sceNetAdhocPtpSend(id: int32; data: pointer; datasize: Pinteger; timeout: uint32; nonblock: int32): integer; cdecl; external;
+
+function sceNetAdhocPtpRecv(id: int32; data: pointer; datasize: Pinteger; timeout: uint32; nonblock: int32): integer; cdecl; external;
+
+function sceNetAdhocPtpFlush(id: int32; timeout: uint32; nonblock: int32): integer; cdecl; external;
+
+function sceNetAdhocPtpClose(id: int32; unk1: int32): integer; cdecl; external;s
+
+type
+  PptpStatStruct = ^ptpStatStruct;
+  ptpStatStruct  = record
+    ptpId    : int32;
+    mac      : array[0..5] of char;
+    peermac  : array[0..5] of char;
+    port     : uint16;
+    peerport : uint16;
+    sentData : uint32;
+    rcvdData : uint32;
+    unk1     : int32;  
+  end;
+
+function sceNetAdhocGetPtpStat(size: Pinteger; stat: PptpStatStruct): integer; cdecl; external;
+
 {$endif}
 
 implementation

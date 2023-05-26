@@ -48,153 +48,38 @@ function vfpu_coshf(x: single): single; cdecl; external;
 
 function vfpu_tanhf(x: single): single; cdecl; external;
 
+procedure vfpu_sincos(r: single; s: Psingle; c: Psingle); cdecl; external;
 
+function vfpu_expf(x: single): single; cdecl; external;
 
-/**
-  * Calculate sine and cosine
-  *
-  * @param r - input in radians
-  * @param s - pointer to float for sin
-  * @param c - pointer to float for cos
-**/
-void vfpu_sincos(float r, float *s, float *c);
+function vfpu_logf(x: single): single; cdecl; external;
 
-/**
-  * Calculate exponent of x
-  *
-  * @param x - input
-  *
-**/
-float vfpu_expf(float x);
+function vfpu_powf(x: single; y: single): single; cdecl; external;
 
-/**
-  * Calculate logarithm of x
-  *
-  * @param x - input
-  *
-**/
-float vfpu_logf(float x);
+function vfpu_fmodf(x: single; y: single): single; cdecl; external;
 
-/**
-  * Calculate x raised to the power of y
-  *
-  * @param x - number to raise power of
-  * @param y - power to raise x by
-  *
-**/
-float vfpu_powf(float x, float y);
+function vfpu_ease_in_out(t: single): single; cdecl; external;
 
-/**
-  * Calculate floating point remainder of x/y
-  *
-  * @param x - input
-  * @param y - input
-  *
-**/
-float vfpu_fmodf(float x, float y);
+procedure vfpu_normalize_vector(v: PscePspFVerctor4); cdecl; external;
 
-/**
-  * Perform a smooth acceleration/deceleration curve based on the input time value
-  * returns 0 to 1
-  *
-  * @param t - input (0 to 1 float)
-  *
-**/
-float vfpu_ease_in_out(float t);
+procedure vfpu_zero_vector(v: PscePspFVector4); cdecl; external;
 
+procedure vfpu_scale_vector(vout: PscePspFVector4; vin: PscePspFVector4; scale: single); cdecl; external;
 
-/**
-  * Normalize a 3d vector, returning a unit vector of length = 1
-  *
-  * @param v - pointer to vector to normalize
-  *
-**/
-void vfpu_normalize_vector(ScePspFVector4 *v);
+procedure vfpu_add_vector(vout: PscePspFVector4; va: PscePspFVector4; vb: PscePspFVector4); cdecl; external;
 
-/**
-  * Zero a 3d vector
-  *
-  * @param v - pointer to vector
-  *
-**/
-void vfpu_zero_vector(ScePspFVector4 *v);
+procedure vfpu_envmap_matrix(envmat: PscePspFVector4; r: single); cdecl; external;
 
-/**
-  * Scale a 3d vector
-  *
-  * @param vout  - pointer to result vector
-  * @param vin   - pointer to vector to scale
-  * @param scale - float value to scale vector by
-  *
-**/
-void vfpu_scale_vector(ScePspFVector4 *vout, ScePspFVector4 *vin, float scale);
+procedure vfpu_transform_vector(m: PscePspFMatrix4; vin: PscePspFVector4; vout: PscePspFVector4); cdecl; external;
 
-/**
-  * Add 2 3d vectors
-  *
-  * @param vout - pointer to result vector
-  * @param va   - pointer to first vector to add
-  * @param vb   - pointer to second vector to add
-**/
-void vfpu_add_vector(ScePspFVector4 *vout, ScePspFVector4 *va, ScePspFVector4 *vb);
+procedure vfpu_sphere_to_cartesian(az: single; ze: single; rad: single; x: Psingle; y: Psingle; z: Psingle); cdecl; external;
 
+procedure vfpu_quaternion_identity(q: PscePspQuatMatrix); cdecl; external;
 
-/**
-  * Generate rotation matrix for environment map.
-  *
-  * @param envmat - pointer to array of 2 vectors to store envmap matrix
-  * @param r      - angle to rotate in radians
-**/
-void vfpu_envmap_matrix(ScePspFVector4 *envmat, float r);
+procedure vfpu_quaternion_copy(dst: PscePspQuatMatrix; src: PscePspQuatMatrix); cdecl; external;
 
-/**
-  * Transform 3d vector by 4x4 matrix
-  *
-  * @param m    - pointer to transformation matrix
-  * @param vin  - pointer to vector to transform
-  * @param vout - pointer to result vector
-**/
-void vfpu_transform_vector(ScePspFMatrix4 *m, ScePspFVector4 *vin, ScePspFVector4 *vout);
+procedure vfpu_quaternion_normalize(res: PscePspQuatMatrix); cdecl; external;
 
-/**
-  * Convert input sphere coordinates to cartesian coordinates
-  *
-  * @param az  - azimuth angle (0 to PI*2)
-  * @param ze  - zenith angle (0 to PI)
-  * @param rad - sphere radius
-  * @param x   - pointer to float for x coordinate
-  * @param y   - pointer to float for y coordinate
-  * @param z   - pointer to float for z coordinate
-  *
-**/
-void vfpu_sphere_to_cartesian(float az, float ze, float rad, float *x, float *y, float *z);
-
-/**
-  * Generate an identity quaternion
-  *
-  * @param q - pointer to quaternion
-  *
-  * this will set the quaternion's components to 0,0,0,1
-  *
-**/
-void vfpu_quaternion_identity(ScePspQuatMatrix *q);
-
-/**
-  * Copy a quaternion
-  *
-  * @param dst - pointer to quaternion to copy to
-  * @param src - pointer to quaternion to copy from
-  *
-**/
-void vfpu_quaternion_copy(ScePspQuatMatrix *dst, ScePspQuatMatrix *src);
-
-/**
-  * Normalize a quaternion
-  *
-  * @param res - pointer to quaternion to normalize
-  *
-**/
-void vfpu_quaternion_normalize(ScePspQuatMatrix *res);
 
 /**
   * Multiply 2 quaternions

@@ -80,93 +80,24 @@ procedure vfpu_quaternion_copy(dst: PscePspQuatMatrix; src: PscePspQuatMatrix); 
 
 procedure vfpu_quaternion_normalize(res: PscePspQuatMatrix); cdecl; external;
 
+procedure vfpu_quaternion_multiply(qout: PscePspQuatMatrix; a: PscePspQuatMatrix; b: PscePspQuatMatrix); cdecl; external;
 
-/**
-  * Multiply 2 quaternions
-  *
-  * @param qout - pointer to result quaternion
-  * @param a    - pointer to first quaternion to multiply
-  * @param b    - pointer to second quaternion to multiply
-  *
-**/
-void vfpu_quaternion_multiply(ScePspQuatMatrix *qout, ScePspQuatMatrix *a, ScePspQuatMatrix *b);
+procedure vfpu_quaternion_from_euler(qout: PscePspQuatMatrix; rx: single; ry: single; rz: single); cdecl; external;
 
-/**
-  * Make a quaternion from euler angles
-  *
-  * @param qout - pointer to output quaternion
-  * @param rx   - rotation on x axis, in degrees
-  * @param ry   - rotation on y axis, in degrees
-  * @param rz   - rotation on z axis, in degrees
-**/
-void vfpu_quaternion_from_euler(ScePspQuatMatrix *qout, float rx, float ry, float rz);
+procedure vfpu_quaternion_exp(qout: PscePspQuatMatrix; qin: PscePspQuatMatrix); cdecl; external;
 
-/**
-  * Calculate exponent of a quaternion
-  *
-  * @param qout - pointer to output quaternion
-  * @param qin  - pointer to input quaternion
-  *
-**/
-void vfpu_quaternion_exp(ScePspQuatMatrix *qout, ScePspQuatMatrix *qin);
+procedure vfpu_quaternion_ln(qout:PscePspQuatMatrix; qin: PscePspQuatMatrix); cdecl; external;
 
-/**
-  * Calculate logarithm of a quaternion
-  *
-  * @param qout - pointer to output quaternion
-  * @param qin  - pointer to input quaternion
-  *
-**/
-void vfpu_quaternion_ln(ScePspQuatMatrix *qout, ScePspQuatMatrix *qin);
+procedure vfpu_quaternion_sample_linear(qout: PscePspQuatMatrix; a: PscePspQuatMatrix; b: PscePspQuatMatrix; t: single); cdecl; external;
 
-/**
-  * Return a sample from a linear interpolation of 2 quaternions
-  *
-  * @param qout - pointer to output quaternion
-  * @param a    - pointer to starting quaternion
-  * @param b    - pointer to ending quaternion
-  * @param t    - time value to sample, from 0 to 1
-  *
-**/
-void vfpu_quaternion_sample_linear(ScePspQuatMatrix *qout, ScePspQuatMatrix *a, ScePspQuatMatrix *b, float t);
+procedure vfpu_quaternion_sample_hermite(qout: PscePspQuatMatrix; a: PscePspQuatMatrix; b: PscePspQuatMatrix; at: PscePspQuatMatrix; bt: PscePspQuatMatrix; t: single); cdecl; external;
 
-/**
-  * Return a sample from a hermite spline interpolation
-  *
-  * @param qout - pointer to output quaternion
-  * @param a    - pointer to start quaternion
-  * @param b    - pointer to end quaternion
-  * @param at   - pointer to tangent point for quaternion a
-  * @param bt   - pointer to tangent point for quaternion b
-  * @param t    - time value to sample, from 0 to 1
-  *
-**/
-void vfpu_quaternion_sample_hermite(ScePspQuatMatrix *qout, ScePspQuatMatrix *a, ScePspQuatMatrix *b, ScePspQuatMatrix *at, ScePspQuatMatrix *bt, float t);
+procedure vfpu_quaternion_hermite_tangent(qout: PscePspQuatMatrix; p1: PscePspQuatMatrix; p2: PscePspQuatMatrix; bias: single); cdecl; external;
 
-/**
-  * Return a tangent point for hermite spline interpolation
-  *
-  * @param qout - pointer to output quaternion
-  * @param p1   - pointer to p-1 on spline curve for tangent
-  * @param p2   - pointer to p+1 on spline curve for tangent
-  * @param bias - value to scale difference between endpoints.
-  *               for example, 0.5 results in a catmull-rom spline tangent
-  *
-**/
+procedure vfpu_quaternion_to_matrix(q: PscePspQuatMatrix; m: PscePspFMatrix4); cdecl; external;
 
-void vfpu_quaternion_hermite_tangent(ScePspQuatMatrix *qout, ScePspQuatMatrix *p1, ScePspQuatMatrix *p2, float bias);
+{$endif} 
 
-/**
-  * Convert quaternion to rotation matrix
-  *
-  * @param q - pointer to input quaternion
-  * @param m - pointer to output matrix
-  *
-**/
-void vfpu_quaternion_to_matrix(ScePspQuatMatrix *q, ScePspFMatrix4 *m);
+implementation
 
-#if defined(__cplusplus)
-}
-#endif
-
-#endif
+end.

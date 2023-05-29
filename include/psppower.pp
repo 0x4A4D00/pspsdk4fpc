@@ -8,13 +8,6 @@ interface
 uses
   pspkerneltypes;
 
-
-
-
-/**
- * Power callback flags
- */
- /*indicates the power switch it pushed, putting the unit into suspend mode*/
 {$define PSP_POWER_CB_POWER_SWITCH	  := $80000000}
 {$define PSP_POWER_CB_HOLD_SWITCH	    := $40000000}
 {$define PSP_POWER_CB_STANDBY		      := $00080000}
@@ -59,138 +52,42 @@ function scePowerGetBatteryElec: integer; cdecl; external;
 
 function scePowerGetBatteryVolt: integer; cdecl; external;
 
+function scePowerSetCpuClockFrequency(cpufreq: int32): integer; cdecl; external;
 
-/**
- * Set CPU Frequency
- * @param cpufreq - new CPU frequency, valid values are 1 - 333
- */
-int scePowerSetCpuClockFrequency(int cpufreq);
+function scePowerSetBusClockFrequency(busfreq: int32): integer; cdecl; external;
 
-/**
- * Set Bus Frequency
- * @param busfreq - new BUS frequency, valid values are 1 - 167
- */
-int scePowerSetBusClockFrequency(int busfreq);
+function scePowerGetCpuClockFrequency: integer; cdecl; external;
 
-/**
- * Alias for scePowerGetCpuClockFrequencyInt
- * @return frequency as int
- */
-int scePowerGetCpuClockFrequency(void);
+function scePowerGetCpuClockFrequencyInt: integer; cdecl; external;
 
-/**
- * Get CPU Frequency as Integer
- * @return frequency as int
- */
-int scePowerGetCpuClockFrequencyInt(void);
+function scePowerGetCpuClockFrequencyFloat: single; cdecl; external;
 
-/**
- * Get CPU Frequency as Float
- * @return frequency as float
- */
-float scePowerGetCpuClockFrequencyFloat(void);
+function scePowerGetBusClockFrequency: integer; cdecl; external;
 
-/**
- * Alias for scePowerGetBusClockFrequencyInt
- * @return frequency as int
- */
-int scePowerGetBusClockFrequency(void);
+function scePowerGetBusClockFrequencyInt: integer; cdecl; external;
 
-/**
- * Get Bus fequency as Integer
- * @return frequency as int
- */
-int scePowerGetBusClockFrequencyInt(void);
+function scePowerGetBusClockFrequencyFloat: single; cdecl; external;
 
-/**
- * Get Bus frequency as Float
- * @return frequency as float
- */
-float scePowerGetBusClockFrequencyFloat(void);
+function scePowerSetClockFrequency(pllfreq: int32; cpufreq: int32; busfreq: int32): integer; cdecl; external;
 
-/**
- * Set Clock Frequencies
- *
- * @param pllfreq - pll frequency, valid from 19-333
- * @param cpufreq - cpu frequency, valid from 1-333
- * @param busfreq - bus frequency, valid from 1-167
- * 
- * and:
- * 
- * cpufreq <= pllfreq
- * busfreq*2 <= pllfreq
- *
- */
-int scePowerSetClockFrequency(int pllfreq, int cpufreq, int busfreq);
+function scePowerLock(unknown: int32): integer; cdecl; external;
 
-/**
- * Lock power switch
- *
- * Note: if the power switch is toggled while locked
- * it will fire immediately after being unlocked.
- *
- * @param unknown - pass 0
- *
- * @return 0 on success, < 0 on error.
- */
-int scePowerLock(int unknown);
+function scePowerUnlock(unknown: int32): integer; cdecl; external;
 
-/**
- * Unlock power switch
- *
- * @param unknown - pass 0
- *
- * @return 0 on success, < 0 on error.
- */
-int scePowerUnlock(int unknown);
+function scePowerTick(atype: int32): integer; cdecl; external;
 
-/**
- * Generate a power tick, preventing unit from 
- * powering off and turning off display.
- *
- * @param type - Either PSP_POWER_TICK_ALL, PSP_POWER_TICK_SUSPEND or PSP_POWER_TICK_DISPLAY
- *
- * @return 0 on success, < 0 on error.
- */
-int scePowerTick(int type);
+function scePowerGetIdleTimer: integer; cdecl; external;
 
-/**
- * Get Idle timer
- *
- */
-int scePowerGetIdleTimer(void);
+function scePowerIdleTimerEnable(unknown: int32): integer; cdecl; external;
 
-/**
- * Enable Idle timer
- *
- * @param unknown - pass 0
- */
-int scePowerIdleTimerEnable(int unknown);
+function scePowerIdleTimerDisable(unknown: int32): integer; cdecl; external;
 
-/**
- * Disable Idle timer
- *
- * @param unknown - pass 0
- */
-int scePowerIdleTimerDisable(int unknown);
+function scePowerRequestStandby: integer; cdecl; external;
 
-/**
- * Request the PSP to go into standby
- *
- * @return 0 always
- */
-int scePowerRequestStandby(void);
+function scePowerRequestSuspend: integer; cdecl; external;
 
-/**
- * Request the PSP to go into suspend
- *
- * @return 0 always
- */
-int scePowerRequestSuspend(void);
+{$endif}
 
+implementation
 
-#ifdef __cplusplus
-}
-#endif
-
-#endif
+end.

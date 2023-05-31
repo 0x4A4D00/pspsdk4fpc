@@ -10,6 +10,7 @@ uses
 
 type
   SceMpeg = ScePVoid;
+  PSceMpeg = ^SceMpeg;
   
   PsceMpegStream = ScePVoid;
   
@@ -59,139 +60,35 @@ procedure sceMpegFinish; cdecl; external;
 
 function sceMpegRingbufferQueryMemSize(iPackets: SceInt32): SceInt32; cdecl; external;
 
+function sceMpegRingbufferConstruct(Ringbuffer: PsceMpegRingbuffer; iPackets: SceInt32; pData: ScePVoid; iSize: SceInt32; Callback: sceMpegRingbufferCB; pCBparam: ScePVoid): SceInt32; cdecl; external;
+
+procedure sceMpegRingbufferDestruct(Ringbuffer: PsceMpegRingbuffer); cdecl; external;
+
+function sceMpegRingbufferAvailableSize(Ringbuffer: PsceMpegRingbuffer): SceInt32; cdecl; external;
+
+function sceMpegRingbufferPut(Ringbuffer: PsceMpegRingbuffer; iNumPackets: SceInt32; iAvailable: SceInt32): SceInt32; cdecl; external;
+
+function sceMpegQueryMemSize(iUnk: int32): SceInt32; cdecl; external;
+
+function sceMpegCreate(Mpeg: PsceMpeg; pData: ScePVoid; iSize: SceInt32; Ringbuffer: PsceMpegRingbuffer; iFrameWidth: SceInt32; iUnk1: SceInt32; iUnk2: SceInt32): SceInt32; cdecl; external;
+
+procedure sceMpegDelete(Mpeg: PsceMpeg); cdecl; external;
+
+function sceMpegQueryStreamOffset(Mpeg: PsceMpeg; pBuffer: ScePVoid; iOffset: Pinteger): SceInt32; cdecl; external;
+
+function sceMpegQueryStreamSize(pBuffer: ScePVoid; iSize: Pinteger): SceInt32; cdecl; external;
+
+function sceMpegRegistStream(Mpeg: PSceMpeg; iStreamID: SceInt32; iUnk: SceInt32): PsceMpegStream; cdecl; external;
+
+procedure sceMpegUnRegistStream(Mpeg: SceMpeg; pStream: PsceMpegStream); cdecl; external;
+
+function sceMpegFlushAllStream(Mpeg: PsceMpeg): SceInt32; cdecl; external;
+
+function sceMpegMallocAvcEsBuf(Mpeg: PsceMpeg): ScePVoid; cdecl; external;
+
+procedure sceMpegFreeAvcEsBuf(Mpeg: PsceMpeg; pBuf: ScePVoid); cdecl; external;
 
 
-/**
- * sceMpegRingbufferConstruct
- *
- * @param Ringbuffer - pointer to a sceMpegRingbuffer struct
- * @param iPackets - number of packets in the ringbuffer
- * @param pData - pointer to allocated memory
- * @param iSize - size of allocated memory, shoud be sceMpegRingbufferQueryMemSize(iPackets)
- * @param Callback - ringbuffer callback
- * @param pCBparam - param passed to callback
- *
- * @return 0 if success.
- */
-SceInt32 sceMpegRingbufferConstruct(SceMpegRingbuffer* Ringbuffer, SceInt32 iPackets, ScePVoid pData, SceInt32 iSize, sceMpegRingbufferCB Callback, ScePVoid pCBparam);
-
-/**
- * sceMpegRingbufferDestruct
- *
- * @param Ringbuffer - pointer to a sceMpegRingbuffer struct
- */
-SceVoid sceMpegRingbufferDestruct(SceMpegRingbuffer* Ringbuffer);
-
-/**
- * sceMpegQueryMemSize 
- *
- * @param Ringbuffer - pointer to a sceMpegRingbuffer struct
- *
- * @return < 0 if error else number of free packets in the ringbuffer.
- */
-SceInt32 sceMpegRingbufferAvailableSize(SceMpegRingbuffer* Ringbuffer);
-
-/**
- * sceMpegRingbufferPut
- *
- * @param Ringbuffer - pointer to a sceMpegRingbuffer struct
- * @param iNumPackets - num packets to put into the ringbuffer
- * @param iAvailable - free packets in the ringbuffer, should be sceMpegRingbufferAvailableSize()
- *
- * @return < 0 if error else number of packets.
- */
-SceInt32 sceMpegRingbufferPut(SceMpegRingbuffer* Ringbuffer, SceInt32 iNumPackets, SceInt32 iAvailable);
-
-/**
- * sceMpegQueryMemSize
- *
- * @param iUnk - Unknown, set to 0
- *
- * @return < 0 if error else decoder data size.
- */
-SceInt32 sceMpegQueryMemSize(int iUnk);
-
-/**
- * sceMpegCreate
- *
- * @param Mpeg - will be filled
- * @param pData - pointer to allocated memory of size = sceMpegQueryMemSize()
- * @param iSize - size of data, should be = sceMpegQueryMemSize()
- * @param Ringbuffer - a ringbuffer
- * @param iFrameWidth - display buffer width, set to 512 if writing to framebuffer
- * @param iUnk1 - unknown, set to 0
- * @param iUnk2 - unknown, set to 0
- *
- * @return 0 if success.
- */
-SceInt32 sceMpegCreate(SceMpeg* Mpeg, ScePVoid pData, SceInt32 iSize, SceMpegRingbuffer* Ringbuffer, SceInt32 iFrameWidth, SceInt32 iUnk1, SceInt32 iUnk2);
-
-/**
- * sceMpegDelete
- *
- * @param Mpeg - SceMpeg handle
- */
-SceVoid sceMpegDelete(SceMpeg* Mpeg);
-
-/**
- * sceMpegQueryStreamOffset
- *
- * @param Mpeg - SceMpeg handle
- * @param pBuffer - pointer to file header
- * @param iOffset - will contain stream offset in bytes, usually 2048
- *
- * @return 0 if success.
- */
-SceInt32 sceMpegQueryStreamOffset(SceMpeg* Mpeg, ScePVoid pBuffer, SceInt32* iOffset);
-
-/**
- * sceMpegQueryStreamSize
- *
- * @param pBuffer - pointer to file header
- * @param iSize - will contain stream size in bytes
- *
- * @return 0 if success.
- */
-SceInt32 sceMpegQueryStreamSize(ScePVoid pBuffer, SceInt32* iSize);
-
-/**
- * sceMpegRegistStream
- *
- * @param Mpeg - SceMpeg handle
- * @param iStreamID - stream id, 0 for video, 1 for audio
- * @param iUnk - unknown, set to 0
- *
- * @return 0 if error.
- */
-SceMpegStream* sceMpegRegistStream(SceMpeg* Mpeg, SceInt32 iStreamID, SceInt32 iUnk);
-
-/**
- * sceMpegUnRegistStream
- *
- * @param Mpeg - SceMpeg handle
- * @param pStream - pointer to stream
- */
-SceVoid sceMpegUnRegistStream(SceMpeg Mpeg, SceMpegStream* pStream);
-
-/**
- * sceMpegFlushAllStreams
- *
- * @return 0 if success.
- */
-SceInt32 sceMpegFlushAllStream(SceMpeg* Mpeg);
-
-/**
- * sceMpegMallocAvcEsBuf
- *
- * @return 0 if error else pointer to buffer.
- */
-ScePVoid sceMpegMallocAvcEsBuf(SceMpeg* Mpeg);
-
-/**
- * sceMpegFreeAvcEsBuf
- *
- */
-SceVoid sceMpegFreeAvcEsBuf(SceMpeg* Mpeg, ScePVoid pBuf);
 
 /**
  * sceMpegQueryAtracEsSize

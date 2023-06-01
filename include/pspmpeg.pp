@@ -40,8 +40,6 @@ type
       iAuSize   : SceUInt32;
     end;
 
-
-
 {$define SCE_MPEG_AVC_FORMAT_DEFAULT := -1}
 {$define SCE_MPEG_AVC_FORMAT_5650    := 0}
 {$define SCE_MPEG_AVC_FORMAT_5551    := 1}
@@ -88,102 +86,24 @@ function sceMpegMallocAvcEsBuf(Mpeg: PsceMpeg): ScePVoid; cdecl; external;
 
 procedure sceMpegFreeAvcEsBuf(Mpeg: PsceMpeg; pBuf: ScePVoid); cdecl; external;
 
+function sceMpegQueryAtracEsSize(Mpeg: PsceMpeg; iEsSize: Pinteger; iOutSize: Pinteger): SceInt32; cdecl; external;
 
+function sceMpegInitAu(Mpeg: PsceMpeg; pEsBuffer: ScePVoid; pAu: PsceMpegAu): SceInt32; cdecl; external;
 
-/**
- * sceMpegQueryAtracEsSize
- *
- * @param Mpeg - SceMpeg handle
- * @param iEsSize - will contain size of Es
- * @param iOutSize - will contain size of decoded data
- *
- * @return 0 if success.
- */
-SceInt32 sceMpegQueryAtracEsSize(SceMpeg* Mpeg, SceInt32* iEsSize, SceInt32* iOutSize);
+function sceMpegGetAvcAu(Mpeg: PsceMpeg; pStream: PsceMpegStream; pAu: PsceMpegAu; iUnk: Pinteger): SceInt32; cdecl; external;
 
-/**
- * sceMpegInitAu
- *
- * @param Mpeg - SceMpeg handle
- * @param pEsBuffer - prevously allocated Es buffer
- * @param pAu - will contain pointer to Au
- *
- * @return 0 if success.
- */
-SceInt32 sceMpegInitAu(SceMpeg* Mpeg, ScePVoid pEsBuffer, SceMpegAu* pAu);
+function sceMpegAvcDecodeMode(Mpeg: PsceMpeg; pMode: PsceMpegAvcMode): SceInt32; cdecl; external;
 
-/**
- * sceMpegGetAvcAu
- *
- * @param Mpeg - SceMpeg handle
- * @param pStream - associated stream
- * @param pAu - will contain pointer to Au
- * @param iUnk - unknown
- *
- * @return 0 if success.
- */
-SceInt32 sceMpegGetAvcAu(SceMpeg* Mpeg, SceMpegStream* pStream, SceMpegAu* pAu, SceInt32* iUnk);
+function sceMpegAvcDecode(Mpeg: PsceMpeg; pAu: PsceMpegAu; iFrameWidth: SceInt32; pBuffer: ScePVoid; iInit: Pinteger): SceInt32; cdecl; external;
 
-/**
- * sceMpegAvcDecodeMode
- *
- * @param Mpeg - SceMpeg handle
- * @param pMode - pointer to SceMpegAvcMode struct defining the decode mode (pixelformat)
- * @return 0 if success.
- */
-SceInt32 sceMpegAvcDecodeMode(SceMpeg* Mpeg, SceMpegAvcMode* pMode);
+function sceMpegAvcDecodeStop(Mpeg: PsceMpeg; iFrameWidth: SceInt32; pBuffer: ScePVoid; iStatus: Pinteger): SceInt32; cdecl; external;
 
-/**
- * sceMpegAvcDecode
- *
- * @param Mpeg - SceMpeg handle
- * @param pAu - video Au
- * @param iFrameWidth - output buffer width, set to 512 if writing to framebuffer
- * @param pBuffer - buffer that will contain the decoded frame
- * @param iInit - will be set to 0 on first call, then 1
- *
- * @return 0 if success.
- */
-SceInt32 sceMpegAvcDecode(SceMpeg* Mpeg, SceMpegAu* pAu, SceInt32 iFrameWidth, ScePVoid pBuffer, SceInt32* iInit);
+function sceMpegGetAtracAu(Mpeg: PsceMpeg; pStream: PsceMpegStream; pAu: PsceMpegAu; pUnk: ScePVoid): SceInt32; cdecl; external;
 
-/**
- * sceMpegAvcDecodeStop
- *
- * @param Mpeg - SceMpeg handle
- * @param iFrameWidth - output buffer width, set to 512 if writing to framebuffer
- * @param pBuffer - buffer that will contain the decoded frame
- * @param iStatus - frame number
- *
- * @return 0 if success.
- */
-SceInt32 sceMpegAvcDecodeStop(SceMpeg* Mpeg, SceInt32 iFrameWidth, ScePVoid pBuffer, SceInt32* iStatus);
+function sceMpegAtracDecode(Mpeg: PsceMpeg; pAu: PsceMpegAu; pBuffer: ScePVoid; iInit: SceInt32): SceInt32; cdecl; external;
 
-/**
- * sceMpegGetAtracAu
- *
- * @param Mpeg - SceMpeg handle
- * @param pStream - associated stream
- * @param pAu - will contain pointer to Au
- * @param pUnk - unknown
- *
- * @return 0 if success.
- */
-SceInt32 sceMpegGetAtracAu(SceMpeg* Mpeg, SceMpegStream* pStream, SceMpegAu* pAu, ScePVoid pUnk);
+{$endif}
 
-/**
- * sceMpegAtracDecode
- *
- * @param Mpeg - SceMpeg handle
- * @param pAu - video Au
- * @param pBuffer - buffer that will contain the decoded frame
- * @param iInit - set this to 1 on first call
- *
- * @return 0 if success.
- */
-SceInt32 sceMpegAtracDecode(SceMpeg* Mpeg, SceMpegAu* pAu, ScePVoid pBuffer, SceInt32 iInit);
+implementation
 
-#ifdef __cplusplus
-}
-#endif
-
-#endif
+end.

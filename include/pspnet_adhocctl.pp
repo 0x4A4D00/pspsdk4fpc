@@ -38,7 +38,8 @@ type
     macs  : array[0..15,0..5] of char;
   end;
   
-  SceNetAdhocctlParams = record
+  PsceNetAdhocctlParams = ^SceNetAdhocctlParams;
+  SceNetAdhocctlParams  = record
     channel  : int32;
     name     : array[0..7] of char;
     bssid    : array[0..5] of char;
@@ -63,7 +64,7 @@ function sceNetAdhocctlGetAdhocId(product: PproductStruct): integer; cdecl; exte
 
 function sceNetAdhocctlCreateEnterGameMode(const name: Pchar; unknown: int32; num: int32; macs: Pchar; timeout: uint32; unknown2: int32): integer; cdecl; external;
 
-function sceNetADhocctlJoinEnterGameMode(const name: Pchar; hostmac: Pchar; timeout: uint32; unknown: int32) integer; cdecl; external;
+function sceNetADhocctlJoinEnterGameMode(const name: Pchar; hostmac: Pchar; timeout: uint32; unknown: int32): integer; cdecl; external;
 
 function sceNetAdhocctlGetGameModeInfo(gamemodeinfo: PsceNetAdhocctlGameModeInfo): integer; cdecl; external;
 
@@ -73,78 +74,25 @@ function sceNetAdhocctlGetPeerList(length: Pinteger; buf: pointer): integer; cde
 
 function sceNetAdhocctlGetPeerInfo(mac: Pchar; size: int32; peerinfo: PsceNetAdhocctlPeerInfo): integer; cdecl; external;
 
+function sceNetAdhocctlScan: integer; cdecl; external;
 
+function sceNetAdhocctlGetScanInfo(length: Pinteger; buf: pointer): integer; cdecl; external;
 
-/**
- * Scan the adhoc channels
- *
- * @return 0 on success, < 0 on error.
- */
-int sceNetAdhocctlScan(void);
+type
+  sceNetAdhocctlHandler = function(flag: int32; error: int32; unknown: pointer): pointer;
 
-/**
- * Get the results of a scan
- *
- * @param length - The length of the list.
- * @param buf - An allocated area of size length.
- *
- * @return 0 on success, < 0 on error.
- */
-int sceNetAdhocctlGetScanInfo(int *length, void *buf);
+function sceNetAdhocctlAddHandler(handler: sceNetAdhocctlHandler; unknown: pointer): integer; cdecl; external;
 
-typedef void (*sceNetAdhocctlHandler)(int flag, int error, void *unknown);
+function sceNetAdhocctlDelHandler(id: int32): integer; cdecl; external;
 
-/**
- * Register an adhoc event handler
- *
- * @param handler - The event handler.
- * @param unknown - Pass NULL.
- *
- * @return Handler id on success, < 0 on error.
- */
-int sceNetAdhocctlAddHandler(sceNetAdhocctlHandler handler, void *unknown);
+function sceNetadhocctlGetNameByAddr(mac: Pchar; nickname: Pchar): integer; cdecl; external;
 
-/**
- * Delete an adhoc event handler
- *
- * @param id - The handler id as returned by sceNetAdhocctlAddHandler.
- *
- * @return 0 on success, < 0 on error.
- */
-int sceNetAdhocctlDelHandler(int id);
+function sceNetAdhocctlGetAddrByName(nickname: Pchar; length: Pinteger; buf: pointer): integer; cdecl; external;
 
-/**
- * Get nickname from a mac address
- *
- * @param mac - The mac address.
- * @param nickname - Pointer to a char buffer where the nickname will be stored.
- *
- * @return 0 on success, < 0 on error.
- */
-int sceNetAdhocctlGetNameByAddr(unsigned char *mac, char *nickname);
+function sceNetAdhocctlGetParameter(params: PsceNetAdhocctlParams): integer; cdecl; external;
 
-/**
- * Get mac address from nickname
- *
- * @param nickname - The nickname.
- * @param length - The length of the list.
- * @param buf - An allocated area of size length.
- *
- * @return 0 on success, < 0 on error.
- */
-int sceNetAdhocctlGetAddrByName(char *nickname, int *length, void *buf);
+{$endif}
 
-/**
- * Get Adhocctl parameter
- *
- * @param params - Pointer to a ::SceNetAdhocctlParams
- *
- * @return 0 on success, < 0 on error.
- */
-int sceNetAdhocctlGetParameter(struct SceNetAdhocctlParams *params);
+implementation
 
-#ifdef __cplusplus
-}
-#endif
-
-#endif
+end.

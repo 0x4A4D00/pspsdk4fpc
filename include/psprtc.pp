@@ -5,6 +5,10 @@ interface
 {$ifndef __PSPRTC_H__}
 {$define __PSPRTC_H__}
 
+uses
+  psptypes,
+  psputils;
+
 type
   PpspTime = ^pspTime;
   pspTime  = record
@@ -50,152 +54,54 @@ function sceRtcCheckValid(const date: PpspTime): integer; cdecl; external;
 
 function sceRtcSetTick(date: PpspTime; const tick: Puint64): integer; cdecl; external;
 
+function sceRtcGetTick(const date: PpspTime; tick: Puint64): integer; cdecl; external;
 
-/**
- * Set ticks based on a pspTime struct
- *
- * @param date - pointer to pspTime to convert
- * @param tick - pointer to tick to set
- * @return 0 on success, < 0 on error
- */
-int sceRtcGetTick(const pspTime* date, u64 *tick);
+function sceRtcCompareTick(const tick1: Puint64; const tick2: Puint64): integer; cdecl; external;
 
-/**
- * Compare two ticks
- *
- * @param tick1 - pointer to first tick
- * @param tick2 - poiinter to second tick
- * @return 0 on equal, <0 when tick1 < tick2, >0 when tick1 > tick2
- */
-int sceRtcCompareTick(const u64* tick1, const u64* tick2);
+function sceRtcTickAddTicks(destTick: Puint64; const srcTick: Puint64; numTicks: uint64): integer; cdecl; external;
 
-/**
- * Add two ticks
- *
- * @param destTick - pointer to tick to hold result
- * @param srcTick - pointer to source tick
- * @param numTicks - number of ticks to add
- * @return 0 on success, <0 on error
- */
-int sceRtcTickAddTicks(u64* destTick, const u64* srcTick, u64 numTicks);
+function sceRtcTickAddMicroseconds(destTick: Puint64; const srcTick: Puint64; numMS: uint64): integer; cdecl; external;
 
-/**
- * Add an amount of ms to a tick
- *
- * @param destTick - pointer to tick to hold result
- * @param srcTick - pointer to source tick
- * @param numMS - number of ms to add
- * @return 0 on success, <0 on error
- */
-int sceRtcTickAddMicroseconds(u64* destTick, const u64* srcTick, u64 numMS);
+function sceRtcTickAddSeconds(destTick: Puint64; const srcTick: Puint64; numSecs: uint64): integer; cdecl; external;
 
-/**
- * Add an amount of seconds to a tick
- *
- * @param destTick - pointer to tick to hold result
- * @param srcTick - pointer to source tick
- * @param numSecs - number of seconds to add
- * @return 0 on success, <0 on error
- */
-int sceRtcTickAddSeconds(u64* destTick, const u64* srcTick, u64 numSecs);
+function sceRtcTickAddMinutes(destTick: Puint64; const srcTick: Puint64; numMins: uint64): integer; cdecl; external;
 
-/**
- * Add an amount of minutes to a tick
- *
- * @param destTick - pointer to tick to hold result
- * @param srcTick - pointer to source tick
- * @param numMins - number of minutes to add
- * @return 0 on success, <0 on error
- */
-int sceRtcTickAddMinutes(u64* destTick, const u64* srcTick, u64 numMins);
+function sceRtcTickAddHours(destTick: Puint64; const srcTick: Puint64; numHours: int32): integer; cdecl; external;
 
-/**
- * Add an amount of hours to a tick
- *
- * @param destTick - pointer to tick to hold result
- * @param srcTick - pointer to source tick
- * @param numHours - number of hours to add
- * @return 0 on success, <0 on error
- */
-int sceRtcTickAddHours(u64* destTick, const u64* srcTick, int numHours);
+function sceRtcTickAddDAys(destTick: Puint64; const srcTick: Puint64; numDays: int32): integer; cdecl; external;
 
-/**
- * Add an amount of days to a tick
- *
- * @param destTick - pointer to tick to hold result
- * @param srcTick - pointer to source tick
- * @param numDays - number of days to add
- * @return 0 on success, <0 on error
- */
-int sceRtcTickAddDays(u64* destTick, const u64* srcTick, int numDays);
+function sceRtcTickAddWeeks(destTick: Puint64; const srcTick: Puint64; numWeeks: int32): integer; cdecl; external;
 
-/**
- * Add an amount of weeks to a tick
- *
- * @param destTick - pointer to tick to hold result
- * @param srcTick - pointer to source tick
- * @param numWeeks - number of weeks to add
- * @return 0 on success, <0 on error
- */
-int sceRtcTickAddWeeks(u64* destTick, const u64* srcTick, int numWeeks);
+function sceRtcTickAddMonth(destTick: Puint64; const srcTick: Puint64; numMonths: int32): integer; cdecl; external;
 
+function sceRtcTickAddYears(destTick: Puint64; const srcTick: Puint64; numYears: int32): integer; cdecl; external; 
 
-/**
- * Add an amount of months to a tick
- *
- * @param destTick - pointer to tick to hold result
- * @param srcTick - pointer to source tick
- * @param numMonths - number of months to add
- * @return 0 on success, <0 on error
- */
-int sceRtcTickAddMonths(u64* destTick, const u64* srcTick, int numMonths);
+function sceRtcSetTime_t(date: PpspTime; const time: Ttime): integer; cdecl; external;
 
-/**
- * Add an amount of years to a tick
- *
- * @param destTick - pointer to tick to hold result
- * @param srcTick - pointer to source tick
- * @param numYears - number of years to add
- * @return 0 on success, <0 on error
- */
-int sceRtcTickAddYears(u64* destTick, const u64* srcTick, int numYears);
+function sceRtcGetTime_t(const date: PpspTime; time: ptime): integer; cdecl; external;
 
-int sceRtcSetTime_t(pspTime* date, const time_t time);
-int sceRtcGetTime_t(const pspTime* date, time_t *time);
-int sceRtcSetDosTime(pspTime* date, u32 dosTime);
-int sceRtcGetDosTime(pspTime* date, u32 dosTime);
-int sceRtcSetWin32FileTime(pspTime* date, u64* win32Time);
-int sceRtcGetWin32FileTime(pspTime* date, u64* win32Time);
+function sceRtcSetDosTime(date: PpspTime; dosTime: uint32): integer; cdecl; external;
 
-int sceRtcParseDateTime(u64 *destTick, const char *dateString);
+function sceRtcGetDosTime(date: PpspTime; dosTime: uint32): integer; cdecl; external;
 
-/**
- * Format Tick-representation UTC time in RFC2822 format
- */
-int sceRtcFormatRFC2822(char *pszDateTime, const u64 *pUtc, int iTimeZoneMinutes);
+function sceRtcSetWin32FileTime(date: PpspTime; win32Time: Puint64): integer; cdecl; external;
 
-/**
- * Format Tick-representation UTC time in RFC2822 format
- */
-int sceRtcFormatRFC2822LocalTime(char *pszDateTime, const u64 *pUtc);
+function sceRtcGetWin32FileTime(date: PpspTime; win32Time: Puint64): integer; cdecl; external;
 
-/**
- * Format Tick-representation UTC time in RFC3339(ISO8601) format
- */
-int sceRtcFormatRFC3339(char *pszDateTime, const u64 *pUtc, int iTimeZoneMinutes);
+function sceRtcParseDateTime(destTick: Puint64; const dateString: Pchar): integer; cdecl; external;
 
-/**
- * Format Tick-representation UTC time in RFC3339(ISO8601) format
- */
-int sceRtcFormatRFC3339LocalTime(char *pszDateTime, const u64 *pUtc);
+function sceRtcFormatRFC2822(pszDateTime: Pchar; const pUtc: Puint64; iTimeZoneMinutes: int32): integer; cdecl; external;
 
-/**
- * Parse time information represented in RFC3339 format
- */
-int sceRtcParseRFC3339(u64 *pUtc, const char *pszDateTime);
+function sceRtcFormatRFC2822LocalTime(pszDateTime: Pchar; const pUtc: Puint64): integer; cdecl; external;
 
-#ifdef __cplusplus
-}
-#endif
+function sceRtcFormatRFC3339(pszDateTime: Pchar; const pUtc: Puint64; iTimeZoneMinutes: int32): integer; cdecl; external;
 
-#endif
+function sceRtcFormatRFC3339LocalTime(pszDateTiem: Pchar; const pUtc: Puint64): integer; cdecl; external;
+
+function sceRtcParseRFC3339(pUtc: Puint64; const pszDateTime: Pchar): integer; cdecl; external;
+
+{$endif}
+
+implementation
+
+end.

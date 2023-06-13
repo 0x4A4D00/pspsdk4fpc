@@ -1,6 +1,3 @@
-unit psputility_usbmodules;
-
-interface
 
 {$ifndef __PSPUTILITY_USBMODULES_H__}
 {$define __PSPUTILITY_USBMODULES_H__}
@@ -20,7 +17,3 @@ function sceUtilityLoadUsbModule(module: int32): integer; cdecl; external;
 function sceUtilityUnloadUsbModule(module: int32): integer; cdecl; external;
 
 {$endif}
-
-implementation
-
-end.

@@ -15,9 +15,9 @@ type
   end;
 
   pspUmdTypes = (
-    PSP_UMD_TYPE_GAME  =$10,
-    PSP_UMD_TYPE_VIDEO =$20,
-    PSP_UMD_TYPE_AUDIO =$40
+    PSP_UMD_TYPE_GAME  = $10,
+    PSP_UMD_TYPE_VIDEO = $20,
+    PSP_UMD_TYPE_AUDIO = $40
   );
   
   pspUmdState = (

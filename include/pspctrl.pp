@@ -39,18 +39,18 @@ type
   PsceCtrlData = ^SceCtrlData;
   SceCtrlData  = record
     TimeStamp : uint32;
-	Buttons   : uint32;
-	Lx        : uint8;
-	Ly        : uint8;
-	Rsrv      : array[0..5] of uint8;
+    Buttons   : uint32;
+    Lx        : uint8;
+    Ly        : uint8;
+    Rsrv      : array[0..5] of uint8;
   end;
 
   PsceCtrlLatch = ^SceCtrlLatch;
   SceCtrlLatch  = record
     uiMake    : uint32;
-	uiBreak   : uint32;
-	uiPress   : uint32;
-	uiRelease : uint32;
+    uiBreak   : uint32;
+    uiPress   : uint32;
+    uiRelease : uint32;
   end;
 
 function sceCtrlSetSamplingCycle(cycle: int32): int32; cdecl; external;

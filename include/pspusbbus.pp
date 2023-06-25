@@ -5,6 +5,8 @@ interface
 {$ifndef __PSPUSBBUS_H__}
 {$define __PSPUSBBUS_H__}
 
+{$modeSwitch advancedRecords}
+
 type
   UsbInterface  = record
     expect_interface : int32;
@@ -41,6 +43,7 @@ type
     bNumConfigurations : uint8;
   end;
   
+  PConfigDescriptor = ^ConfigDescriptor;
   ConfigDescriptor  = record
     bLength             : uint8;
     bDescriptorType     : uint8;
@@ -65,6 +68,7 @@ type
     iInterface         : uint8;
   end;
   
+  PEndpointDescriptor = ^EndpointDescriptor;
   EndpointDescriptor  = record
     bLength          : uint8;
     bDescriptorType  : uint8;
@@ -74,11 +78,61 @@ type
     bInterval        : uint8;
   end;
   
+  PUsbInterfaces = ^UsbInterfaces;
   UsbInterfaces  = record
     infp : array[0..1] of PInterfaceDescriptor;
     num  : uint32;
   end;
-
+  
+  UsbConfiguration  = record
+    confp : PConfigDescriptor;
+    infs  : PUsbInterfaces;
+    infp  : PInterfaceDescriptor;
+    endp  : PEndpointDescriptor;
+  end;
+  
+  UsbData  = record
+  var
+    devdesc : array[0..19] of char;
+  type
+    Config = record
+      pconfdesc   : pointer;
+      pinterfaces : pointer;
+      pinterdesc  : pointer;
+      pendp       : pointer;
+    end;
+    
+    ConfDesc = record
+      desc        : array[0..11] of char;
+      pinterfaces : pointer;
+    end;
+  var
+    pad1 : array[0..7] of char;
+  type
+    Interfaces = record
+      pinterdesc : array[0..1] of pointer;
+      intcount   : uint32;
+    end;
+    
+    InterDesc = record
+      desc  : array[0..11] of char;
+      pendp : pointer;
+      pad   : array[0..31] of char;
+    end;
+    
+    Endp = record
+      desc : array[0..15] of char;
+    end;
+  end;
+  
+  DeviceRequest =  record
+    bmRequestType : char;
+    bRequest      : char;
+    wValue        : uint16;
+    wIndex        : uint16;
+    wLength       : uint16;
+  end;
+  
 
 {$endif}
 

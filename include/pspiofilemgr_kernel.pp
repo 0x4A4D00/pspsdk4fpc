@@ -37,34 +37,34 @@ type
   
   PpspIoDrvArg     = ^PspIoDrvArg;
   PpspIoDrvFileArg = ^PspIoDrvFileArg;
-  PsceOff          = ^SceOff;
-  PsceIoDirent     = ^sceIoDirent;
+  PSceOff          = ^SceOff;
+  PSceIoDirent     = ^sceIoDirent;
   PSceIoStat       = ^SceIoStat;
 
 
   PspIoDrvFuncs = record
-	IoInit    : function(arg: PpspIoDrvArg): Pinteger;
-	IoExit    : function(arg: PpspIoDrvArg): Pinteger;
-	IoOpen    : function(arg: PpspIoDrvFileArg; fileio: pchar; flags: int32; mode: SceMode): Pinteger;
-	IoClose   : function(arg: PpspIoDrvFileArg): Pinteger;
-	IoRead    : function(arg: PpspIoDrvFileArg; data: Pchar; len: int32): Pinteger;
-	IoWrite   : function(arg: PpspIoDrvFileArg; const data: Pchar; len: int32): Pinteger;
-	IoLseek   : function(arg: PpspIoDrvFileArg; ofs: SceOff; whence: int32): PsceOff;
-	IoIoctl   : function(arg: PpspIoDrvFileArg; cmd: uint32; indata: pointer; inlen: int32; outdata: pointer; outlen: int32): Pinteger;
-	IoRemove  : function(arg: PpspIoDrvFileArg; const name: Pchar): Pinteger;
-	IoMkdir   : function(arg: PpspIoDrvFileArg; const name: Pchar): Pinteger;
-	IoRmdir   : function(arg: PpspIoDrvFileArg; const name: Pchar): Pinteger;
-	IoDopen   : function(arg: PpspIoDrvFileArg; const dirname: Pchar): Pinteger;
-	IoDclose  : function(arg: PpspIoDrvFileArg): Pinteger;
-	IoDread   : function(arg: PpspIoDrvFileArg; dir: PsceIoDirent): Pinteger;
-	IoGetstat : function(arg: PpspIoDrvFileArg; const fileio: Pchar; stat: PSceIoStat; bits: int32): Pinteger;
-	IoChstat  : function(arg: PpspIoDrvFileArg; const fileio: Pchar; stat: PsceIoStat; bits: int32): Pinteger;
-	IoRename  : function(arg: PpspIoDrvFileArg; const oldname: Pchar; const newname: Pchar): Pinteger;
-	IoChdir   : function(arg: PpspIoDrvFileArg; const dir: Pchar): Pinteger;
-	IoMount   : function(arg: PpspIoDrvFileArg): Pinteger;
-	IoUmount  : function(arg: PpspIoDrvFileArg): Pinteger;
-	IoDevctl  : function(arg: PpspIoDrvFileArg; const devname: Pchar; cmd: uint32; indata: pointer; inlen: int32; outdata: pointer; outlen: int32): Pinteger;
-	IoUnk21   : function(arg: PpspIoDrvFileArg): Pinteger;
+	IoInit: function(arg: PpspIoDrvArg): Pinteger;
+	IoExit: function(arg: PpspIoDrvArg): Pinteger;
+	IoOpen: function(arg: PpspIoDrvFileArg; fileio: pchar; flags: int32; mode: SceMode): Pinteger;
+	IoClose: function(arg: PpspIoDrvFileArg): Pinteger;
+	IoRead: function(arg: PpspIoDrvFileArg; data: Pchar; len: int32): Pinteger;
+	IoWrite: function(arg: PpspIoDrvFileArg; const data: Pchar; len: int32): Pinteger;
+	IoLseek: function(arg: PpspIoDrvFileArg; ofs: SceOff; whence: int32): PSceOff;
+	IoIoctl: function(arg: PpspIoDrvFileArg; cmd: uint32; indata: pointer; inlen: int32; outdata: pointer; outlen: int32): Pinteger;
+	IoRemove: function(arg: PpspIoDrvFileArg; const name: Pchar): Pinteger;
+	IoMkdir: function(arg: PpspIoDrvFileArg; const name: Pchar): Pinteger;
+	IoRmdir: function(arg: PpspIoDrvFileArg; const name: Pchar): Pinteger;
+	IoDopen: function(arg: PpspIoDrvFileArg; const dirname: Pchar): Pinteger;
+	IoDclose: function(arg: PpspIoDrvFileArg): Pinteger;
+	IoDread: function(arg: PpspIoDrvFileArg; dir: PSceIoDirent): Pinteger;
+	IoGetstat: function(arg: PpspIoDrvFileArg; const fileio: Pchar; stat: PSceIoStat; bits: int32): Pinteger;
+	IoChstat: function(arg: PpspIoDrvFileArg; const fileio: Pchar; stat: PSceIoStat; bits: int32): Pinteger;
+	IoRename: function(arg: PpspIoDrvFileArg; const oldname: Pchar; const newname: Pchar): Pinteger;
+	IoChdir: function(arg: PpspIoDrvFileArg; const dir: Pchar): Pinteger;
+	IoMount: function(arg: PpspIoDrvFileArg): Pinteger;
+	IoUmount: function(arg: PpspIoDrvFileArg): Pinteger;
+	IoDevctl: function(arg: PpspIoDrvFileArg; const devname: Pchar; cmd: uint32; indata: pointer; inlen: int32; outdata: pointer; outlen: int32): Pinteger;
+	IoUnk21: function(arg: PpspIoDrvFileArg): Pinteger;
   end;
 
   PpspIoDrvFuncs = ^PspIoDrvFuncs;

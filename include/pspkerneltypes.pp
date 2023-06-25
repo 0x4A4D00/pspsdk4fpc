@@ -11,7 +11,7 @@ uses
 (** UIDs are used to describe many different kernel objects. *)
 type
   SceUID   = int32;
-  PsceUID  = ^SceUID;
+  PSceUID  = ^SceUID;
 
 (* Misc. kernel types. *)
   SceSize  = uint32;
@@ -20,7 +20,7 @@ type
   SceUChar = uint8;
   SceUInt  = uint32;
   
-  PsceUInt = ^SceUInt;
+  PSceUInt = ^SceUInt;
 
 (* File I/O types. *)
   SceMode  = int32;

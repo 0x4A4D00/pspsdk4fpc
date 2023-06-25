@@ -36,21 +36,21 @@ type
     PSP_CTRL_MODE_ANALOG
   );
 
-  PsceCtrlData = ^SceCtrlData;
+  PSceCtrlData = ^SceCtrlData;
   SceCtrlData  = record
     TimeStamp : uint32;
-    Buttons   : uint32;
-    Lx        : uint8;
-    Ly        : uint8;
-    Rsrv      : array[0..5] of uint8;
+	Buttons   : uint32;
+	Lx        : uint8;
+	Ly        : uint8;
+	Rsrv      : array[0..5] of uint8;
   end;
 
-  PsceCtrlLatch = ^SceCtrlLatch;
+  PSceCtrlLatch = ^SceCtrlLatch;
   SceCtrlLatch  = record
     uiMake    : uint32;
-    uiBreak   : uint32;
-    uiPress   : uint32;
-    uiRelease : uint32;
+	uiBreak   : uint32;
+	uiPress   : uint32;
+	uiRelease : uint32;
   end;
 
 function sceCtrlSetSamplingCycle(cycle: int32): int32; cdecl; external;
@@ -61,17 +61,17 @@ function sceCtrlSetSamplingMode(mode: int32): int32; cdecl; external;
 
 function sceCtrlGetSamplingMode(pmode: Pinteger): int32; cdecl; external;
 
-function sceCtrlPeekBufferPositive(pad_data: PsceCtrlData; count: int32): int32; cdecl; external;
+function sceCtrlPeekBufferPositive(pad_data: PSceCtrlData; count: int32): int32; cdecl; external;
 
-function sceCtrlPeekBufferNegative(pad_data: PsceCtrlData; count: int32): int32; cdecl; external;
+function sceCtrlPeekBufferNegative(pad_data: PSceCtrlData; count: int32): int32; cdecl; external;
 
-function sceCtrlReadBufferPositive(pad_data: PsceCtrlData; count: int32): int32; cdecl; external;
+function sceCtrlReadBufferPositive(pad_data: PSceCtrlData; count: int32): int32; cdecl; external;
 
-function sceCtrlReadBufferNegative(pad_data: PsceCtrlData; count: int32): int32; cdecl; external;
+function sceCtrlReadBufferNegative(pad_data: PSceCtrlData; count: int32): int32; cdecl; external;
 
-function sceCtrlPeekLatch(latch_data: PsceCtrlLatch): int32; cdecl; external;
+function sceCtrlPeekLatch(latch_data: PSceCtrlLatch): int32; cdecl; external;
 
-function sceCtrlReadLatch(latch_data: PsceCtrlLatch): int32; cdecl; external;
+function sceCtrlReadLatch(latch_data: PSceCtrlLatch): int32; cdecl; external;
 
 function sceCtrlSetIdleCancelThreshold(idlereset: int32; idleback: int32): int32; cdecl; external;
 

@@ -26,9 +26,9 @@ type
 	key  : pchar;  
   end;
   
-  PsceKernelLoadExecParam = ^SceKernelLoadExecParam;
+  PSceKernelLoadExecParam = ^SceKernelLoadExecParam;
 
-function sceKernelLoadExec(const fileio: pchar; param: PsceKernelLoadExecParam): int32; cdecl; external;
+function sceKernelLoadExec(const fileio: pchar; param: PSceKernelLoadExecParam): int32; cdecl; external;
 
 {$endif}
 

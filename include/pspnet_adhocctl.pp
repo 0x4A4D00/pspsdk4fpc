@@ -13,18 +13,18 @@ type
     unk     : array[0..2] of char;  
   end;
   
-  PsceNetAdhocctlPeerInfo = ^SceNetAdhocctlPeerInfo;
+  PSceNetAdhocctlPeerInfo = ^SceNetAdhocctlPeerInfo;
   SceNetAdhocctlPeerInfo  = record
-    next      : PsceNetAdhocctlPeerInfo;
+    next      : PSceNetAdhocctlPeerInfo;
     nichname  : array[0..127] of char;
     mac       : array[0..5] of char;
     unknown   : array[0..5] of char;
     tiemstamp : uint64;  
   end;
   
-  PsceNetAdhocctlScanInfo = ^SceNetAdhocctlScanInfo;
+  PSceNetAdhocctlScanInfo = ^SceNetAdhocctlScanInfo;
   SceNetAdhocctlScanInfo  = record
-    next      : PsceNetAdhocctlScanInfo;
+    next      : PSceNetAdhocctlScanInfo;
     channel   : int32;
     name      : array[0..7] of char;
     bssid     : array[0..5] of char;
@@ -32,13 +32,13 @@ type
     uunknown2 : int32;
   end;
   
-  PsceNetAdhocctlGameModeInfo = ^SceNetAdhocctlGameModeInfo;
+  PSceNetAdhocctlGameModeInfo = ^SceNetAdhocctlGameModeInfo;
   SceNetAdhocctlGameModeInfo = record
     count : int32;
     macs  : array[0..15,0..5] of char;
   end;
   
-  PsceNetAdhocctlParams = ^SceNetAdhocctlParams;
+  PSceNetAdhocctlParams = ^SceNetAdhocctlParams;
   SceNetAdhocctlParams  = record
     channel  : int32;
     name     : array[0..7] of char;
@@ -58,7 +58,7 @@ function sceNetAdhocctlGetState(event: Pinteger): integer; cdecl; external;
 
 function sceNetAdhocctlCreate(const name: Pchar): integer; cdecl; external;
 
-function sceNetAdhocctlJoin(sceninfo: PsceNetAdhocctlScanInfo): integer; cdecl; external;
+function sceNetAdhocctlJoin(sceninfo: PSceNetAdhocctlScanInfo): integer; cdecl; external;
 
 function sceNetAdhocctlGetAdhocId(product: PproductStruct): integer; cdecl; external;
 
@@ -66,13 +66,13 @@ function sceNetAdhocctlCreateEnterGameMode(const name: Pchar; unknown: int32; nu
 
 function sceNetADhocctlJoinEnterGameMode(const name: Pchar; hostmac: Pchar; timeout: uint32; unknown: int32): integer; cdecl; external;
 
-function sceNetAdhocctlGetGameModeInfo(gamemodeinfo: PsceNetAdhocctlGameModeInfo): integer; cdecl; external;
+function sceNetAdhocctlGetGameModeInfo(gamemodeinfo: PSceNetAdhocctlGameModeInfo): integer; cdecl; external;
 
 function sceNetAdhocctlExitGameMode: integer; cdecl; external;
 
 function sceNetAdhocctlGetPeerList(length: Pinteger; buf: pointer): integer; cdecl; external;
 
-function sceNetAdhocctlGetPeerInfo(mac: Pchar; size: int32; peerinfo: PsceNetAdhocctlPeerInfo): integer; cdecl; external;
+function sceNetAdhocctlGetPeerInfo(mac: Pchar; size: int32; peerinfo: PSceNetAdhocctlPeerInfo): integer; cdecl; external;
 
 function sceNetAdhocctlScan: integer; cdecl; external;
 
@@ -89,7 +89,7 @@ function sceNetadhocctlGetNameByAddr(mac: Pchar; nickname: Pchar): integer; cdec
 
 function sceNetAdhocctlGetAddrByName(nickname: Pchar; length: Pinteger; buf: pointer): integer; cdecl; external;
 
-function sceNetAdhocctlGetParameter(params: PsceNetAdhocctlParams): integer; cdecl; external;
+function sceNetAdhocctlGetParameter(params: PSceNetAdhocctlParams): integer; cdecl; external;
 
 {$endif}
 

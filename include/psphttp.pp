@@ -14,7 +14,7 @@ type
   
   PSceBool = ^SceBool;
   PSceSize = ^SceSize;
-  PsceULong64 = ^SceULong64;
+  PSceULong64 = ^SceULong64;
   
   PspHttpHttpVersion = (
     PSP_HTTP_VERSION_1_0,
@@ -95,7 +95,7 @@ function sceHttpAbortRequest(requestid: int32): integer; cdecl; external;
 
 function sceHttpReadData(requestid: int32; data: pointer; datasize: uint8): integer; cdecl; external;
 
-function sceHttpGetContentLength(requestid: int32; contentlength: PsceULong64): integer; cdecl; external;
+function sceHttpGetContentLength(requestid: int32; contentlength: PSceULong64): integer; cdecl; external;
 
 function sceHttpGetStatusCode(requestid: int32; statuscode: Pinteger): integer; cdecl; external;
 

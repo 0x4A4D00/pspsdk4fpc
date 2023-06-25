@@ -369,7 +369,7 @@ procedure sceGuEnable(state: int32); cdecl; external;
 
 procedure sceGuDisable(state: int32); cdecl; external;
 
-procedure sceGuLight(light: int32; atype: int32; components: int32; const position: PscePspFVector3); cdecl; external;
+procedure sceGuLight(light: int32; atype: int32; components: int32; const position: PScePspFVector3); cdecl; external;
 
 procedure sceGuLightAtt(light: int32; atteng0: single; atten1: single; atten2: single); cdecl; external;
 
@@ -377,7 +377,7 @@ procedure sceGuLightColor(light: int32; component: int32; color: uint32); cdecl;
 
 procedure sceGuLightMode(mode: int32); cdecl; external;
 
-procedure sceGuLightSpot(light: int32; const direction: PscePspFVector3; exponent: single; cutoff: single); cdecl; external;
+procedure sceGuLightSpot(light: int32; const direction: PScePspFVector3; exponent: single; cutoff: single); cdecl; external;
 
 procedure sceGuClear(flags: int32); cdecl; external;
 
@@ -417,7 +417,7 @@ procedure sceGuFrontFace(order: int32); cdecl; external;
 
 procedure sceGuLogicalOp(op: int32); cdecl; external;
 
-procedure sceGuSetDither(const matrix: PscePspIMatrix4); cdecl; external;
+procedure sceGuSetDither(const matrix: PScePspIMatrix4); cdecl; external;
 
 procedure sceGuShadeModel(mode: int32); cdecl; external;
 
@@ -471,9 +471,9 @@ procedure sceGuPatchPrim(prim: int32); cdecl; external;
 
 procedure sceGuDrawSpline(vtype: int32; ucount: int32; vcount: int32; uedge: int32; vedge: int32; const indices: pointer; const vertices: pointer); cdecl; external;
 
-procedure sceGuSetMatrix(atype: int32; const matrix: PscePspFMatrix4); cdecl; external;
+procedure sceGuSetMatrix(atype: int32; const matrix: PScePspFMatrix4); cdecl; external;
 
-procedure sceGuBoneMatrix(index: uint32; const matrix: PscePspFMatrix4); cdecl; external;
+procedure sceGuBoneMatrix(index: uint32; const matrix: PScePspFMatrix4); cdecl; external;
 
 procedure sceGuMorphWeight(index: int32; weigth: single); cdecl; external;
 

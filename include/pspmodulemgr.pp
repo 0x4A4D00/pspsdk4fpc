@@ -13,7 +13,7 @@ uses
 {$define PSP_MEMORY_PARTITION_USER   2}
 
 type
-  PsceKernelLMOption = ^SceKernelLMOption;
+  PSceKernelLMOption = ^SceKernelLMOption;
   
   SceKernelLMOption  = record
 	size 	  : SceSize;
@@ -25,7 +25,7 @@ type
 	creserved : array[0..1] of char;	
   end;
 
-  PsceKernelSMOption = ^SceKernelSMOption;
+  PSceKernelSMOption = ^SceKernelSMOption;
   
   SceKernelSMOption  = record    
 	size 	  : SceSize;
@@ -36,28 +36,28 @@ type
   end;
 
 // For loading a Module.
-function sceKernelLoadModule(const path: pchar; flags: int32; option: PsceKernelLMOption): SceUID; cdecl; external;
+function sceKernelLoadModule(const path: pchar; flags: int32; option: PSceKernelLMOption): SceUID; cdecl; external;
 
-function sceKernelLoadModuleMs(const path: pchar; flags: int32; option: PsceKernelLMOption): SceUID cdecl; external;
+function sceKernelLoadModuleMs(const path: pchar; flags: int32; option: PSceKernelLMOption): SceUID cdecl; external;
 
-function sceKernelLoadModuleByID(fid: SceUID; flags: int32; option: PsceKernelLMOption): SceUID cdecl; external;
+function sceKernelLoadModuleByID(fid: SceUID; flags: int32; option: PSceKernelLMOption): SceUID cdecl; external;
 
-function sceKernelLoadModuleBufferUsbWlan(bufsize: SceSize; buf: pointer; flags: int32; option: PsceKernelLMOption): SceUID; cdecl; external;
+function sceKernelLoadModuleBufferUsbWlan(bufsize: SceSize; buf: pointer; flags: int32; option: PSceKernelLMOption): SceUID; cdecl; external;
 
-function sceKernelStartModule(modid: SceUID; argsize: SceSize; argp: pointer; status: pinteger; option: PsceKernelSMOption): int32; cdecl; external;
+function sceKernelStartModule(modid: SceUID; argsize: SceSize; argp: pointer; status: pinteger; option: PSceKernelSMOption): int32; cdecl; external;
 
-function sceKernelStopModule(modid: SceUID; argsize: SceSize; argp: pointer; status: pinteger; option: PsceKernelSMOption): int32; cdecl; external;
+function sceKernelStopModule(modid: SceUID; argsize: SceSize; argp: pointer; status: pinteger; option: PSceKernelSMOption): int32; cdecl; external;
 
 function sceKernelUnloadModule(modid: SceUID): int32; cdecl; external;
 
 function sceKernelSelfStopUnloadModule(unknown: int32; argsize: SceSize; argp: pointer): int32; cdecl; external;
 
-function sceKernelStopUnloadSelfModule(argsize: SceSize; argp: pointer; status: pinteger; option: PsceKernelSMOption): int32; cdecl; external;
+function sceKernelStopUnloadSelfModule(argsize: SceSize; argp: pointer; status: pinteger; option: PSceKernelSMOption): int32; cdecl; external;
 
 
 type
 	
-  PsceKernelModuleInfo = ^SceKernelModuleInfo;
+  PSceKernelModuleInfo = ^SceKernelModuleInfo;
 
   SceKernelModuleInfo  = record    
 	size: SceSize;
@@ -77,10 +77,10 @@ type
   end;
 
 // Get Info About a Loaded Module.
-function sceKernelQueryModuleInfo(modid: SceUID; info: PsceKernelModuleInfo): int32; cdecl; external;
+function sceKernelQueryModuleInfo(modid: SceUID; info: PSceKernelModuleInfo): int32; cdecl; external;
 
 // Get List of Module IDs.
-function sceKernelGetModuleIdList(readbuf: PsceUID; readbufsize: int32; idcount: pinteger): int32; cdecl; external;
+function sceKernelGetModuleIdList(readbuf: PSceUID; readbufsize: int32; idcount: pinteger): int32; cdecl; external;
 
 
 {$endif}

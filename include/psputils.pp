@@ -49,15 +49,15 @@ procedure sceKernelIcacheInvalidateAll; cdecl; external;
 procedure sceKernelIcacheInvalidateRange(const p: pointer; size: uint32); cdecl; external;
 
 type
-  PsceKernelUtilsMt19937Context = ^SceKernelUtilsMt19937Context;
+  PSceKernelUtilsMt19937Context = ^SceKernelUtilsMt19937Context;
   SceKernelUtilsMt19937Context  = record
     count : uint32;
     state : array[0..623] of uint32;
   end;
 
-function sceKernelUtilsMt19937Init(ctx: PsceKernelUtilsMt19937Context; seed: u32): int32; cdecl; external;
+function sceKernelUtilsMt19937Init(ctx: PSceKernelUtilsMt19937Context; seed: u32): int32; cdecl; external;
 
-function sceKernelUtilsMt19937UInt(ctx: PsceKernelUtilsMt19937Context): u32; cdecl; external;
+function sceKernelUtilsMt19937UInt(ctx: PSceKernelUtilsMt19937Context): u32; cdecl; external;
 
 type
   PSceKernelUtilsMd5Context = ^SceKernelUtilsMd5Context;

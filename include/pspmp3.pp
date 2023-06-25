@@ -9,7 +9,7 @@ uses
   psptypes;
 
 type
-  PsceMp3InitArg = ^SceMp3InitArg;
+  PSceMp3InitArg = ^SceMp3InitArg;
   SceMp3InitArg  = record
     mp3StreamStart : SceUInt32;
     unk1           : SceUInt32;
@@ -21,14 +21,14 @@ type
     pcmBufSize     : SceInt32;
   end;
   
-  PsceShort16 = ^SceShort16;
-  PpSceShort16 = ^PsceShort16;
+  PSceShort16 = ^SceShort16;
+  PpSceShort16 = ^PSceShort16;
   
-  PsceUChar8 = ^SceUChar8;
-  PpsceUChar8 = ^PsceUChar8;
+  PSceUChar8 = ^SceUChar8;
+  PpsceUChar8 = ^PSceUChar8;
   
 
-function sceMpe3ReseveMp3Handle(args: PsceMp3InitArg): SceInt32; cdecl; external;
+function sceMpe3ReseveMp3Handle(args: PSceMp3InitArg): SceInt32; cdecl; external;
 
 function sceMp3ReleaseMp3Handle(handle: SceInt32): SceInt32; cdecl; external;
 

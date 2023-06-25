@@ -21,13 +21,13 @@ procedure sceGumDrawSpline(vtype: int32; ucount: int32; vcount: int32; uedge: in
 
 procedure sceGumLoadIdentity; cdecl; external;
 
-procedure sceGumLoadMatrix(const m: PscePspFMatrix4); cdecl; external;
+procedure sceGumLoadMatrix(const m: PScePspFMatrix4); cdecl; external;
 
-procedure sceGumLookAt(eye: PscePspFVector3; center: PscePspFVector3; up: PscePspFVector3); cdecl; external;
+procedure sceGumLookAt(eye: PScePspFVector3; center: PScePspFVector3; up: PScePspFVector3); cdecl; external;
 
 procedure sceGumMatrixMode(mode: int32); cdecl; external;
 
-procedure sceGumMultMatrix(const m: PscePspFMatrix4); cdecl; external;
+procedure sceGumMultMatrix(const m: PScePspFMatrix4); cdecl; external;
 
 procedure sceGumOrtho(left: single; right: single; bottom: single; top: single; anear: single; afar: single); cdecl; external;
 
@@ -43,15 +43,15 @@ procedure sceGumRotateY(angle: single); cdecl; external;
 
 procedure sceGumRotateZ(angle: single); cdecl; external;
 
-procedure sceGumRotateXYZ(const v: PscePspFVector3); cdecl; external;
+procedure sceGumRotateXYZ(const v: PScePspFVector3); cdecl; external;
 
-procedure sceGumRotateZYX(const v: PscePspFVector3); cdecl; external;
+procedure sceGumRotateZYX(const v: PScePspFVector3); cdecl; external;
 
-procedure sceGumScale(const v: PscePspFVector3); cdecl; external;
+procedure sceGumScale(const v: PScePspFVector3); cdecl; external;
 
-procedure sceGumStoreMatrix(m: PscePspFMatrix4); cdecl; external;
+procedure sceGumStoreMatrix(m: PScePspFMatrix4); cdecl; external;
 
-procedure sceGumTranslate(const v: PscePspFVector3); cdecl; external;
+procedure sceGumTranslate(const v: PScePspFVector3); cdecl; external;
 
 procedure sceGumUpdateMatrix; cdecl; external;
 
@@ -65,41 +65,41 @@ procedure sceGumEndObject; cdecl; external;
 
 procedure gumInit; cdecl; external;
 
-procedure gumLoadIdentity(m: PscePspFMatrix4); cdecl; external;
+procedure gumLoadIdentity(m: PScePspFMatrix4); cdecl; external;
 
-procedure gumLoadMatrix(r: PscePspFMatrix4; const a: PscePspFMatrix4); cdecl; external;
+procedure gumLoadMatrix(r: PScePspFMatrix4; const a: PScePspFMatrix4); cdecl; external;
 
-procedure gumLookAt(m: PscePspFMatrix4; eye: PscePspFMatrix3; center: PscePspFMatrix3; up: PscePspFMatrix3); cdecl; external;
+procedure gumLookAt(m: PScePspFMatrix4; eye: PScePspFMatrix3; center: PScePspFMatrix3; up: PScePspFMatrix3); cdecl; external;
 
-procedure gumMultMatrix(result: PscePspFMatrix4; const a: PscePspFMatrix4; const b: PscePspFMatrix4); cdecl; external;
+procedure gumMultMatrix(result: PScePspFMatrix4; const a: PScePspFMatrix4; const b: PScePspFMatrix4); cdecl; external;
 
-procedure gumOrtho(m: PscePspFMatrix4; left: single; right: single; bottom: single; top: single; anear: single; afar: single); cdecl; external;
+procedure gumOrtho(m: PScePspFMatrix4; left: single; right: single; bottom: single; top: single; anear: single; afar: single); cdecl; external;
 
-procedure gumPerspective(m: PscePspFMatrix4; fovy: single; aspect: single; anear: single; afar: single); cdecl; external;
+procedure gumPerspective(m: PScePspFMatrix4; fovy: single; aspect: single; anear: single; afar: single); cdecl; external;
 
-procedure gumRotateX(m: PscePspFMatrix4; angle: single); cdecl; external;
+procedure gumRotateX(m: PScePspFMatrix4; angle: single); cdecl; external;
 
-procedure gumRotateXYZ(m: PscePspFMatrix4; const v: PscePspFMatrix3); cdecl; external;
+procedure gumRotateXYZ(m: PScePspFMatrix4; const v: PScePspFMatrix3); cdecl; external;
 
-procedure gumRotateY(m: PscePspFMatrix4; angle: single); cdecl; external;
+procedure gumRotateY(m: PScePspFMatrix4; angle: single); cdecl; external;
 
-procedure gumRotateZ(m: PscePspFMatrix4; angle: single); cdecl; external;
+procedure gumRotateZ(m: PScePspFMatrix4; angle: single); cdecl; external;
 
-procedure gumRotateZYX(m: PscePspFMatrix4; const v: PscePspFMatrix3); cdecl; external;
+procedure gumRotateZYX(m: PScePspFMatrix4; const v: PScePspFMatrix3); cdecl; external;
 
-procedure gumScale(m: PscePspFMatrix4; const v: PscePspFMatrix3); cdecl; external;
+procedure gumScale(m: PScePspFMatrix4; const v: PScePspFMatrix3); cdecl; external;
 
-procedure gumTranslate(m: PscePspFMatrix4; const v: PscePspFMatrix3); cdecl; external;
+procedure gumTranslate(m: PScePspFMatrix4; const v: PScePspFMatrix3); cdecl; external;
 
-procedure gumFullInverse(r: PscePspFMatrix4; const a: PscePspFMatrix4); cdecl; external;
+procedure gumFullInverse(r: PScePspFMatrix4; const a: PScePspFMatrix4); cdecl; external;
 
-procedure gumFastInverse(r: PscePspFMatrix4; const a: PscePspFMatrix4); cdecl; external;
+procedure gumFastInverse(r: PScePspFMatrix4; const a: PScePspFMatrix4); cdecl; external;
 
-procedure gumCrossProduct(r: PscePspFMatrix3; const a: PscePspFMatrix3; const b: PscePspFMatrix3); cdecl; external;
+procedure gumCrossProduct(r: PScePspFMatrix3; const a: PScePspFMatrix3; const b: PScePspFMatrix3); cdecl; external;
 
-function gumDotProduct(const a: PscePspFMatrix3; const b: PscePspFMatrix3): single; cdecl; external;
+function gumDotProduct(const a: PScePspFMatrix3; const b: PScePspFMatrix3): single; cdecl; external;
 
-procedure gumNormalize(v: PscePspFVector3); cdecl; external;
+procedure gumNormalize(v: PScePspFVector3); cdecl; external;
 
 {$endif}
 

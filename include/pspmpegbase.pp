@@ -17,7 +17,7 @@ type
   iSize : SceInt32;
   end; // aligned 64
 
-  PsceMpegYCrCbBuffer = ^SceMpegYCrCbBuffer;
+  PSceMpegYCrCbBuffer = ^SceMpegYCrCbBuffer;
   SceMpegYCrCbBuffer  = record
   iFrameBufferHeight16 : SceInt32; 
   iFrameBufferWidth16  : SceInt32;
@@ -39,7 +39,7 @@ function sceMpegBaseYCrCbCopyVme(YUVBuffer: ScePVoid; Buffer: Pint32; atype: Sce
 
 function sceMpegBaseCscInit(width: SceInt32): integer; cdecl; external;
 
-function sceMpegBaseCscVme(pRGBbuffer: ScePVoid; pRGBbuffer2: ScePVoid; width: SceInt32; pYCrCbBuffer: PsceMpegYCrCbBuffer): integer; cdecl; external;
+function sceMpegBaseCscVme(pRGBbuffer: ScePVoid; pRGBbuffer2: ScePVoid; width: SceInt32; pYCrCbBuffer: PSceMpegYCrCbBuffer): integer; cdecl; external;
 
 function sceMpegbase_BEA18F91(pLLI: PSceMpegLLI): SceInt32; cdecl; external;
 

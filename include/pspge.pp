@@ -14,7 +14,7 @@ type
     context : array[0..511] of uint32;
   end;
 
-  PsceGeStack = ^SceGeStack;
+  PSceGeStack = ^SceGeStack;
   SceGeStack  = record
     stack : array[0..7] of uint32;
   end;
@@ -34,7 +34,7 @@ type
     size      : uint32;
     context   : PpspGeContext;
     numStacks : u32;
-    stacks    : PsceGeStack;
+    stacks    : PSceGeStack;
   end;
 
   PpspGeBreakParam = ^PspGeBreakParam;

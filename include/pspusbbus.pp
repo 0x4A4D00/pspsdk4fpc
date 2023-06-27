@@ -8,18 +8,21 @@ interface
 {$modeSwitch advancedRecords}
 
 type
+  PUsbInterface = ^UsbInterface;
   UsbInterface  = record
     expect_interface : int32;
     unk8             : int32;
     num_interface    : int32;
   end;
   
+  PUsbEndpoint = ^UsbEndpoint;
   UsbEndpoint  = record
     endpnum : int32;
     unk2    : int32;
     unk3    : int32;
   end;
   
+  PStringDescriptor = ^StringDescriptor;
   StringDescriptor  = record
     bLength         : uint8;
     bDescriptorType : uint8;
@@ -133,6 +136,39 @@ type
     wLength       : uint16;
   end;
   
+  PUsbDriver = ^UsbDriver;
+  UsbDriver  = record
+    name       : Pchar;
+    endpoints  : int32;
+    endp       : PUsbEndpoint;
+    intp       : PUsbInterface;
+    devp_hi    : pointer;
+    confp_hi   : pointer;
+    devp       : pointer;
+    confp      : pointer;
+    str        : PStringDescriptor;
+    recvctl    : function(arg1: int32; arg2: int32; arg3: int32): Pinteger;
+    func28     : function(arg1: int32; arg2: int32; arg3: int32): Pinteger;
+    attach     : function(speed: int32; arg2: pointer; arg3: pointer): Pinteger;
+    detach     : function(arg1: int32; arg2: int32; arg3: int32): Pinteger;
+    unk34      : integer;
+    start_func : function(size: itn32; args: pointer): Pinteger;
+    stop_func  : function(size: int32; args: pointer): Pinteger;
+    link       : PUsbDriver;
+  end;
+  
+  UsbDeviceReq  = record
+    endp     : PUsbEndpoint;
+    data     : pointer;
+    size     : int32;
+    unkc     : int32;
+    func     : pointer;
+    recvsize : int32;
+    retcode  : int32;
+    unk1c    : int32;
+    arg      : pointer;
+    link     : pointer;
+  end;  
 
 {$endif}
 

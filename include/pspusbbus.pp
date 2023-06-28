@@ -152,12 +152,13 @@ type
     attach     : function(speed: int32; arg2: pointer; arg3: pointer): Pinteger;
     detach     : function(arg1: int32; arg2: int32; arg3: int32): Pinteger;
     unk34      : integer;
-    start_func : function(size: itn32; args: pointer): Pinteger;
+    start_func : function(size: int32; args: pointer): Pinteger;
     stop_func  : function(size: int32; args: pointer): Pinteger;
     link       : PUsbDriver;
   end;
   
-  UsbDeviceReq  = record
+  PUsbdDeviceReq = ^UsbdDeviceReq;
+  UsbdDeviceReq  = record
     endp     : PUsbEndpoint;
     data     : pointer;
     size     : int32;
@@ -169,6 +170,21 @@ type
     arg      : pointer;
     link     : pointer;
   end;  
+
+
+function sceUsbbdRegister(drv: PUsbDriver): integer; cdecl; external;
+
+function sceUsbbdUnregister(drv: PUsbDriver): integer; cdecl; external;
+
+function sceUsbbdClearFIFO(endp: PUsbEndpoint): integer; cdecl; external;
+
+function sceUsbbdReqCancelAll(endp: PUsbEndpoint): integer; cdecl; external;
+
+function sceUsbbdStall(endp: PUsbEndpoint): integer; cdecl; external;
+
+function sceUsbbdReqSend(req: PUsbdDeviceReq): integer; cdecl; external;
+
+function sceUsbbdReqRecv(req: UsbdDeviceReq): integer; cdecl; external;
 
 {$endif}
 

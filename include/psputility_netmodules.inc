@@ -11,8 +11,6 @@ const
   PSP_NET_MODULE_HTTP      := 6;
   PSP_NET_MODULE_SSL       := 7;
   
-function sceUtilityLoadNetModule(module: int32): integer; cdecl; external;
 
-function sceUtilityUnloadNetModule(module: int32): integer; cdecl; external;
 
 {$endif}

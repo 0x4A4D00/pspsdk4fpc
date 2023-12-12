@@ -12,8 +12,6 @@ const
   PSP_AV_MODULE_AAC        := 6;
   PSP_AV_MODULE_G729       := 7;
   
-function sceUtilityLoadAvModule(module: int32): integer; cdecl; external;
 
-function sceUtilityUnloadAvModule(module: int32): integer; cdecl; external;
 
 {$endif}

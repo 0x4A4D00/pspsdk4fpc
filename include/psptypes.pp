@@ -43,16 +43,8 @@ type
 
 
 (* MIPS-like accessor macros. *)               
-function _lb(addr: u32): u8 ; static; cdecl; external; { return *(vu8 *)addr; }
-function _lh(addr: u32): u16; static; cdecl; external; { return *(vu16 *)addr; }
-function _lw(addr: u32): u32; static; cdecl; external; { return *(vu32 *)addr; }
-function _ld(addr: u32): u64; static; cdecl; external; { return *(vu64 *)addr; }
 
 
-procedure _sb(val: u8 ; addr: u32); static; cdecl; external;  { *(vu8 *)addr = val; }
-procedure _sh(val: u16; addr: u32); static; cdecl; external; { *(vu16 *)addr = val; }
-procedure _sw(val: u32; addr: u32); static; cdecl; external; { *(vu32 *)addr = val; }
-procedure _sd(val: u64; addr: u32); static; cdecl; external; { *(vu64 *)addr = val; }
 
 
 (* SCE types. *)

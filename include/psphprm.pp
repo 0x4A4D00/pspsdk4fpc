@@ -19,17 +19,11 @@ type
   );
 
 
-function sceHprmPeekCurrentKey(key: Puint32): int32; cdecl; external;
 
-function sceHprmPeekLatch(latch: Puint32): int32; cdecl; external;
 
-function sceHprmReadLatch(latch: Puint32): int32; cdecl; external;
 
-function sceHprmIsHeadphoneExist: int32; cdecl; external;
 
-function sceHprmIsRemoteExist: int32; cdecl; external;
 
-function sceHprmIsMicrophoneExist: int32; cdecl; external;
 
 {$endif}
 

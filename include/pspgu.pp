@@ -295,193 +295,99 @@ type
   TGuSwapBuffersCallback = function(display: Ppointer; render: Ppointer): pointer;
   Tcallback = function(arg: int32): pointer;
 
-procedure sceGuDepthBuffer(zbp: pointer; zbw: int32); cdecl; external;
 
-procedure sceGuDispBuffer(width: int32; height: int32; dispbp: pointer; dispbw: int32); cdecl; external;
 
-procedure sceGuDrawBuffer(psm: int32; fbp: pointer; fbw: int32); cdecl; external;
 
-procedure sceGuDrawBufferList(psm: int32; fbp: pointer; fbw: int32); cdecl; external;
 
-function sceGuDisplay(state: int32): int32; cdecl; external;
 
-procedure sceGuDepthFunc(func: int32); cdecl; external;
 
-procedure sceGuDepthMask(mask: int32); cdecl; external;
 
-procedure sceGuDepthOffset(offset: uint32); cdecl; external;
 
-procedure sceGuDepthRange(near: int32; far: int32); cdecl; external;
 
-procedure sceGuFog(near: single; far: single; color: uint32); cdecl; external;
 
-procedure sceGuInit; cdecl; external;
 
-procedure sceGuTerm; cdecl; external;
 
-procedure sceGuBreak(a0: int32); cdecl; external;
 
-procedure sceGuContinue; cdecl; external;
 
-function sceGuSetCallback(signal: int32; callback: Tcallback): pointer; cdecl; external;
 
-procedure sceGuSignal(signal: int32; behavior: int32); cdecl; external;
 
-procedure sceGuSendCommandf(cmd: int32; argument: single); cdecl; external;
 
-procedure sceGuSendCommandi(cmd: int32; argument: int32); cdecl; external;
 
-function sceGuGetMemory(size: int32): pointer; cdecl; external;
 
-procedure sceGuStart(cid: int32; list: pointer); cdecl; external;
 
-function sceGuFinish: int32; cdecl; external;
 
-function sceGuFinishId(id: uint32): int32; cdecl; external;
 
-procedure sceGuCallList(const list: pointer); cdecl; external;
 
-procedure sceGuCallMode(mode: int32); cdecl; external;
 
-function sceGuCheckList: int32; cdecl; external;
 
-procedure sceGuSendList(mode: int32; const list: pointer; context: PpspGeContext); cdecl; external;
 
-function sceGuSwapBuffers: pointer; cdecl; external;
 
-function sceGuSync(mode: int32; what: int32): int32; cdecl; external;
 
-procedure sceGuDrawArray(prim: int32; vtype: int32; count: int32; const indices: pointer; const vertices: pointer); cdecl; external;
 
-procedure sceGuBeginObject(vtype: int32; count: int32; const indices: pointer; const vertices: pointer); cdecl; external;
 
-procedure sceGuEndObject; cdecl; external;
 
-procedure sceGuSetStatus(state: int32; status: int32); cdecl; external;
 
-function sceGuGetStatus(state: int32): int32; cdecl; external;
 
-procedure sceGuSetAllStatus(status: int32); cdecl; external;
 
-function sceGuGetAllStatus: int32; cdecl; external;
 
-procedure sceGuEnable(state: int32); cdecl; external;
 
-procedure sceGuDisable(state: int32); cdecl; external;
 
-procedure sceGuLight(light: int32; atype: int32; components: int32; const position: PScePspFVector3); cdecl; external;
 
-procedure sceGuLightAtt(light: int32; atteng0: single; atten1: single; atten2: single); cdecl; external;
 
-procedure sceGuLightColor(light: int32; component: int32; color: uint32); cdecl; external;
 
-procedure sceGuLightMode(mode: int32); cdecl; external;
 
-procedure sceGuLightSpot(light: int32; const direction: PScePspFVector3; exponent: single; cutoff: single); cdecl; external;
 
-procedure sceGuClear(flags: int32); cdecl; external;
 
-procedure sceGuClearColor(color: uint32); cdecl; external;
 
-procedure sceGuClearDepth(depth: uint32); cdecl; external;
 
-procedure sceGuClearStencil(stencil: uint32); cdecl; external;
 
-procedure sceGuPixelMask(mask: uint32); cdecl; external;
 
-procedure sceGuColor(color: uint32); cdecl; external;
 
-procedure sceGuColorFunc(func: int32; color: uint32; mask: uint32); cdecl; external;
 
-procedure sceGuColorMaterial(components: int32); cdecl; external;
 
-procedure sceGuAlphaFunc(func: int32; value: int32; mask: int32); cdecl; external;
 
-procedure sceGuAmbient(color: uint32); cdecl; external;
 
-procedure sceGuAmbientColor(color: uint32); cdecl; external;
 
-procedure sceGuBlendFunc(op: int32; src: int32; dest: int32; srcfix: int32; destfix: int32); cdecl; external;
 
-procedure sceGuMaterial(mode: int32; color: int32); cdecl; external;
 
-procedure sceGuModelColor(emissive: uint32; ambient: uint32; diffuse: uint32; specular: uint32); cdecl; external;
 
-procedure sceGuStencilFunc(func: int32; ref: int32; mask: int32); cdecl; external;
 
-procedure sceGuStencilOp(fail: int32; zfail: int32; zpass: int32); cdecl; external;
 
-procedure sceGuSpecular(power: single); cdecl; external;
 
-procedure sceGuFrontFace(order: int32); cdecl; external;
 
-procedure sceGuLogicalOp(op: int32); cdecl; external;
 
-procedure sceGuSetDither(const matrix: PScePspIMatrix4); cdecl; external;
 
-procedure sceGuShadeModel(mode: int32); cdecl; external;
 
-procedure sceGuCopyImage(psm: int32; sx: int32; sy: int32; width: int32; heigth: int32; srcw: int32; src: pointer; dx: int32; dy: int32; destw: int32; dest: pointer); cdecl; external;
 
-procedure sceGuTexEnvColor(color: uint32); cdecl; external;
 
-procedure sceGuTexFilter(min: int32; mag: int32); cdecl; external;
 
-procedure sceGuTexFlush; cdecl; external;
 
-procedure sceGuTexFunc(tfx: int32; tcc: int32); cdecl; external;
 
-procedure sceGuTexImage(mipmap: int32; width: int32; heigth: int32; tbw: int32; const tbp: pointer); cdecl; external;
 
-procedure sceGuTexLevelMode(mode: uint32; bias: single); cdecl; external;
 
-procedure sceGuTexMapMode(mode: int32; a1: uint32; a2: uint32); cdecl; external;
 
-procedure sceGuTexMode(tpsm: int32; maxmips: int32; a2: int32; swizzle: int32); cdecl; external;
 
-procedure sceGuTexOffset(u: single; v: single); cdecl; external;
 
-procedure sceGuTexProjMapMode(mode: int32); cdecl; external;
 
-procedure sceGuTexScale(u: single; v: single); cdecl; external;
 
-procedure sceGuTexSlope(slope: single); cdecl; external;
 
-procedure sceGuTexSync; cdecl; external;
 
-procedure sceGuTexWrap(u: int32; v: int32); cdecl; external;
 
-procedure sceGuClutLoad(num_blocks: int32; const cbp: pointer); cdecl; external;
 
-procedure sceGuClutMode(cpsm: uint32; shift: uint32; mask: uint32; a3: uint32); cdecl; external;
 
-procedure sceGuOffset(x: uint32; y: uint32); cdecl; external;
 
-procedure sceGuScissor(x: int32; y: int32; w: int32; h: int32); cdecl; external;
 
-procedure sceGuViewport(cx: int32; cy: int32; width: int32; heigth: int32); cdecl; external;
 
-procedure sceGuDrawBezier(vtype: int32; ucount: int32; vcount: int32; const indices: pointer; const vertices: pointer); cdecl; external;
 
-procedure sceGuPatchDivide(ulevel: uint32; vlevel: uint32); cdecl; external;
 
-procedure sceGuPatchFrontFace(a0: uint32); cdecl; external;
 
-procedure sceGuPatchPrim(prim: int32); cdecl; external;
 
-procedure sceGuDrawSpline(vtype: int32; ucount: int32; vcount: int32; uedge: int32; vedge: int32; const indices: pointer; const vertices: pointer); cdecl; external;
 
-procedure sceGuSetMatrix(atype: int32; const matrix: PScePspFMatrix4); cdecl; external;
 
-procedure sceGuBoneMatrix(index: uint32; const matrix: PScePspFMatrix4); cdecl; external;
 
-procedure sceGuMorphWeight(index: int32; weigth: single); cdecl; external;
 
-procedure sceGuDrawArrayN(primitive_type: int32; vertex_type: int32; count: int32; a3: int32; const indices: pointer; const vertices: pointer); cdecl; external;
 
-procedure guSwapBuffersBehaviour(behaviour: int32); cdecl; external;
 
-procedure guSwapBuffersCallback(callback: TGuSwapBuffersCallback); cdecl; external;
 
 {$endif}
 

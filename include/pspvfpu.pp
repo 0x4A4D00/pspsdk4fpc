@@ -23,9 +23,7 @@ type
 
 {$define VFPU_ALIGNMENT := (sizeof(single) * 4)}
 
-procedure pspvfpu_deletecontext(context: Ppspvfpu_context); cdecl; external;
 
-procedure pspvfpu_use_matrices(context: Ppspvfpu_context; keepset: vfpumatrixset_t; tempset: vfpumatrixset_t); cdecl; external;
 
 {$endif}
 

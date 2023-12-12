@@ -29,12 +29,8 @@ type
     datasize : uint32;
   end;
   
-function sceUtilityGameSharingInitStart(params: PpspUtilityGameSharingParams): integer; cdecl; external;
 
-procedure sceUtilityGameSharingShutdownStart; cdecl; external;
 
-function sceUtilityGameSharingGetStatus: integer; cdecl; external;
 
-procedure sceUtilityGameSharingUpdate(n: int32): integer; cdecl; external;
 
 {$endif}

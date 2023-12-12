@@ -33,16 +33,10 @@ const
   PSP_NETPARAM_ERROR_BAD_NETCONF $80110601;
   PSP_NETPARAM_ERROR_BAD_PARAM   $80110604;
 
-function sceUtilityCheckNetParam(id: int32): integer; cdecl; external;
 
-function sceUtilityGetNetParam(conf: int32; param: int32; data: PnetData): integer; cdecl; external;
 
-function sceUtilityCreateNetParam(conf: int32): integer; cdecl; external;
 
-function sceUtilitySetNetParam(param: int32; const val: pointer): integer; cdecl; external;
 
-function sceUtilityCopyNetParam(src: int32; dest: int32): integer; cdecl; external;
 
-function sceUtilityDeleteNetParam(conf: int32): integer; cdecl; external;
 
 {$endif}

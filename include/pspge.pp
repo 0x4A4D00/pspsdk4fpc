@@ -42,11 +42,8 @@ type
     buf : array[0..3] of uint32;
   end;
 
-function sceGeEdramGetSize: uint32; cdecl; external;
   
-function sceGeEdramGetAddr: pointer; cdecl; external;
 
-function sceGeGetCmd(cmd: int32): int32; cdecl; external;
 
 type
   (* Matrixes *)
@@ -65,7 +62,6 @@ type
     PSP_GE_MATRIX_TEXGEN
   );
 
-function sceGeGetMtx(itype: int32; matrix: pointer): int32; cdecl; external;
 
 type
   PpspGeStack = ^PspGeStack;
@@ -73,19 +69,12 @@ type
     stack : array[0..7] of uint32;
   end;
 
-function sceGeGetStack(stackId: int32; stack: PpspGeStack): int32; cdecl; external;
 
-function sceGeSaveContext(context: PpspGeContext): int32; cdecl; external;
 
-function sceGeRestoreContext(const context: PpspGeContext): int32; cdecl; external;
 
-function sceGeListEnQueue(const list: pointer; stall: pointer; cbid: int32; arg: PpspGeListArgs): int32; cdecl; external;
 
-function sceGeListEnQueueHead(const list: pointer; stall: pointer; cbid: int32; arg: PpspGeListArgs): int32; cdecl; external;
 
-function sceGeListDeQueue(qid: int32): int32; cdecl; external;
 
-function sceGeListUpdateStallAddr(qid: int32; stall: pointer): int32; cdecl; external;
 
 type
   PspGeListState = (
@@ -96,19 +85,12 @@ type
     PSP_GE_LIST_CANCEL_DONE
   );
 
-function sceGeListSync(qid: int32; syncType: int32): int32; cdecl; external;
 
-function sceGeDrawSync(syncType: int32): int32; cdecl; external;
 
-function sceGeSetCallback(cb: PpspGeCallbackData): int32; cdecl; external;
 
-function sceGeUnsetCallback(cbid: int32): int32; cdecl; external;
 
-function sceGeBreak(mode: int32; pParam: PpspGeBreakParam): int32; cdecl; external;
 
-function sceGeContinue: int32; cdecl; external;
 
-function sceGeEdramSetAddrTranslation(width: int32): int32; cdecl; external;
 
 {$endif}
 

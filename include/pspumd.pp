@@ -36,19 +36,33 @@ type
   
   UmdCallback = function(unknown: int32; event: int32): Pinteger;
 
+function sceUmdCheckMedium: integer; cdecl; external;
 
+function sceUmdGetDiscInfo(info: PpspUmdInfo): integer; cdecl; external;
 
+function sceUmdActivate(aunit: int32; const drive: Pchar): integer; cdecl; external;
 
+function sceUmdDeactivate(aunit: int32; const drive: Pchar): integer; cdecl; external;
 
+function sceUmdWaitDriveStat(stat: int32): integer; cdecl; external;
 
+function sceUmdWaitDriveStatWithTimer(stat: int32; timeout: uint32): integer; cdecl; external;
 
+function sceUmdWaitDriveStatCB(stat: int32; tiemout: uint32): integer; cdecl; external;
 
+function sceUmdCancelWaitDriveStat: integer; cdecl; external;
 
+function sceUmdGetDriveStat: integer; cdecl; external;
 
+function sceUmdGetErrorStat: integer; cdecl; external;
 
+function sceUmdRegisterUMDCallBack(cbid: int32): integer; cdecl; external;
 
+function sceUmdUnRegisterUMDCallBack(cbid: int32): integer; cdecl; external;
 
+function sceUmdReplacePermit: integer; cdecl; external;
 
+function sceUmdReplaceProhibit: integer; cdecl; external;
 
 {$endif}
 

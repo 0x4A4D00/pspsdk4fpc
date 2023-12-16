@@ -8,6 +8,7 @@ interface
 uses
   pspkerneltypes;
 
+function sceKernelRegisterExitCallback(): int32; cdecl; external;
 
 procedure sceKernelExitGame; external;
 
@@ -27,6 +28,7 @@ type
   
   PSceKernelLoadExecParam = ^SceKernelLoadExecParam;
 
+function sceKernelLoadExec(const fileio: pchar; param: PSceKernelLoadExecParam): int32; cdecl; external;
 
 {$endif}
 

@@ -11,6 +11,7 @@ type
     PSP_AUDIO_FREQ_48K = 48000
   );
 
+function sceAudioSetFrequency(frequency: int32): int32; cdecl; external;
 
 {$endif}
 

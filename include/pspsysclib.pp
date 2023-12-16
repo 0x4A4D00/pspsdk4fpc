@@ -11,6 +11,7 @@ uses
 type
   prnt_callback = function(ctx: pointer; ch: int32): pointer;
 
+procedure prnt(cb: prnt_callback; ctx: pointer; const fmt: Pchar); varargs; cdecl; external;
 
 {$endif}
 

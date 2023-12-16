@@ -22,10 +22,15 @@ type
     reeserved : array[0..8] of int32;
   end;
  
+function sceKernelSysEventDispatch(ev_type_mask: int32; ev_id: int32; ev_name: Pchar; param: pointer; result: Pinteger; break_nonzero: int32; break_handler: PpspSysEventHandler): integer; cdecl; external;
  
+function sceKernelReferSysEventHandler: PpspSysEventHandler; cdecl; external;
  
+function sceKernelIsRegisterSysEventHandler(handler: PpspSysEventHandler): integer; cdecl; external;
  
+function sceKernelRegisterSysEventHandler(handler: PpspSysEventHandler): integer; cdecl; external;
  
+function sceKernelUnregisterSysEventHandler(handler: PpspSysEventHandler): integer; cdecl; external;
  
 {$endif}
 

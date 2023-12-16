@@ -15,6 +15,7 @@ type
     dev   : uint16;
   end;
 
+function sceSircsSend(sd: Psircs_data; count: int32): integer; cdecl; external;
 
 {$endif}
 

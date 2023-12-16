@@ -32,31 +32,57 @@ type
 function PSP_AUDIO_SAMPLE_ALIGN(s: integer): integer;
 
  
+function sceAudioChReserve(channel: int32; samplecount: int32; format: int32): int32; cdecl; external;
 
+function sceAudioChRelease(channel: int32): int32; cdecl; external;
 
+function sceAudioOutput(channel: int32; vol: int32; buf: pointer): int32; cdecl; external;
 
+function sceAudioOutputBlocking(channel: int32; vol: int32; buf: pointer): int32; cdecl; external;
 
+function sceAudioOutputPanned(channel: int32; leftvol: int32; rightvol: int32; buf: pointer): int32; cdecl; external;
 
+function sceAudioOutputPannedBlocking(channel: int32; leftvol: int32; rightvol: int32; buf: pointer): int32; cdecl; external;
 
+function sceAudioGetChannelRestLen(channel: int32): int32; cdecl; external;
 
+function sceAudioGetChannelRestLength(channel: int32): int32; cdecl; external;
 
+function sceAudioSetChannelDataLen(channel: int32; samplecount: int32): int32; cdecl; external;
 
+function sceAudioChangeChannelConfig(channel: int32; format: int32): int32; cdecl; external;
 
+function sceAudioChangeChannelVolume(channel: int32; leftvol: int32; rightvol: int32): int32; cdecl; external;
 
+function sceAudioOutput2Reserve(samplecount: int32): int32; cdecl; external;
 
+function sceAudioOutput2Release: int32; cdecl; external;
 
+function sceAudioOutput2ChangeLength(samplecount: int32): int32; cdecl; external;
 
+function sceAudioOutput2OutputBlocking(vol: int32; buf: pointer): int32; cdecl; external;
 
+function sceAudioOutput2GetRestSample: int32; cdecl; external;
 
+function sceAudioSRCChReserve(samplecount: int32; freq: int32; channels: int32): int32; cdecl; external;
 
+function sceAudioSRCChRelease: int32; cdecl; external;
 
+function sceAudioSRCOutputBlocking(vol: int32; buf: pointer): int32; cdecl; external;
 
+function sceAudioInputInit(unknown: int32; gain: int32; unknown2: int32): int32; cdecl; external;
 
+function sceAudioInputInitEx(params: PpspAudioInputParams): int32; cdecl; external;
 
+function sceAudioInputBlocking(samplecount: int32; freq: int32; buf: pointer): int32; cdecl; external;
 
+function sceAudioInput(samplecount: int32; freq: int32; buf: pointer): int32; cdecl; external;
 
+function sceAudioGetInputLength: int32; cdecl; external;
 
+function sceAudioWaitInputEnd: int32; cdecl; external;
 
+function sceAudioPollInputEnd: int32; cdecl; external;
 
 {$endif}
 

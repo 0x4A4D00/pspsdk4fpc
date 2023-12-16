@@ -18,10 +18,15 @@ type
 
   SceKernelSysMemAlloc_t = int32;
 
+function sceKernelAllocPartitionMemory(partitionid: SceUID; const name: pchar; atype: int32; size: SceSize; addr: pointer): SceUID; cdecl; external;
 
+function sceKernelFreePartitionMemory(blockid: SceUID): int32; cdecl; external;
 
+function sceKernelGetBlockHeadAddr(blockid: SceUID): pointer; cdecl; external;
 
+function sceKernelTotalFreeMemSize(): SceSize; cdecl; external;
 
+function sceKernelMaxFreeMemSize(): SceSize; cdecl; external;
 
 (**
  * Get the firmware version.
@@ -37,17 +42,22 @@ type
  * $02070010 on v2.70 unit,
  * $02070110 on v2.71 unit.
 *)
+function sceKernelDevkitVersion: int32; cdecl; external;
 
 
 {$if _PSP_FW_VERSION >= '150'}
 
+procedure sceKernelPrintf(const format: pchar; args: array of const); cdecl; external;
 (*
 * Also you can use
+* procedure sceKernelPrintf(const format: pchar); varargs; cdecl; external;
 *)
 
 {$endif}
 
+function sceKernelSetCompiledSdkVersion(version: int32): int32; cdecl; external;
 
+function sceKernelGetCompiledSdkVersion: int32; cdecl; external;
 
 {$endif}
 

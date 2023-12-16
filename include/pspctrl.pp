@@ -53,17 +53,29 @@ type
 	uiRelease : uint32;
   end;
 
+function sceCtrlSetSamplingCycle(cycle: int32): int32; cdecl; external;
 
+function sceCtrlGetSamplingCycle(pcycle: Pinteger): int32; cdecl; external;
 
+function sceCtrlSetSamplingMode(mode: int32): int32; cdecl; external;
 
+function sceCtrlGetSamplingMode(pmode: Pinteger): int32; cdecl; external;
 
+function sceCtrlPeekBufferPositive(pad_data: PSceCtrlData; count: int32): int32; cdecl; external;
 
+function sceCtrlPeekBufferNegative(pad_data: PSceCtrlData; count: int32): int32; cdecl; external;
 
+function sceCtrlReadBufferPositive(pad_data: PSceCtrlData; count: int32): int32; cdecl; external;
 
+function sceCtrlReadBufferNegative(pad_data: PSceCtrlData; count: int32): int32; cdecl; external;
 
+function sceCtrlPeekLatch(latch_data: PSceCtrlLatch): int32; cdecl; external;
 
+function sceCtrlReadLatch(latch_data: PSceCtrlLatch): int32; cdecl; external;
 
+function sceCtrlSetIdleCancelThreshold(idlereset: int32; idleback: int32): int32; cdecl; external;
 
+function sceCtrlGetIdleCancelThreshold(idlerest: pinteger; idleback: Pinteger): int32; cdecl; external;
 
 {$endif}
 

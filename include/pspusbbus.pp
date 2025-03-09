@@ -172,19 +172,19 @@ type
   end;  
 
 
-function sceUsbbdRegister(drv: PUsbDriver): integer; cdecl; external;
+function sceUsbbdRegister(drv: PUsbDriver): integer; external;
 
-function sceUsbbdUnregister(drv: PUsbDriver): integer; cdecl; external;
+function sceUsbbdUnregister(drv: PUsbDriver): integer; external;
 
-function sceUsbbdClearFIFO(endp: PUsbEndpoint): integer; cdecl; external;
+function sceUsbbdClearFIFO(endp: PUsbEndpoint): integer; external;
 
-function sceUsbbdReqCancelAll(endp: PUsbEndpoint): integer; cdecl; external;
+function sceUsbbdReqCancelAll(endp: PUsbEndpoint): integer; external;
 
-function sceUsbbdStall(endp: PUsbEndpoint): integer; cdecl; external;
+function sceUsbbdStall(endp: PUsbEndpoint): integer; external;
 
-function sceUsbbdReqSend(req: PUsbdDeviceReq): integer; cdecl; external;
+function sceUsbbdReqSend(req: PUsbdDeviceReq): integer; external;
 
-function sceUsbbdReqRecv(req: UsbdDeviceReq): integer; cdecl; external;
+function sceUsbbdReqRecv(req: UsbdDeviceReq): integer; external;
 
 {$endif}
 

@@ -11,11 +11,11 @@ uses
 type
   PspDebugPutChar = function(args: Puint16; ch: Uint32): pointer;
 
-procedure sceKernelRegisterDebugPutchar(func: PspDebugPutChar); cdecl; external;
+procedure sceKernelRegisterDebugPutchar(func: PspDebugPutChar); external;
 
-function sceKernelGetDebugPutchar: PspDebugPutChar; cdecl; external;
+function sceKernelGetDebugPutchar: PspDebugPutChar; external;
 
-procedure Kprintf(const format: Pchar); varargs; cdecl; external;
+procedure Kprintf(const format: Pchar); varargs; external;
 
 {$endif}
 

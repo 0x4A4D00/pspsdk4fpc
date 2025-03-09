@@ -30,13 +30,13 @@ type
     PSP_INIT_KEYCONFIG_POPS = $300
   );
 
-function sceKernelInitApitype: integer; cdecl; external;
+function sceKernelInitApitype: integer; external;
 
-function sceKernelInitFileName: Pchar; cdecl; external;
+function sceKernelInitFileName: Pchar; external;
 
-function sceKernelBootForm: integer; cdecl; external;
+function sceKernelBootForm: integer; external;
 
-function InitForKernel_7233B5BC: integer; cdecl; external;
+function InitForKernel_7233B5BC: integer; external;
 
 {$define sceKernelInitKeyConfig := InitForKernel_7233B5BC}
 

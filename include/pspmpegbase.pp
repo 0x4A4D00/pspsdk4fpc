@@ -35,13 +35,13 @@ type
   iUnknown3            : array[0..10] of SceInt32;
   end; // aligned 64
 
-function sceMpegBaseYCrCbCopyVme(YUVBuffer: ScePVoid; Buffer: Pint32; atype: SceInt32): integer; cdecl; external;
+function sceMpegBaseYCrCbCopyVme(YUVBuffer: ScePVoid; Buffer: Pint32; atype: SceInt32): integer; external;
 
-function sceMpegBaseCscInit(width: SceInt32): integer; cdecl; external;
+function sceMpegBaseCscInit(width: SceInt32): integer; external;
 
-function sceMpegBaseCscVme(pRGBbuffer: ScePVoid; pRGBbuffer2: ScePVoid; width: SceInt32; pYCrCbBuffer: PSceMpegYCrCbBuffer): integer; cdecl; external;
+function sceMpegBaseCscVme(pRGBbuffer: ScePVoid; pRGBbuffer2: ScePVoid; width: SceInt32; pYCrCbBuffer: PSceMpegYCrCbBuffer): integer; external;
 
-function sceMpegbase_BEA18F91(pLLI: PSceMpegLLI): SceInt32; cdecl; external;
+function sceMpegbase_BEA18F91(pLLI: PSceMpegLLI): SceInt32; external;
 
 {$endif}
 

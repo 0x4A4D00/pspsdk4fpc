@@ -46,50 +46,50 @@ type
     nickname : array[0..127] of char;
   end;
 
-function sceNetAdhocctlInit(stacksize: int32; priority: int32; product: PproductStruct): integer; cdecl; external;
+function sceNetAdhocctlInit(stacksize: int32; priority: int32; product: PproductStruct): integer; external;
 
-function sceNetAdhocctlTerm: integer; cdecl; external;
+function sceNetAdhocctlTerm: integer; external;
 
-function sceNetAdhocctlConnect(const name: Pchar): integer; cdecl; external;
+function sceNetAdhocctlConnect(const name: Pchar): integer; external;
 
-function sceNetAdhocctlDisconnect: integer; cdecl; external;
+function sceNetAdhocctlDisconnect: integer; external;
 
-function sceNetAdhocctlGetState(event: Pinteger): integer; cdecl; external;
+function sceNetAdhocctlGetState(event: Pinteger): integer; external;
 
-function sceNetAdhocctlCreate(const name: Pchar): integer; cdecl; external;
+function sceNetAdhocctlCreate(const name: Pchar): integer; external;
 
-function sceNetAdhocctlJoin(sceninfo: PSceNetAdhocctlScanInfo): integer; cdecl; external;
+function sceNetAdhocctlJoin(sceninfo: PSceNetAdhocctlScanInfo): integer; external;
 
-function sceNetAdhocctlGetAdhocId(product: PproductStruct): integer; cdecl; external;
+function sceNetAdhocctlGetAdhocId(product: PproductStruct): integer; external;
 
-function sceNetAdhocctlCreateEnterGameMode(const name: Pchar; unknown: int32; num: int32; macs: Pchar; timeout: uint32; unknown2: int32): integer; cdecl; external;
+function sceNetAdhocctlCreateEnterGameMode(const name: Pchar; unknown: int32; num: int32; macs: Pchar; timeout: uint32; unknown2: int32): integer; external;
 
-function sceNetADhocctlJoinEnterGameMode(const name: Pchar; hostmac: Pchar; timeout: uint32; unknown: int32): integer; cdecl; external;
+function sceNetADhocctlJoinEnterGameMode(const name: Pchar; hostmac: Pchar; timeout: uint32; unknown: int32): integer; external;
 
-function sceNetAdhocctlGetGameModeInfo(gamemodeinfo: PSceNetAdhocctlGameModeInfo): integer; cdecl; external;
+function sceNetAdhocctlGetGameModeInfo(gamemodeinfo: PSceNetAdhocctlGameModeInfo): integer; external;
 
-function sceNetAdhocctlExitGameMode: integer; cdecl; external;
+function sceNetAdhocctlExitGameMode: integer; external;
 
-function sceNetAdhocctlGetPeerList(length: Pinteger; buf: pointer): integer; cdecl; external;
+function sceNetAdhocctlGetPeerList(length: Pinteger; buf: pointer): integer; external;
 
-function sceNetAdhocctlGetPeerInfo(mac: Pchar; size: int32; peerinfo: PSceNetAdhocctlPeerInfo): integer; cdecl; external;
+function sceNetAdhocctlGetPeerInfo(mac: Pchar; size: int32; peerinfo: PSceNetAdhocctlPeerInfo): integer; external;
 
-function sceNetAdhocctlScan: integer; cdecl; external;
+function sceNetAdhocctlScan: integer; external;
 
-function sceNetAdhocctlGetScanInfo(length: Pinteger; buf: pointer): integer; cdecl; external;
+function sceNetAdhocctlGetScanInfo(length: Pinteger; buf: pointer): integer; external;
 
 type
   sceNetAdhocctlHandler = function(flag: int32; error: int32; unknown: pointer): pointer;
 
-function sceNetAdhocctlAddHandler(handler: sceNetAdhocctlHandler; unknown: pointer): integer; cdecl; external;
+function sceNetAdhocctlAddHandler(handler: sceNetAdhocctlHandler; unknown: pointer): integer; external;
 
-function sceNetAdhocctlDelHandler(id: int32): integer; cdecl; external;
+function sceNetAdhocctlDelHandler(id: int32): integer; external;
 
-function sceNetadhocctlGetNameByAddr(mac: Pchar; nickname: Pchar): integer; cdecl; external;
+function sceNetadhocctlGetNameByAddr(mac: Pchar; nickname: Pchar): integer; external;
 
-function sceNetAdhocctlGetAddrByName(nickname: Pchar; length: Pinteger; buf: pointer): integer; cdecl; external;
+function sceNetAdhocctlGetAddrByName(nickname: Pchar; length: Pinteger; buf: pointer): integer; external;
 
-function sceNetAdhocctlGetParameter(params: PSceNetAdhocctlParams): integer; cdecl; external;
+function sceNetAdhocctlGetParameter(params: PSceNetAdhocctlParams): integer; external;
 
 {$endif}
 

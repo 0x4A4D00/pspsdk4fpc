@@ -24,33 +24,33 @@ type
     SCE_DISPLAY_ERROR_ARGUMENT   = Longint($80000107)
   );
   
-function sceDisplaySetMode(mode: int32; width: int32; height: int32): integer; cdecl; external;
+function sceDisplaySetMode(mode: int32; width: int32; height: int32): integer; external;
 
-function sceDisplayGetMode(pmode: Pinteger; pwidth: Pinteger; pheight: Pinteger): integer; cdecl; external;
+function sceDisplayGetMode(pmode: Pinteger; pwidth: Pinteger; pheight: Pinteger): integer; external;
 
-function sceDisplaySetFrameBuf(topaddr: pointer; bufferwidth: int32; pixelformat: int32; sync: int32): integer; cdecl; external;
+function sceDisplaySetFrameBuf(topaddr: pointer; bufferwidth: int32; pixelformat: int32; sync: int32): integer; external;
 
-function sceDisplayGetFrameBuf(topaddr: Ppointer; bufferwidth: Pinteger; pixelformat: Pinteger; sync: int32): integer; cdecl; external;
+function sceDisplayGetFrameBuf(topaddr: Ppointer; bufferwidth: Pinteger; pixelformat: Pinteger; sync: int32): integer; external;
 
-function sceDisplayGetVcount: uint32; cdecl; external;
+function sceDisplayGetVcount: uint32; external;
 
-function sceDisplayWaitVblankStart: integer; cdecl; external;
+function sceDisplayWaitVblankStart: integer; external;
 
-function sceDisplayWaitVblankStartCB: integer; cdecl; external;
+function sceDisplayWaitVblankStartCB: integer; external;
 
-function sceDisplayWaitVblank: integer; cdecl; external;
+function sceDisplayWaitVblank: integer; external;
 
-function sceDisplayWaitVblankCB: integer; cdecl; external;
+function sceDisplayWaitVblankCB: integer; external;
 
-function sceDisplayGetAccumulatedHcount: integer; cdecl; external;
+function sceDisplayGetAccumulatedHcount: integer; external;
 
-function sceDisplayGetCurrentHcount: integer; cdecl; external;
+function sceDisplayGetCurrentHcount: integer; external;
 
-function sceDisplayGetFramePerSec: single; cdecl; external;
+function sceDisplayGetFramePerSec: single; external;
 
-function sceDisplayIsForeground: integer; cdecl; external;
+function sceDisplayIsForeground: integer; external;
 
-function sceDisplayIsVblank: integer; cdecl; external;
+function sceDisplayIsVblank: integer; external;
 
 {$endif}
 

@@ -11,7 +11,7 @@ type
     data : array[0..15] of char;
   end;
 
-function sceOpenPSIDGetOpenPSID(openpsid: PpspOpenPSID): integer; cdecl; external;
+function sceOpenPSIDGetOpenPSID(openpsid: PpspOpenPSID): integer; external;
 
 {$endif}
 

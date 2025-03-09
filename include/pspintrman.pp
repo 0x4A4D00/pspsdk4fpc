@@ -52,23 +52,23 @@ type
     PSP_DISPLAY_SUBINT  = L(PSP_VBLANK_INT)
   );
 
-function sceKernelCpuSuspendIntr: uint32; cdecl; external;
+function sceKernelCpuSuspendIntr: uint32; external;
 
-procedure sceKernelCpuResumeIntr(flags: uint32); cdecl; external;
+procedure sceKernelCpuResumeIntr(flags: uint32); external;
 
-procedure sceKernelCpuResumeIntrWithSync(flags: uint32); cdecl; external;
+procedure sceKernelCpuResumeIntrWithSync(flags: uint32); external;
 
-function sceKernelIsCpuIntrSuspended(flags: uint32): int32; cdecl; external;
+function sceKernelIsCpuIntrSuspended(flags: uint32): int32; external;
 
-function sceKernelIsCpuIntrEnable: int32; cdecl; external;
+function sceKernelIsCpuIntrEnable: int32; external;
 
-function sceKernelRegisterSubIntrHandler(intno: int32; no: int32; handler: pointer; arg: pointer): int32; cdecl; external;
+function sceKernelRegisterSubIntrHandler(intno: int32; no: int32; handler: pointer; arg: pointer): int32; external;
 
-function sceKernelReleaseSubIntrHandler(intno: int32; no: int32): int32; cdecl; external;
+function sceKernelReleaseSubIntrHandler(intno: int32; no: int32): int32; external;
 
-function sceKernelEnableSubIntr(intno: int32; no: int32): int32; cdecl; external;
+function sceKernelEnableSubIntr(intno: int32; no: int32): int32; external;
 
-function sceKernelDisableSubIntr(intno: int32; no: int32): int32; cdecl; external;
+function sceKernelDisableSubIntr(intno: int32; no: int32): int32; external;
 
 
 type
@@ -92,7 +92,7 @@ type
     max_clock_hi   : u32;
   end;
   
-function QueryIntrHandlerInfo(intr_code: SceUID; sub_intr_code: SceUID; data: PpspIntrHandlerOptionParam): int32; cdecl; external;
+function QueryIntrHandlerInfo(intr_code: SceUID; sub_intr_code: SceUID; data: PpspIntrHandlerOptionParam): int32; external;
 
 {$endif}
 

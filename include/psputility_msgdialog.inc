@@ -33,14 +33,14 @@ type
     buttonPressed : pspUtilityMsgDialogPressed;
   end;
   
-function sceUtilityMsgDialogInitStart(params: PpspUtilityMsgDialogParams): integer; cdecl; external;
+function sceUtilityMsgDialogInitStart(params: PpspUtilityMsgDialogParams): integer; external;
 
-procedure sceUtilityMsgDialogShutdownStart; cdecl; external;
+procedure sceUtilityMsgDialogShutdownStart; external;
 
-function sceUtilityMsgDialogGetStatus: integer; cdecl; external;
+function sceUtilityMsgDialogGetStatus: integer; external;
 
-procedure sceUtilityMsgDialogUpdate(n: int32); cdecl; external;
+procedure sceUtilityMsgDialogUpdate(n: int32); external;
 
-function sceUtilityMsgDialogAbort: integer; cdecl; external;
+function sceUtilityMsgDialogAbort: integer; external;
 
 {$endif}

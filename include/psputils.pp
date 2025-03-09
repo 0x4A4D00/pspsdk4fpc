@@ -27,26 +27,26 @@ type
   end;
 
 (* Time Functions Not Tested *)
-function sceKernelLibcTime(t: Ptime): Ttime; cdecl; external; 
+function sceKernelLibcTime(t: Ptime): Ttime; external; 
 
-function sceKernelLibcClock: TClock; cdecl; external;
+function sceKernelLibcClock: TClock; external;
 
-function sceKernelLibcGettimeofday(tp: Ptimeval; tzp: Ptimezone): int32; cdecl; external;
+function sceKernelLibcGettimeofday(tp: Ptimeval; tzp: Ptimezone): int32; external;
 
 
-procedure sceKernelDcacheWritebackAll; cdecl; external;
+procedure sceKernelDcacheWritebackAll; external;
 
-procedure sceKernelDcacheWritebackInvalidateAll; cdecl; external;
+procedure sceKernelDcacheWritebackInvalidateAll; external;
 
-procedure sceKernelDcacheWritebackRange(const p: pointer; size: uint32); cdecl; external;
+procedure sceKernelDcacheWritebackRange(const p: pointer; size: uint32); external;
 
-procedure sceKernelDcacheWritebackInvalidateRange(const p: pointer; size: uint32); cdecl; external;
+procedure sceKernelDcacheWritebackInvalidateRange(const p: pointer; size: uint32); external;
 
-procedure sceKernelDcacheInvalidateRange(const p: pointer; size: uint32); cdecl; external;
+procedure sceKernelDcacheInvalidateRange(const p: pointer; size: uint32); external;
 
-procedure sceKernelIcacheInvalidateAll; cdecl; external;
+procedure sceKernelIcacheInvalidateAll; external;
 
-procedure sceKernelIcacheInvalidateRange(const p: pointer; size: uint32); cdecl; external;
+procedure sceKernelIcacheInvalidateRange(const p: pointer; size: uint32); external;
 
 type
   PSceKernelUtilsMt19937Context = ^SceKernelUtilsMt19937Context;
@@ -55,9 +55,9 @@ type
     state : array[0..623] of uint32;
   end;
 
-function sceKernelUtilsMt19937Init(ctx: PSceKernelUtilsMt19937Context; seed: u32): int32; cdecl; external;
+function sceKernelUtilsMt19937Init(ctx: PSceKernelUtilsMt19937Context; seed: u32): int32; external;
 
-function sceKernelUtilsMt19937UInt(ctx: PSceKernelUtilsMt19937Context): u32; cdecl; external;
+function sceKernelUtilsMt19937UInt(ctx: PSceKernelUtilsMt19937Context): u32; external;
 
 type
   PSceKernelUtilsMd5Context = ^SceKernelUtilsMd5Context;
@@ -70,13 +70,13 @@ type
     buf         : array[0..63] of uint16;
   end;
 
-function sceKernelUtilsMd5Digest(data: Puint8; size: uint32; digest: Puint8): int32; cdecl; external;
+function sceKernelUtilsMd5Digest(data: Puint8; size: uint32; digest: Puint8): int32; external;
 
-function sceKernelUtilsMd5BlockInit(ctx: PSceKernelUtilsMd5Context): int32; cdecl; external;
+function sceKernelUtilsMd5BlockInit(ctx: PSceKernelUtilsMd5Context): int32; external;
 
-function sceKernelUtilsMd5BlockUpdate(ctx: PSceKernelUtilsMd5Context; data: Puint8; size: uint32): int32; cdecl; external;
+function sceKernelUtilsMd5BlockUpdate(ctx: PSceKernelUtilsMd5Context; data: Puint8; size: uint32): int32; external;
 
-function sceKernelUtilsMd5BlockResult(ctx: PSceKernelUtilsMd5Context; digest: Puint8): int32; cdecl; external;
+function sceKernelUtilsMd5BlockResult(ctx: PSceKernelUtilsMd5Context; digest: Puint8): int32; external;
 
 type
   PSceKernelUtilsSha1Context = ^SceKernelUtilsSha1Context;
@@ -88,13 +88,13 @@ type
     buf         : array[0..63] of uint16;
   end;
 
-function sceKernelUtilsSha1Digest(data: Puint8; size: uint32; digest: Puint8): int32; cdecl; external;
+function sceKernelUtilsSha1Digest(data: Puint8; size: uint32; digest: Puint8): int32; external;
 
-function sceKernelUtilsSha1BlockInit(ctx: PSceKernelUtilsSha1Context): int32; cdecl; external;
+function sceKernelUtilsSha1BlockInit(ctx: PSceKernelUtilsSha1Context): int32; external;
 
-function sceKernelUtilsSha1BlockUpdate(ctx: PSceKernelUtilsSha1Context; data: Puint8; size: uint32): int32; cdecl; external;
+function sceKernelUtilsSha1BlockUpdate(ctx: PSceKernelUtilsSha1Context; data: Puint8; size: uint32): int32; external;
 
-function sceKernelUtilsSha1BlockResult(ctx: PSceKernelUtilsSha1Context; digest: Puint8): int32; cdecl; external;
+function sceKernelUtilsSha1BlockResult(ctx: PSceKernelUtilsSha1Context; digest: Puint8): int32; external;
 
 
 {$endif}

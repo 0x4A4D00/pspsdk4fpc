@@ -9,15 +9,15 @@ uses
   psptypes,
   pspkerneltypes;
   
-function sceJpegInitMJpeg: integer; cdecl; external;
+function sceJpegInitMJpeg: integer; external;
 
-function sceJpegFinishMJpeg: integer; cdecl; external;
+function sceJpegFinishMJpeg: integer; external;
 
-function sceJpegCreateMJpeg(width: int32; height: int32): integer; cdecl; external;
+function sceJpegCreateMJpeg(width: int32; height: int32): integer; external;
 
-function sceJpegDeleteMJpeg: integer; cdecl; external;
+function sceJpegDeleteMJpeg: integer; external;
 
-function sceJpegDecodeMJpeg(jpegbuf: Puint8; size: SceSize; rgba: pointer; unk: u32): integer; cdecl; external;
+function sceJpegDecodeMJpeg(jpegbuf: Puint8; size: SceSize; rgba: pointer; unk: u32): integer; external;
 
 {$endif}
 

@@ -10,45 +10,45 @@ uses
 {$define __DEBUG_H__}
 
 
-procedure pspDebugScreenInit; cdecl; external;
+procedure pspDebugScreenInit; external;
 
-procedure pspDebugScreenInitEx(vram_base: pointer; mode: int32; setup: int32); cdecl; external;
+procedure pspDebugScreenInitEx(vram_base: pointer; mode: int32; setup: int32); external;
 
-procedure pspDebugScreenPrintf(const fmt: Pchar); varargs; cdecl; external;
+procedure pspDebugScreenPrintf(const fmt: Pchar); varargs; external;
 
-procedure pspDebugScreenKprintf(const format: Pchar); varargs; cdecl; external;
+procedure pspDebugScreenKprintf(const format: Pchar); varargs; external;
 
-procedure pspDebugScreenEnableBackColor(enable: int32); cdecl; external;
+procedure pspDebugScreenEnableBackColor(enable: int32); external;
 
-procedure pspDebugScreenSetBackColor(color: u32); cdecl; external;
+procedure pspDebugScreenSetBackColor(color: u32); external;
 
-procedure pspDebugScreenSetTextColor(color: u32); cdecl; external;
+procedure pspDebugScreenSetTextColor(color: u32); external;
 
-procedure pspDebugScreenSetColorMode(mode: int32); cdecl; external;
+procedure pspDebugScreenSetColorMode(mode: int32); external;
 
-procedure pspDebugScreenPutChar(x: int32; y: int32; color: u32; ch: u8); cdecl; external;
+procedure pspDebugScreenPutChar(x: int32; y: int32; color: u32; ch: u8); external;
 
-procedure pspDebugScreenSetXY(x: int32; y: int32); cdecl; external;
+procedure pspDebugScreenSetXY(x: int32; y: int32); external;
 
-procedure pspDebugScreenSetOffset(offset: int32); cdecl; external;
+procedure pspDebugScreenSetOffset(offset: int32); external;
 
-procedure pspDebugScreenSetBase(base: Puint32); cdecl; external;
+procedure pspDebugScreenSetBase(base: Puint32); external;
 
-function pspDebugScreenGetX: int32; cdecl; external;
+function pspDebugScreenGetX: int32; external;
 
-function pspDebugScreenGetY: int32; cdecl; external;
+function pspDebugScreenGetY: int32; external;
 
-procedure pspDebugScreenClear; cdecl; external;
+procedure pspDebugScreenClear; external;
 
-function pspDebugScreenPrintData(const buff: Pchar; size: int32): int32; cdecl; external;
+function pspDebugScreenPrintData(const buff: Pchar; size: int32): int32; external;
 
-function pspDebugScreenPuts(const str: Pchar): int32; cdecl; external;
+function pspDebugScreenPuts(const str: Pchar): int32; external;
 
-function pspDebugGetStackTrace(results: Puint32; max: int32): int32; cdecl; external;
+function pspDebugGetStackTrace(results: Puint32; max: int32): int32; external;
 
-procedure pspDebugScreenClearLineEnable; cdecl; external;
+procedure pspDebugScreenClearLineEnable; external;
 
-procedure pspDebugScreenClearLineDisable; cdecl; external;
+procedure pspDebugScreenClearLineDisable; external;
 
 type
   PpspDebugRegBlock = ^PspDebugRegBlock;
@@ -88,11 +88,11 @@ type
   PspDebugErrorHandler   = function(regs: PpspDebugRegBlock): pointer;
   PspDebugKprintfHandler = function(const format: Pchar; args: Puint32): int32;
 
-function pspDebugInstallErrorHandler(handler: PspDebugErrorHandler): int32; cdecl; external;
+function pspDebugInstallErrorHandler(handler: PspDebugErrorHandler): int32; external;
 
-procedure pspDebugDumpException(regs: PpspDebugRegBlock); cdecl; external;
+procedure pspDebugDumpException(regs: PpspDebugRegBlock); external;
 
-function pspDebugInstallKprintfHandler(handler: PspDebugKprintfHandler): int32; cdecl; external;
+function pspDebugInstallKprintfHandler(handler: PspDebugKprintfHandler): int32; external;
 
 type
   PpspDebugStackTrace = ^PspDebugStackTrace;
@@ -101,7 +101,7 @@ type
     func_addr : u32;
   end;
 
-function pspDebugGetStackTrace2(regs: PpspDebugRegBlock; trace: PpspDebugStackTrace; max: int32): int32; cdecl; external;
+function pspDebugGetStackTrace2(regs: PpspDebugRegBlock; trace: PpspDebugStackTrace; max: int32): int32; external;
 
 type
   PpspDebugProfilerRegs = ^PspDebugProfilerRegs;
@@ -128,51 +128,51 @@ type
     local_bus      : u32;
   end;
 
-procedure pspDebugProfilerEnable; cdecl; external;
+procedure pspDebugProfilerEnable; external;
 
-procedure pspDebugProfilerDisable; cdecl; external;
+procedure pspDebugProfilerDisable; external;
 
-procedure pspDebugProfilerClear; cdecl; external;
+procedure pspDebugProfilerClear; external;
 
-procedure pspDebugProfilerGetRegs(regs: PpspDebugProfilerRegs); cdecl; external;
+procedure pspDebugProfilerGetRegs(regs: PpspDebugProfilerRegs); external;
 
-procedure pspDebugProfilerPrint; cdecl; external;
+procedure pspDebugProfilerPrint; external;
 
 type
   PspDebugPrintHandler = function(const data: Pchar; Len: int32): Pinteger;
   PspDebugInputHandler = function(const data: Pchar; Len: int32): Pinteger;
 
-function pspDebugInstallStdinHandler(handler: PspDebugInputHandler): int32; cdecl; external;
+function pspDebugInstallStdinHandler(handler: PspDebugInputHandler): int32; external;
 
-function pspDebugInstallStdoutHandler(handler: PspDebugPrintHandler): int32; cdecl; external;
+function pspDebugInstallStdoutHandler(handler: PspDebugPrintHandler): int32; external;
 
-function pspDebugInstallStderrHandler(handler: PspDebugPrintHandler): int32; cdecl; external;
+function pspDebugInstallStderrHandler(handler: PspDebugPrintHandler): int32; external;
 
-procedure pspDebugSioPutchar(ch: int32); cdecl; external;
+procedure pspDebugSioPutchar(ch: int32); external;
 
-function pspDebugSioGetchar: int32; cdecl; external;
+function pspDebugSioGetchar: int32; external;
 
-procedure pspDebugSioPuts(const str: Pchar); cdecl; external;
+procedure pspDebugSioPuts(const str: Pchar); external;
 
-function pspDebugSioPutData(const data: Pchar; len: int32): int32; cdecl; external;
+function pspDebugSioPutData(const data: Pchar; len: int32): int32; external;
 
-function pspDebugSioPutText(const data: Pchar; len: int32): int32; cdecl; external;
+function pspDebugSioPutText(const data: Pchar; len: int32): int32; external;
 
-procedure pspDebugSioInit; cdecl; external; 
+procedure pspDebugSioInit; external; 
 
-procedure pspDebugSioSetBaud(baud: int32); cdecl; external;
+procedure pspDebugSioSetBaud(baud: int32); external;
 
-procedure pspDebugEnablePutchar; cdecl; external;
+procedure pspDebugEnablePutchar; external;
 
-procedure pspDebugSioInstallKprintf; cdecl; external;
+procedure pspDebugSioInstallKprintf; external;
 
-procedure pspDebugGdbStubInit; cdecl; external;
+procedure pspDebugGdbStubInit; external;
 
-procedure pspDebugBreakpoint; cdecl; external;
+procedure pspDebugBreakpoint; external;
 
-procedure pspDebugSioEnableKprintf; cdecl; external;
+procedure pspDebugSioEnableKprintf; external;
 
-procedure pspDebugSioDisableKprintf; cdecl; external;
+procedure pspDebugSioDisableKprintf; external;
 
 
 {$endif}

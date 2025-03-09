@@ -55,51 +55,51 @@ type
     uiReadPositionSecondBuf   : uint32;
   end;
 
-function sceAtracGetAtracID(uiCodecType: uint32): int32; cdecl; external;
+function sceAtracGetAtracID(uiCodecType: uint32): int32; external;
 
-function sceAtracSetDataAndGetID(buf: pointer; bufsize: SceSize): int32; cdecl; external;
+function sceAtracSetDataAndGetID(buf: pointer; bufsize: SceSize): int32; external;
 
-function sceAtracDecodeData(atracID: int32; outSamples: uint16; outN: Pint32; outEnd: Pint32; outRemainFrame: Pint32): int32; cdecl; external;
+function sceAtracDecodeData(atracID: int32; outSamples: uint16; outN: Pint32; outEnd: Pint32; outRemainFrame: Pint32): int32; external;
 
-function sceAtracGetRemainFrame(atracID: int32; outRemainFrame: Pint32): int32; cdecl; external;
+function sceAtracGetRemainFrame(atracID: int32; outRemainFrame: Pint32): int32; external;
 
-function sceAtracGetStreamDataInfo(atracID: int32; writePointer: PPuint8; AvailableBytes: Puint32; readOffset: Puint32): integer; cdecl; external;
+function sceAtracGetStreamDataInfo(atracID: int32; writePointer: PPuint8; AvailableBytes: Puint32; readOffset: Puint32): integer; external;
 
-function sceAtracAddStreamData(atracID: int32; bytesToAdd: uint32): integer; cdecl; external;
+function sceAtracAddStreamData(atracID: int32; bytesToAdd: uint32): integer; external;
 
-function sceAtracGetBitrate(atracID: int32; outBitrate: Pinteger): integer; cdecl; external;
+function sceAtracGetBitrate(atracID: int32; outBitrate: Pinteger): integer; external;
 
-function sceAtracSetLoopNum(atracID: int32; nloops: int32): integer; cdecl; external;
+function sceAtracSetLoopNum(atracID: int32; nloops: int32): integer; external;
 
-function sceAtracReleaseAtracID(atracID: int32): integer; cdecl; external;
+function sceAtracReleaseAtracID(atracID: int32): integer; external;
 
-function sceAtracGetNextSample(atracID: int32; outN: Pinteger): integer; cdecl; external;
+function sceAtracGetNextSample(atracID: int32; outN: Pinteger): integer; external;
 
-function sceAtracGetMaxSample(atracID: int32; outMax: Pinteger): integer; cdecl;; external;
+function sceAtracGetMaxSample(atracID: int32; outMax: Pinteger): integer;; external;
 
-function sceAtracGetBufferInfoForReseting(atracID: int32; uiSample: uint32; pBufferInfo: PpspBufferInfo): integer; cdecl; external;
+function sceAtracGetBufferInfoForReseting(atracID: int32; uiSample: uint32; pBufferInfo: PpspBufferInfo): integer; external;
 
-function sceAtracGetChannel(atracID: int32; puiChannel: Puint32): integer; cdecl; external;
+function sceAtracGetChannel(atracID: int32; puiChannel: Puint32): integer; external;
 
-function sceAtracGetInternalErrorInfo(atracID: int32; piResult: Pinteger): integer; cdecl; external;
+function sceAtracGetInternalErrorInfo(atracID: int32; piResult: Pinteger): integer; external;
 
-function sceAtracGetLoopStatus(atracID: int32; piLoopNum: Pinteger; puiLoopStatus: Puint32): integer; cdecl; external;
+function sceAtracGetLoopStatus(atracID: int32; piLoopNum: Pinteger; puiLoopStatus: Puint32): integer; external;
 
-function sceAtracGetNextDecodePosition(atracID: int32; puiSamplePosition: Puint32): integer; cdecl; external;
+function sceAtracGetNextDecodePosition(atracID: int32; puiSamplePosition: Puint32): integer; external;
 
-function sceAtracGetSecondBufferInfo(atracID: int32; puiPosition: Puint32; puiDataByte: Puint32): integer; cdecl; external;
+function sceAtracGetSecondBufferInfo(atracID: int32; puiPosition: Puint32; puiDataByte: Puint32): integer; external;
 
-function sceAtracGetSoundSample(atracID: int32; piEndSample: int32; piLoopStartSample: Pinteger; piLoopEndSample: Pinteger): integer; cdecl; external;
+function sceAtracGetSoundSample(atracID: int32; piEndSample: int32; piLoopStartSample: Pinteger; piLoopEndSample: Pinteger): integer; external;
 
-function sceAtracResetPlayPosition(atracID: int32; uiSample: uint32; uiWriteByteFirstBuf: uint32; uiWriteByteSecondBuf: uint32): integer; cdecl; external;
+function sceAtracResetPlayPosition(atracID: int32; uiSample: uint32; uiWriteByteFirstBuf: uint32; uiWriteByteSecondBuf: uint32): integer; external;
 
-function sceAtracSetData(atracID: int32; pucBufferAddr: Puint8; uiBufferByte: uint32): cdecl; external;
+function sceAtracSetData(atracID: int32; pucBufferAddr: Puint8; uiBufferByte: uint32): external;
 
-function sceAtracSetHalfwayBuffer(atracID: int32; pucBufferAddr: Puint9: uiReadByte: uint32; uiBufferByte: uint32): integer; cdecl; external;
+function sceAtracSetHalfwayBuffer(atracID: int32; pucBufferAddr: Puint9: uiReadByte: uint32; uiBufferByte: uint32): integer; external;
 
-function sceAtracSetHalfwayBufferAndGetID(pucBufferAdd: Puint8: uiReadByte: uint32; uiBufferByte: uint32): integer; cdecl; external;
+function sceAtracSetHalfwayBufferAndGetID(pucBufferAdd: Puint8: uiReadByte: uint32; uiBufferByte: uint32): integer; external;
 
-function sceAtracSetSecondBuffer(atracID: int32; pucSecondBufferAddr: Puint8: uiSecondBufferByte: uint32): integer; cdecl;e external;
+function sceAtracSetSecondBuffer(atracID: int32; pucSecondBufferAddr: Puint8: uiSecondBufferByte: uint32): integer;e external;
 
 {$endif}
 

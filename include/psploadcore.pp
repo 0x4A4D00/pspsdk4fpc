@@ -58,15 +58,15 @@ type
     vstubtable : pointer;
   end;
 
-function sceKernelFindModuleByName(const modname: Pchar): PSceModule; cdecl; external;
+function sceKernelFindModuleByName(const modname: Pchar): PSceModule; external;
 
-function sceKernelFindModuleByAddress(addr: uint32): PSceModule; cdecl; external;
+function sceKernelFindModuleByAddress(addr: uint32): PSceModule; external;
 
-function sceKernelFindModuleByUID(modid: SceUID):  PSceModule; cdecl; external;
+function sceKernelFindModuleByUID(modid: SceUID):  PSceModule; external;
 
-function sceKernelModuleCount: int32; cdecl; external;
+function sceKernelModuleCount: int32; external;
 
-procedure sceKernelIcacheClearAll; cdecl; external;
+procedure sceKernelIcacheClearAll; external;
 
 
 {$endif}

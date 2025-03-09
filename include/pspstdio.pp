@@ -8,11 +8,11 @@ interface
 uses
   pspkerneltypes;
 
-function sceKernelStdin: SceUID; cdecl; external;
+function sceKernelStdin: SceUID; external;
 
-function sceKernelStdout: SceUID; cdecl; external;
+function sceKernelStdout: SceUID; external;
 
-function sceKernelStderr: SceUID; cdecl; external;
+function sceKernelStderr: SceUID; external;
 
 {$endif}
 

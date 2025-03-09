@@ -14,7 +14,7 @@ type
   
   PSceMpegStream = ScePVoid;
   
-  sceMpegRingbufferCB = function(pData: ScePVoid; iNumPackets: SceInt32; pParam: ScePVoid): Pinteger; cdecl; external;
+  sceMpegRingbufferCB = function(pData: ScePVoid; iNumPackets: SceInt32; pParam: ScePVoid): Pinteger; external;
   
   PSceMpegRingbuffer = ^SceMpegRingbuffer;
   SceMpegRingbuffer  = record
@@ -52,55 +52,55 @@ type
     iPixelFormat : SceInt32;
   end;
 
-function sceMpegInit: SceInt32; cdecl; external;
+function sceMpegInit: SceInt32; external;
 
-procedure sceMpegFinish; cdecl; external;
+procedure sceMpegFinish; external;
 
-function sceMpegRingbufferQueryMemSize(iPackets: SceInt32): SceInt32; cdecl; external;
+function sceMpegRingbufferQueryMemSize(iPackets: SceInt32): SceInt32; external;
 
-function sceMpegRingbufferConstruct(Ringbuffer: PSceMpegRingbuffer; iPackets: SceInt32; pData: ScePVoid; iSize: SceInt32; Callback: sceMpegRingbufferCB; pCBparam: ScePVoid): SceInt32; cdecl; external;
+function sceMpegRingbufferConstruct(Ringbuffer: PSceMpegRingbuffer; iPackets: SceInt32; pData: ScePVoid; iSize: SceInt32; Callback: sceMpegRingbufferCB; pCBparam: ScePVoid): SceInt32; external;
 
-procedure sceMpegRingbufferDestruct(Ringbuffer: PSceMpegRingbuffer); cdecl; external;
+procedure sceMpegRingbufferDestruct(Ringbuffer: PSceMpegRingbuffer); external;
 
-function sceMpegRingbufferAvailableSize(Ringbuffer: PSceMpegRingbuffer): SceInt32; cdecl; external;
+function sceMpegRingbufferAvailableSize(Ringbuffer: PSceMpegRingbuffer): SceInt32; external;
 
-function sceMpegRingbufferPut(Ringbuffer: PSceMpegRingbuffer; iNumPackets: SceInt32; iAvailable: SceInt32): SceInt32; cdecl; external;
+function sceMpegRingbufferPut(Ringbuffer: PSceMpegRingbuffer; iNumPackets: SceInt32; iAvailable: SceInt32): SceInt32; external;
 
-function sceMpegQueryMemSize(iUnk: int32): SceInt32; cdecl; external;
+function sceMpegQueryMemSize(iUnk: int32): SceInt32; external;
 
-function sceMpegCreate(Mpeg: PSceMpeg; pData: ScePVoid; iSize: SceInt32; Ringbuffer: PSceMpegRingbuffer; iFrameWidth: SceInt32; iUnk1: SceInt32; iUnk2: SceInt32): SceInt32; cdecl; external;
+function sceMpegCreate(Mpeg: PSceMpeg; pData: ScePVoid; iSize: SceInt32; Ringbuffer: PSceMpegRingbuffer; iFrameWidth: SceInt32; iUnk1: SceInt32; iUnk2: SceInt32): SceInt32; external;
 
-procedure sceMpegDelete(Mpeg: PSceMpeg); cdecl; external;
+procedure sceMpegDelete(Mpeg: PSceMpeg); external;
 
-function sceMpegQueryStreamOffset(Mpeg: PSceMpeg; pBuffer: ScePVoid; iOffset: Pinteger): SceInt32; cdecl; external;
+function sceMpegQueryStreamOffset(Mpeg: PSceMpeg; pBuffer: ScePVoid; iOffset: Pinteger): SceInt32; external;
 
-function sceMpegQueryStreamSize(pBuffer: ScePVoid; iSize: Pinteger): SceInt32; cdecl; external;
+function sceMpegQueryStreamSize(pBuffer: ScePVoid; iSize: Pinteger): SceInt32; external;
 
-function sceMpegRegistStream(Mpeg: PSceMpeg; iStreamID: SceInt32; iUnk: SceInt32): PSceMpegStream; cdecl; external;
+function sceMpegRegistStream(Mpeg: PSceMpeg; iStreamID: SceInt32; iUnk: SceInt32): PSceMpegStream; external;
 
-procedure sceMpegUnRegistStream(Mpeg: SceMpeg; pStream: PSceMpegStream); cdecl; external;
+procedure sceMpegUnRegistStream(Mpeg: SceMpeg; pStream: PSceMpegStream); external;
 
-function sceMpegFlushAllStream(Mpeg: PSceMpeg): SceInt32; cdecl; external;
+function sceMpegFlushAllStream(Mpeg: PSceMpeg): SceInt32; external;
 
-function sceMpegMallocAvcEsBuf(Mpeg: PSceMpeg): ScePVoid; cdecl; external;
+function sceMpegMallocAvcEsBuf(Mpeg: PSceMpeg): ScePVoid; external;
 
-procedure sceMpegFreeAvcEsBuf(Mpeg: PSceMpeg; pBuf: ScePVoid); cdecl; external;
+procedure sceMpegFreeAvcEsBuf(Mpeg: PSceMpeg; pBuf: ScePVoid); external;
 
-function sceMpegQueryAtracEsSize(Mpeg: PSceMpeg; iEsSize: Pinteger; iOutSize: Pinteger): SceInt32; cdecl; external;
+function sceMpegQueryAtracEsSize(Mpeg: PSceMpeg; iEsSize: Pinteger; iOutSize: Pinteger): SceInt32; external;
 
-function sceMpegInitAu(Mpeg: PSceMpeg; pEsBuffer: ScePVoid; pAu: PSceMpegAu): SceInt32; cdecl; external;
+function sceMpegInitAu(Mpeg: PSceMpeg; pEsBuffer: ScePVoid; pAu: PSceMpegAu): SceInt32; external;
 
-function sceMpegGetAvcAu(Mpeg: PSceMpeg; pStream: PSceMpegStream; pAu: PSceMpegAu; iUnk: Pinteger): SceInt32; cdecl; external;
+function sceMpegGetAvcAu(Mpeg: PSceMpeg; pStream: PSceMpegStream; pAu: PSceMpegAu; iUnk: Pinteger): SceInt32; external;
 
-function sceMpegAvcDecodeMode(Mpeg: PSceMpeg; pMode: PSceMpegAvcMode): SceInt32; cdecl; external;
+function sceMpegAvcDecodeMode(Mpeg: PSceMpeg; pMode: PSceMpegAvcMode): SceInt32; external;
 
-function sceMpegAvcDecode(Mpeg: PSceMpeg; pAu: PSceMpegAu; iFrameWidth: SceInt32; pBuffer: ScePVoid; iInit: Pinteger): SceInt32; cdecl; external;
+function sceMpegAvcDecode(Mpeg: PSceMpeg; pAu: PSceMpegAu; iFrameWidth: SceInt32; pBuffer: ScePVoid; iInit: Pinteger): SceInt32; external;
 
-function sceMpegAvcDecodeStop(Mpeg: PSceMpeg; iFrameWidth: SceInt32; pBuffer: ScePVoid; iStatus: Pinteger): SceInt32; cdecl; external;
+function sceMpegAvcDecodeStop(Mpeg: PSceMpeg; iFrameWidth: SceInt32; pBuffer: ScePVoid; iStatus: Pinteger): SceInt32; external;
 
-function sceMpegGetAtracAu(Mpeg: PSceMpeg; pStream: PSceMpegStream; pAu: PSceMpegAu; pUnk: ScePVoid): SceInt32; cdecl; external;
+function sceMpegGetAtracAu(Mpeg: PSceMpeg; pStream: PSceMpegStream; pAu: PSceMpegAu; pUnk: ScePVoid): SceInt32; external;
 
-function sceMpegAtracDecode(Mpeg: PSceMpeg; pAu: PSceMpegAu; pBuffer: ScePVoid; iInit: SceInt32): SceInt32; cdecl; external;
+function sceMpegAtracDecode(Mpeg: PSceMpeg; pAu: PSceMpegAu; pBuffer: ScePVoid; iInit: SceInt32): SceInt32; external;
 
 {$endif}
 

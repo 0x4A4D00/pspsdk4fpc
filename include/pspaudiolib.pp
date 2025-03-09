@@ -22,21 +22,21 @@ type
     pdata        : pointer;
   end;
   
-  TpspAudioThreadfunc = function(args: int32; argp: pointer): int32; cdecl; external;
+  TpspAudioThreadfunc = function(args: int32; argp: pointer): int32; external;
 
-function pspAudioInit: int32; cdecl; external;
+function pspAudioInit: int32; external;
 
-procedure pspAudioEndPre; cdecl; external;
+procedure pspAudioEndPre; external;
 
-procedure pspAudioEnd; cdecl; external;
+procedure pspAudioEnd; external;
 
-procedure pspAudioSetVolume(channel: int32; left: int32; right: int32); cdecl; external;
+procedure pspAudioSetVolume(channel: int32; left: int32; right: int32); external;
 
-procedure pspAudioChannelThreadCallback(channel: int32; buf: pointer; reqn: uint32); cdecl; external;
+procedure pspAudioChannelThreadCallback(channel: int32; buf: pointer; reqn: uint32); external;
 
-procedure pspAudioSetChannelCallback(channel: int32; callback: TpspAudioCallback; pdata: pointer); cdecl; external;
+procedure pspAudioSetChannelCallback(channel: int32; callback: TpspAudioCallback; pdata: pointer); external;
 
-procedure pspAudioOutBlocking(channel: uint32; vol1: uint32; vol2: uint32; buf: pointer); cdecl; external;
+procedure pspAudioOutBlocking(channel: uint32; vol1: uint32; vol2: uint32; buf: pointer); external;
 
 {$endif}
 

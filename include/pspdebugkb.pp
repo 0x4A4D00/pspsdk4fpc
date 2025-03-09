@@ -28,17 +28,17 @@ type
     PSP_DEBUG_KB_NUM_COMMANDS   = 5  
   );
 
-procedure pspDebugKbShift(shiftState: Pint32); cdecl; external;
+procedure pspDebugKbShift(shiftState: Pint32); external;
 
-procedure pspDebugKbDrawKey(row: int32; col: int32; highlight: int32); cdecl; external;
+procedure pspDebugKbDrawKey(row: int32; col: int32; highlight: int32); external;
 
-procedure pspDebugKbDrawString(str: Pchar); cdecl; external;
+procedure pspDebugKbDrawString(str: Pchar); external;
 
-procedure pspDebugKbClearBox; cdecl; external;
+procedure pspDebugKbClearBox; external;
 
-procedure pspDebugKbDrawBox; cdecl; external;
+procedure pspDebugKbDrawBox; external;
 
-procedure pspDebugKbInit(str: Pchar); cdecl; external;
+procedure pspDebugKbInit(str: Pchar); external;
 
 {$endif}
 

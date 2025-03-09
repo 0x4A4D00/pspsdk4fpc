@@ -28,63 +28,63 @@ type
   powerCallback_t = function(unknown: int32; powerinfo: int32): pointer;
   
   
-function scePowerRegisterCallback(slot: int32; cbid: SceUID): integer; cdecl; external;
+function scePowerRegisterCallback(slot: int32; cbid: SceUID): integer; external;
 
-function scePowerUnregisterCallback(slot: int32): integer; cdecl; external;
+function scePowerUnregisterCallback(slot: int32): integer; external;
 
-function scePowerIsPowerOnline: integer; cdecl; external;
+function scePowerIsPowerOnline: integer; external;
 
-function scePowerIsBatteryExist: integer; cdecl; external;
+function scePowerIsBatteryExist: integer; external;
 
-function scePowerIsBatteryCharging: integer; cdecl; external;
+function scePowerIsBatteryCharging: integer; external;
 
-function scePowerGetBatteryChargingStatus: integer; cdecl; external;
+function scePowerGetBatteryChargingStatus: integer; external;
 
-function scePowerIsLowBattery: integer; cdecl; external;
+function scePowerIsLowBattery: integer; external;
 
-function scePowerGetBatteryLifePercent: integer; cdecl; external;
+function scePowerGetBatteryLifePercent: integer; external;
 
-function scePowerGetBatteryLifeTime: integer; cdecl; external;
+function scePowerGetBatteryLifeTime: integer; external;
 
-function scePowerGetBatteryTemp: integer; cdecl; external;
+function scePowerGetBatteryTemp: integer; external;
 
-function scePowerGetBatteryElec: integer; cdecl; external;
+function scePowerGetBatteryElec: integer; external;
 
-function scePowerGetBatteryVolt: integer; cdecl; external;
+function scePowerGetBatteryVolt: integer; external;
 
-function scePowerSetCpuClockFrequency(cpufreq: int32): integer; cdecl; external;
+function scePowerSetCpuClockFrequency(cpufreq: int32): integer; external;
 
-function scePowerSetBusClockFrequency(busfreq: int32): integer; cdecl; external;
+function scePowerSetBusClockFrequency(busfreq: int32): integer; external;
 
-function scePowerGetCpuClockFrequency: integer; cdecl; external;
+function scePowerGetCpuClockFrequency: integer; external;
 
-function scePowerGetCpuClockFrequencyInt: integer; cdecl; external;
+function scePowerGetCpuClockFrequencyInt: integer; external;
 
-function scePowerGetCpuClockFrequencyFloat: single; cdecl; external;
+function scePowerGetCpuClockFrequencyFloat: single; external;
 
-function scePowerGetBusClockFrequency: integer; cdecl; external;
+function scePowerGetBusClockFrequency: integer; external;
 
-function scePowerGetBusClockFrequencyInt: integer; cdecl; external;
+function scePowerGetBusClockFrequencyInt: integer; external;
 
-function scePowerGetBusClockFrequencyFloat: single; cdecl; external;
+function scePowerGetBusClockFrequencyFloat: single; external;
 
-function scePowerSetClockFrequency(pllfreq: int32; cpufreq: int32; busfreq: int32): integer; cdecl; external;
+function scePowerSetClockFrequency(pllfreq: int32; cpufreq: int32; busfreq: int32): integer; external;
 
-function scePowerLock(unknown: int32): integer; cdecl; external;
+function scePowerLock(unknown: int32): integer; external;
 
-function scePowerUnlock(unknown: int32): integer; cdecl; external;
+function scePowerUnlock(unknown: int32): integer; external;
 
-function scePowerTick(atype: int32): integer; cdecl; external;
+function scePowerTick(atype: int32): integer; external;
 
-function scePowerGetIdleTimer: integer; cdecl; external;
+function scePowerGetIdleTimer: integer; external;
 
-function scePowerIdleTimerEnable(unknown: int32): integer; cdecl; external;
+function scePowerIdleTimerEnable(unknown: int32): integer; external;
 
-function scePowerIdleTimerDisable(unknown: int32): integer; cdecl; external;
+function scePowerIdleTimerDisable(unknown: int32): integer; external;
 
-function scePowerRequestStandby: integer; cdecl; external;
+function scePowerRequestStandby: integer; external;
 
-function scePowerRequestSuspend: integer; cdecl; external;
+function scePowerRequestSuspend: integer; external;
 
 {$endif}
 

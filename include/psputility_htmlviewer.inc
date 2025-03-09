@@ -81,12 +81,12 @@ type
     unknown4       : array[0..9] of int32;
   end;
 
-function sceUtilityHtmlViewerInitStart(params: PpspUtilityHtmlViewerParam): integer; cdecl; external;
+function sceUtilityHtmlViewerInitStart(params: PpspUtilityHtmlViewerParam): integer; external;
 
-function sceUtilityHtmlViewerShutdownStart: integer; cdecl; external;
+function sceUtilityHtmlViewerShutdownStart: integer; external;
 
-function sceUtilityHtmlViewerUpdate(n: int32): integer; cdecl; external;
+function sceUtilityHtmlViewerUpdate(n: int32): integer; external;
 
-function sceUtilityHtmlViewerGetStatus: integer; cdecl; external;
+function sceUtilityHtmlViewerGetStatus: integer; external;
 
 {$endif}

@@ -28,8 +28,8 @@ const
   PSP_MODULE_NP_DRM        := $0500;
   PSP_MODULE_IRDA          := $0600;
 
-function sceUtilityLoadModule(module: int32): integer; cdecl; external;
+function sceUtilityLoadModule(module: int32): integer; external;
 
-function sceUtilityUnloadModule(module: int32): integer; cdecl; external;
+function sceUtilityUnloadModule(module: int32): integer; external;
 
 {$endif}

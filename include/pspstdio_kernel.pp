@@ -10,11 +10,11 @@ uses
   pspkerneltypes,
   pspiofilemgr;
 
-function sceKernelStdoutReopen(const filename: Pchar; flags: int32; mode: SceMode): int32; cdecl; external;
+function sceKernelStdoutReopen(const filename: Pchar; flags: int32; mode: SceMode): int32; external;
 
-function sceKernelStderrReopen(const filename: Pchar; flags: int32; mode: SceMode): int32; cdecl; external;
+function sceKernelStderrReopen(const filename: Pchar; flags: int32; mode: SceMode): int32; external;
 
-function fdprintf(fd: int32; const format: Pchar): int32; varargs; cdecl; external;
+function fdprintf(fd: int32; const format: Pchar): int32; varargs; external;
 
 {$endif}
 

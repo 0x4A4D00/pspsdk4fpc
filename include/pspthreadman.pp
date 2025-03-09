@@ -91,69 +91,69 @@ type
 * var thid : SceUID;
 * thid := sceKernelCreateThread('my_thread', threadFunc, $18, $10000, 0, nil);
 *)
-function sceKernelCreateThread(const name: Pchar; entry: SceKernelThreadEntry; initPriority: int32; stackSize: int32; attr: SceUID; option: PSceKernelThreadOptParam): SceUID; cdecl; external;
+function sceKernelCreateThread(const name: Pchar; entry: SceKernelThreadEntry; initPriority: int32; stackSize: int32; attr: SceUID; option: PSceKernelThreadOptParam): SceUID; external;
 
-function sceKernelDeleteThread(thid: SceUID): int32; cdecl; external;
+function sceKernelDeleteThread(thid: SceUID): int32; external;
 
-function sceKernelStartThread(thid: SceUID; arglen: SceSize; argp: pointer): int32; cdecl; external;
+function sceKernelStartThread(thid: SceUID; arglen: SceSize; argp: pointer): int32; external;
 
-function sceKernelExitThread(status: int32): int32; cdecl; external;
+function sceKernelExitThread(status: int32): int32; external;
 
-function sceKernelExitDeleteThread(status: int32): int32; cdecl; external;
+function sceKernelExitDeleteThread(status: int32): int32; external;
 
-function sceKernelTerminateThread(thid: SceUID): int32; cdecl; external;
+function sceKernelTerminateThread(thid: SceUID): int32; external;
 
-function sceKernelTerminateDeleteThread(thid: SceUID): int32; cdecl; external;
+function sceKernelTerminateDeleteThread(thid: SceUID): int32; external;
 
-function sceKernelSuspendDispatchThread: int32; cdecl; external;
+function sceKernelSuspendDispatchThread: int32; external;
 
-function sceKernelResumeDispatchThread(state: int32): int32; cdecl; external;
+function sceKernelResumeDispatchThread(state: int32): int32; external;
 
-function sceKernelSleepThread: int32; cdecl; external;
+function sceKernelSleepThread: int32; external;
 
-function sceKernelSleepThreadCB: int32; cdecl; external;
+function sceKernelSleepThreadCB: int32; external;
 
-function sceKernelWakeupThread(thid: SceUID): int32; cdecl; external;
+function sceKernelWakeupThread(thid: SceUID): int32; external;
 
-function sceKernelCancelWakeupThread(thid: SceUID): int32; cdecl; external;
+function sceKernelCancelWakeupThread(thid: SceUID): int32; external;
 
-function sceKernelSuspendThread(thid: SceUID): int32; cdecl; external;
+function sceKernelSuspendThread(thid: SceUID): int32; external;
 
-function sceKernelResumeThread(thid: SceUID): int32; cdecl; external;
+function sceKernelResumeThread(thid: SceUID): int32; external;
 
-function sceKernelWaitThreadEnd(thid: SceUID; timeout: PSceUInt): int32; cdecl; external;
+function sceKernelWaitThreadEnd(thid: SceUID; timeout: PSceUInt): int32; external;
 
-function sceKernelWaitThreadEndCB(thid: SceUID; timeout: PSceUInt): int32; cdecl; external;
+function sceKernelWaitThreadEndCB(thid: SceUID; timeout: PSceUInt): int32; external;
 
 function sceKernelDelayThread(delay: SceUInt): int32; cdecl external;
 
-function sceKernelDelayThreadCB(delay: SceUInt): int32; cdecl; external;
+function sceKernelDelayThreadCB(delay: SceUInt): int32; external;
 
-function sceKernelDelaySysClockThread(delay: PSceKernelSysClock): int32; cdecl; external;
+function sceKernelDelaySysClockThread(delay: PSceKernelSysClock): int32; external;
 
-function sceKernelDelaySysClockThreadCB(delay: PSceKernelSysClock): int32; cdecl; external;
+function sceKernelDelaySysClockThreadCB(delay: PSceKernelSysClock): int32; external;
 
-function sceKernelChangeCurrentThreadAttr(unknown: int32; attr: SceUInt): int32; cdecl; external;
+function sceKernelChangeCurrentThreadAttr(unknown: int32; attr: SceUInt): int32; external;
 
-function sceKernelChangeThreadPriority(this: SceUID; priority: int32): int32; cdecl; external;
+function sceKernelChangeThreadPriority(this: SceUID; priority: int32): int32; external;
 
-function sceKernelRotateThreadReadyQueue(priority: int32): int32; cdecl; external;
+function sceKernelRotateThreadReadyQueue(priority: int32): int32; external;
 
-function sceKernelReleaseWaitThread(thid: SceUID): int32; cdecl; external;
+function sceKernelReleaseWaitThread(thid: SceUID): int32; external;
 
-function sceKernelGetThreadId: int32; cdecl; external;
+function sceKernelGetThreadId: int32; external;
 
-function sceKernelGetThreadCurrentPriority: int32; cdecl; external;
+function sceKernelGetThreadCurrentPriority: int32; external;
 
-function sceKernelGetThreadExitStatus(thid: SceUID): int32; cdecl; external;
+function sceKernelGetThreadExitStatus(thid: SceUID): int32; external;
 
-function sceKernelCheckThreadStack: int32; cdecl; external;
+function sceKernelCheckThreadStack: int32; external;
 
-function sceKernelGetThreadStackFreeSize(thid: SceUID): int32; cdecl; external;
+function sceKernelGetThreadStackFreeSize(thid: SceUID): int32; external;
 
-function sceKernelReferThreadStatus(thid: SceUID; info: PSceKernelThreadInfo): int32; cdecl; external;
+function sceKernelReferThreadStatus(thid: SceUID; info: PSceKernelThreadInfo): int32; external;
 
-function sceKernelReferThreadRunStatus(thid: SceUID; status: PSceKernelThreadRunStatus): int32; cdecl; external;
+function sceKernelReferThreadRunStatus(thid: SceUID; status: PSceKernelThreadRunStatus): int32; external;
 
 
 type
@@ -174,19 +174,19 @@ type
     numWaitThreads : int32;
   end;
 
-function sceKernelCreateSema(const name: Pchar; attr: SceUInt; initVal: int32; maxVal: int32; option: PSceKernelSemaOptParam): SceUID; cdecl; external;
+function sceKernelCreateSema(const name: Pchar; attr: SceUInt; initVal: int32; maxVal: int32; option: PSceKernelSemaOptParam): SceUID; external;
 
-function sceKernelDeleteSema(semaid: SceUID): int32; cdecl; external;
+function sceKernelDeleteSema(semaid: SceUID): int32; external;
 
-function sceKernelSignalSema(semaid: SceUID; signal: int32): int32; cdecl; external;
+function sceKernelSignalSema(semaid: SceUID; signal: int32): int32; external;
 
-function sceKernelWaitSema(semaid: SceUID; signal: int32; timeout: PSceUInt): int32; cdecl; external;
+function sceKernelWaitSema(semaid: SceUID; signal: int32; timeout: PSceUInt): int32; external;
 
-function sceKernelWaitSemaCB(semaid: SceUID; signal: int32; timeout: PSceUInt): int32; cdecl; external;
+function sceKernelWaitSemaCB(semaid: SceUID; signal: int32; timeout: PSceUInt): int32; external;
 
-function sceKernelPollSema(semaid: SceUID; signal: int32): int32; cdecl; external; 
+function sceKernelPollSema(semaid: SceUID; signal: int32): int32; external; 
 
-function sceKernelReferSemaStatus(semaid: SceUID; info: PSceKernelSemaInfo): int32; cdecl; external;
+function sceKernelReferSemaStatus(semaid: SceUID; info: PSceKernelSemaInfo): int32; external;
 
 
 type
@@ -216,21 +216,21 @@ type
     PSP_EVENT_WAITCLEAR = $20
   );
 
-function sceKernelCreateEventFlag(const name: Pchar; attr: int32; bits: int32; opt: PSceKernelEventFlagOptParam): SceUID; cdecl; external;
+function sceKernelCreateEventFlag(const name: Pchar; attr: int32; bits: int32; opt: PSceKernelEventFlagOptParam): SceUID; external;
 
-function sceKernelSetEventFlag(evid: SceUID; bits: u32): int32; cdecl; external;
+function sceKernelSetEventFlag(evid: SceUID; bits: u32): int32; external;
 
-function sceKernelClearEventFlag(evid: SceUID; bits: u32): int32; cdecl; external;
+function sceKernelClearEventFlag(evid: SceUID; bits: u32): int32; external;
 
-function sceKernelPollEventFlag(evid: int32; bits: u32; wait: u32; outBits: Pinteger): int32; cdecl; external;
+function sceKernelPollEventFlag(evid: int32; bits: u32; wait: u32; outBits: Pinteger): int32; external;
 
-function sceKernelWaitEventFlag(evid: int32; bits: u32; wait: u32; outBits: Pinteger; timeout: PSceUInt): int32; cdecl; external;
+function sceKernelWaitEventFlag(evid: int32; bits: u32; wait: u32; outBits: Pinteger; timeout: PSceUInt): int32; external;
 
-function sceKernelWaitEventFlagCB(evid: int32; bits: u32; wait: u32; outBits: Pinteger; timeout: PSceUInt): int32; cdecl; external;
+function sceKernelWaitEventFlagCB(evid: int32; bits: u32; wait: u32; outBits: Pinteger; timeout: PSceUInt): int32; external;
 
-function sceKernelDeleteEventFlag(evid: int32): int32; cdecl; external;
+function sceKernelDeleteEventFlag(evid: int32): int32; external;
 
-function sceKernelReferEventFlagStatus(event: SceUID; status: PSceKernelEventFlagInfo): int32; cdecl; external;
+function sceKernelReferEventFlagStatus(event: SceUID; status: PSceKernelEventFlagInfo): int32; external;
 
 
 type
@@ -258,21 +258,21 @@ type
   end;
 
 
-function sceKernelCreateMbx(const name: Pchar; attr: SceUInt; option: PSceKernelMbxOptParam): SceUID; cdecl; external;
+function sceKernelCreateMbx(const name: Pchar; attr: SceUInt; option: PSceKernelMbxOptParam): SceUID; external;
 
-function sceKernelDeleteMbx(mbxid: SceUID): int32; cdecl; external;
+function sceKernelDeleteMbx(mbxid: SceUID): int32; external;
 
-function sceKernelSendMbx(mbxid: SceUID; message: pointer): int32; cdecl; external;
+function sceKernelSendMbx(mbxid: SceUID; message: pointer): int32; external;
 
-function sceKernelReceiveMbx(mbxid: SceUID; pmessage: Ppointer; timeout: PSceUInt): int32; cdecl; external;
+function sceKernelReceiveMbx(mbxid: SceUID; pmessage: Ppointer; timeout: PSceUInt): int32; external;
 
-function sceKernelReceiveMbxCB(mbxid: SceUID; pmessage: Ppointer; timeout: PSceUInt): int32; cdecl; external;
+function sceKernelReceiveMbxCB(mbxid: SceUID; pmessage: Ppointer; timeout: PSceUInt): int32; external;
 
-function sceKernelPollMbx(mbxid: SceUID; pmessage: Ppointer): int32; cdecl; external;
+function sceKernelPollMbx(mbxid: SceUID; pmessage: Ppointer): int32; external;
 
-function sceKernelCancelReceiveMbx(mbxid: SceUID; pnum: Pinteger): int32; cdecl; external;
+function sceKernelCancelReceiveMbx(mbxid: SceUID; pnum: Pinteger): int32; external;
 
-function sceKernelReferMbxStatus(mbxid: SceUID; info: PSceKernelMbxInfo): int32; cdecl; external;
+function sceKernelReferMbxStatus(mbxid: SceUID; info: PSceKernelMbxInfo): int32; external;
 
 
 type
@@ -287,13 +287,13 @@ type
     common   : pointer;
   end;
 
-function sceKernelSetAlarm(clock: SceUInt; handler: SceKernelAlarmHandler; common: pointer): SceUID; cdecl; external;
+function sceKernelSetAlarm(clock: SceUInt; handler: SceKernelAlarmHandler; common: pointer): SceUID; external;
 
-function sceKernelSetSysClockAlarm(clock: PSceKernelSysClock; handler: SceKernelAlarmHandler; common: pointer): SceUID; cdecl; external;
+function sceKernelSetSysClockAlarm(clock: PSceKernelSysClock; handler: SceKernelAlarmHandler; common: pointer): SceUID; external;
 
-function sceKernelCancelAlarm(alarmid: SceUID): int32; cdecl; external;
+function sceKernelCancelAlarm(alarmid: SceUID): int32; external;
 
-function sceKernelReferAlarmStatus(alarmid: SceUID; info: PSceKernelAlarmInfo): int32; cdecl; external;
+function sceKernelReferAlarmStatus(alarmid: SceUID; info: PSceKernelAlarmInfo): int32; external;
 
 
 type
@@ -311,19 +311,19 @@ type
     notifyArg   : int32;
   end;
 
-function sceKernelCreateCallback(const name: Pchar; func: SceKernelCallbackFunction; arg: pointer): int32; cdecl; external;
+function sceKernelCreateCallback(const name: Pchar; func: SceKernelCallbackFunction; arg: pointer): int32; external;
 
-function sceKernelReferCallbackStatus(cb: SceUID; status: PSceKernelCallbackInfo): int32; cdecl; external;
+function sceKernelReferCallbackStatus(cb: SceUID; status: PSceKernelCallbackInfo): int32; external;
 
-function sceKernelDeleteCallback(cb: SceUID): int32; cdecl; external;
+function sceKernelDeleteCallback(cb: SceUID): int32; external;
 
-function sceKernelNotifyCallback(cb: SceUID; arg2: int32): int32; cdecl; external;
+function sceKernelNotifyCallback(cb: SceUID; arg2: int32): int32; external;
 
-function sceKernelCancelCallback(cb: SceUID): int32; cdecl; external;
+function sceKernelCancelCallback(cb: SceUID): int32; external;
 
-function sceKernelGetCallbackCount(cb: SceUID): int32; cdecl; external;
+function sceKernelGetCallbackCount(cb: SceUID): int32; external;
 
-function sceKernelCheckCallback: int32; cdecl; external;
+function sceKernelCheckCallback: int32; external;
 
 
 type
@@ -346,7 +346,7 @@ type
     SCE_KERNEL_TMID_DormantThread      = 67
   );
 
-function sceKernelGetThreadmanIdList(atype: SceKernelIdListType; readbuf: PSceUID; readbufsize: int32; idcount: Pinteger): int32; cdecl; external;
+function sceKernelGetThreadmanIdList(atype: SceKernelIdListType; readbuf: PSceUID; readbufsize: int32; idcount: Pinteger): int32; external;
 
 type
   PSceKernelSystemStatus = ^SceKernelSystemStatus;
@@ -359,25 +359,25 @@ type
     vfpuSwitchCount     : SceUInt;
   end;
 
-function sceKernelReferSystemStatus(status: PSceKernelSystemStatus): int32; cdecl; external;
+function sceKernelReferSystemStatus(status: PSceKernelSystemStatus): int32; external;
 
-function sceKernelCreateMsgPipe(const name: Pchar; part: int32; attr: int32; unk1: pointer; opt: pointer): SceUID; cdecl; external;
+function sceKernelCreateMsgPipe(const name: Pchar; part: int32; attr: int32; unk1: pointer; opt: pointer): SceUID; external;
 
-function sceKernelDeleteMsgPipe(uid: SceUID): int32; cdecl; external;
+function sceKernelDeleteMsgPipe(uid: SceUID): int32; external;
 
-function sceKernelSendMsgPipe(uid: SceUID; message: pointer; size: uint32; unk1: int32; unk2: pointer; timeout: uint32): int32; cdecl; external;
+function sceKernelSendMsgPipe(uid: SceUID; message: pointer; size: uint32; unk1: int32; unk2: pointer; timeout: uint32): int32; external;
 
-function sceKernelSendMsgPipeCB(uid: SceUID; message: pointer; size: uint32; unk1: int32; unk2: pointer; timeout: uint32): int32; cdecl; external;
+function sceKernelSendMsgPipeCB(uid: SceUID; message: pointer; size: uint32; unk1: int32; unk2: pointer; timeout: uint32): int32; external;
 
-function sceKernelTrySendMsgPipe(uid: SceUID; message: pointer; size: uint32; unk1: int32; unk2: pointer): int32; cdecl; external;
+function sceKernelTrySendMsgPipe(uid: SceUID; message: pointer; size: uint32; unk1: int32; unk2: pointer): int32; external;
 
-function sceKernelReceiveMsgPipe(uid: SceUID; message: pointer; size: uint32; unk1: int32; unk2: pointer; timeout: uint32): int32; cdecl; external;
+function sceKernelReceiveMsgPipe(uid: SceUID; message: pointer; size: uint32; unk1: int32; unk2: pointer; timeout: uint32): int32; external;
 
-function sceKernelReceiveMsgPipeCB(uid: SceUID; message: pointer; size: uint32; unk1: int32; unk2: pointer; timeout: uint32): int32; cdecl; external;
+function sceKernelReceiveMsgPipeCB(uid: SceUID; message: pointer; size: uint32; unk1: int32; unk2: pointer; timeout: uint32): int32; external;
 
-function sceKernelTryReceiveMsgPipe(uid: SceUID; message: pointer; size: uint32; unk1: int32; unk2: pointer): int32; cdecl; external;
+function sceKernelTryReceiveMsgPipe(uid: SceUID; message: pointer; size: uint32; unk1: int32; unk2: pointer): int32; external;
 
-function sceKernelCancelMsgPipe(uid: SceUID; psend: Pinteger; precv: Pinteger): int32; cdecl; external;
+function sceKernelCancelMsgPipe(uid: SceUID; psend: Pinteger; precv: Pinteger): int32; external;
 
 type
   PSceKernelMppInfo = ^SceKernelMppInfo;
@@ -391,7 +391,7 @@ type
     numReceiveWaitThreads : int32;
   end;
 
-function sceKernelReferMsgPipeStatus(uid: SceUID; info: PSceKernelMppInfo): int32; cdecl; external;
+function sceKernelReferMsgPipeStatus(uid: SceUID; info: PSceKernelMppInfo): int32; external;
 
 
 type
@@ -401,19 +401,19 @@ type
     size : SceSize;
   end;
 
-function sceKernelCreateVpl(const name: Pchar; part: int32; attr: int32; size: uint32; opt: PSceKernelVplOptParam): SceUID; cdecl; external;
+function sceKernelCreateVpl(const name: Pchar; part: int32; attr: int32; size: uint32; opt: PSceKernelVplOptParam): SceUID; external;
 
-function sceKernelDeleteVpl(uid: SceUID): int32; cdecl; external;
+function sceKernelDeleteVpl(uid: SceUID): int32; external;
 
-function sceKernelAllocateVpl(uid: SceUID; size: uint32; data: Ppointer; timeout: Puint32): int32; cdecl; external;
+function sceKernelAllocateVpl(uid: SceUID; size: uint32; data: Ppointer; timeout: Puint32): int32; external;
 
-function sceKernelAllocateVplCB(uid: SceUID; size: uint32; data: Ppointer; timeout: Puint32): int32; cdecl; external;
+function sceKernelAllocateVplCB(uid: SceUID; size: uint32; data: Ppointer; timeout: Puint32): int32; external;
 
-function sceKernelTryAllocateVpl(uid: SceUID; size: uint32; data: Ppointer): int32; cdecl; external;
+function sceKernelTryAllocateVpl(uid: SceUID; size: uint32; data: Ppointer): int32; external;
 
-function sceKernelFreeVpl(uid: SceUID; data: pointer): int32; cdecl; external;
+function sceKernelFreeVpl(uid: SceUID; data: pointer): int32; external;
 
-function sceKernelCancelVpl(uid: SceUID; pnum: Pinteger): int32; cdecl; external;
+function sceKernelCancelVpl(uid: SceUID; pnum: Pinteger): int32; external;
 
 type
   PSceKernelVplInfo = ^SceKernelVplInfo;
@@ -425,7 +425,7 @@ type
     numWaitThreads : int32;
   end;
 
-function sceKernelReferVplStatus(uid: SceUID; info: PSceKernelVplInfo): int32; cdecl; external;
+function sceKernelReferVplStatus(uid: SceUID; info: PSceKernelVplInfo): int32; external;
 
 
 type
@@ -435,19 +435,19 @@ type
     size : SceSize;
   end;
 
-function sceKernelCreateFpl(const name: Pchar; attr: int32; size: uint32; blocks: uint32; opt: PSceKernelFplOptParam): int32; cdecl; external;
+function sceKernelCreateFpl(const name: Pchar; attr: int32; size: uint32; blocks: uint32; opt: PSceKernelFplOptParam): int32; external;
 
-function sceKernelDeleteFpl(uid: SceUID): int32; cdecl; external;
+function sceKernelDeleteFpl(uid: SceUID): int32; external;
 
-function sceKernelAllocateFpl(uid: SceUID; data: Ppointer; timeout: Puint32): int32; cdecl; external;
+function sceKernelAllocateFpl(uid: SceUID; data: Ppointer; timeout: Puint32): int32; external;
 
-function sceKernelAllocateFplCB(uid: SceUID; data: Ppointer; timeout: Puint32): int32; cdecl; external;
+function sceKernelAllocateFplCB(uid: SceUID; data: Ppointer; timeout: Puint32): int32; external;
 
-function sceKernelTryAllocateFpl(uid: SceUID; data: Ppointer): int32; cdecl; external;
+function sceKernelTryAllocateFpl(uid: SceUID; data: Ppointer): int32; external;
 
-function sceKernelFreeFpl(uid: SceUID; data: Pointer): int32; cdecl; external;
+function sceKernelFreeFpl(uid: SceUID; data: Pointer): int32; external;
 
-function sceKernelCancelFpl(uid: SceUID; pnum: Pinteger): int32; cdecl; external;
+function sceKernelCancelFpl(uid: SceUID; pnum: Pinteger): int32; external;
 
 type
   PSceKernelFplInfo = ^SceKernelFplInfo;
@@ -461,25 +461,25 @@ type
     numWaitThreads : int32; 
   end;
 
-function sceKernelReferFplStatus(uid: SceUID; info: PSceKernelFplInfo): int32; cdecl; external;
+function sceKernelReferFplStatus(uid: SceUID; info: PSceKernelFplInfo): int32; external;
 
-procedure _sceKernelReturnFromTimerHandler; cdecl; external;
+procedure _sceKernelReturnFromTimerHandler; external;
 
-procedure _sceKernelReturnFromCallback; cdecl; external;
+procedure _sceKernelReturnFromCallback; external;
 
-function sceKernelUSec2SysClock(usec: uint32; clock: PSceKernelSysClock): int32; cdecl; external;
+function sceKernelUSec2SysClock(usec: uint32; clock: PSceKernelSysClock): int32; external;
 
-function sceKernelUSec2SysClockWide(usec: uint32): int32; cdecl; external;
+function sceKernelUSec2SysClockWide(usec: uint32): int32; external;
 
-function sceKernelSysClock2USec(clock: PSceKernelSysClock; low: Puint32; high: Puint32): int32; cdecl; external;
+function sceKernelSysClock2USec(clock: PSceKernelSysClock; low: Puint32; high: Puint32): int32; external;
 
-function sceKernelSysClock2USecWide(clock: SceInt64; low: Puint32; high: Puint32): int32; cdecl; external;
+function sceKernelSysClock2USecWide(clock: SceInt64; low: Puint32; high: Puint32): int32; external;
 
-function sceKernelGetSystemTime(time: PSceKernelSysClock): int32; cdecl; external;
+function sceKernelGetSystemTime(time: PSceKernelSysClock): int32; external;
 
-function sceKernelGetSystemTimeWide: SceInt64; cdecl; external;
+function sceKernelGetSystemTimeWide: SceInt64; external;
 
-function sceKernelGetSystemTimeLow: uint32; cdecl; external;
+function sceKernelGetSystemTimeLow: uint32; external;
 
 
 type
@@ -489,35 +489,35 @@ type
     size : SceSize;
   end;
 
-function sceKernelCreateVTimer(const name: Pchar; opt: PSceKernelVTimerOptParam): SceUID; cdecl; external;
+function sceKernelCreateVTimer(const name: Pchar; opt: PSceKernelVTimerOptParam): SceUID; external;
 
-function sceKernelDeleteVTimer(uid: SceUID): int32; cdecl; external;
+function sceKernelDeleteVTimer(uid: SceUID): int32; external;
 
-function sceKernelGetVTimerBase(uid: SceUID; base: PSceKernelSysClock): int32; cdecl; external;
+function sceKernelGetVTimerBase(uid: SceUID; base: PSceKernelSysClock): int32; external;
 
-function sceKernelGetVTimerBaseWide(uid: SceUID): SceInt64; cdecl; external;
+function sceKernelGetVTimerBaseWide(uid: SceUID): SceInt64; external;
 
-function sceKernelGetVTimerTime(uid: SceUID; time: PSceKernelSysClock): int32; cdecl; external;
+function sceKernelGetVTimerTime(uid: SceUID; time: PSceKernelSysClock): int32; external;
 
-function sceKernelGetVTimerTimeWide(uid: SceUID): SceInt64; cdecl; external;
+function sceKernelGetVTimerTimeWide(uid: SceUID): SceInt64; external;
 
-function sceKernelSetVTimerTime(uid: SceUID; time: PSceKernelSysClock): int32; cdecl; external;
+function sceKernelSetVTimerTime(uid: SceUID; time: PSceKernelSysClock): int32; external;
 
-function sceKernelSetVTimerTimeWide(uid: SceUID; time: SceInt64): SceInt64; cdecl; external;
+function sceKernelSetVTimerTimeWide(uid: SceUID; time: SceInt64): SceInt64; external;
 
-function sceKernelStartVTimer(uid: SceUID): int32; cdecl; external;
+function sceKernelStartVTimer(uid: SceUID): int32; external;
 
-function sceKernelStopVTimer(uid: SceUID): int32; cdecl; external;
+function sceKernelStopVTimer(uid: SceUID): int32; external;
 
 type
   SceKernelVTimerHandler = function(uid: SceUID; time1: PSceKernelSysClock; time2: PSceKernelSysClock; parg: pointer): PSceUInt;
   SceKernelVTimerHandlerWide = function(uid: SceUID; time1: PSceKernelSysClock; time2: PSceKernelSysClock; parg: pointer): PSceUInt;
 
-function sceKernelSetVTimerHandler(uid: SceUID; time: PSceKernelSysClock; handler: SceKernelVTimerHandler; common: pointer): int32; cdecl; external;
+function sceKernelSetVTimerHandler(uid: SceUID; time: PSceKernelSysClock; handler: SceKernelVTimerHandler; common: pointer): int32; external;
 
-function sceKernelSetVTimerHandlerWide(uid: SceUID; time: SceInt64; handler: SceKernelVTimerHandlerWide; common: pointer): int32; cdecl; external;
+function sceKernelSetVTimerHandlerWide(uid: SceUID; time: SceInt64; handler: SceKernelVTimerHandlerWide; common: pointer): int32; external;
 
-function sceKernelCancelVTimerHandler(uid: SceUID): int32; cdecl; external;
+function sceKernelCancelVTimerHandler(uid: SceUID): int32; external;
 
 type
   PSceKernelVTimerInfo = ^SceKernelVTimerInfo;
@@ -531,11 +531,11 @@ type
     common   : pointer;
   end;
 
-function sceKernelReferVTimerStatus(uid: SceUID; info: PSceKernelVTimerInfo): int32; cdecl; external;
+function sceKernelReferVTimerStatus(uid: SceUID; info: PSceKernelVTimerInfo): int32; external;
 
-procedure _sceKernelExitThread; cdecl; external;
+procedure _sceKernelExitThread; external;
 
-function sceKernelGetThreadmanIdType(uid: SceUID): SceKernelIdListType; cdecl; external;
+function sceKernelGetThreadmanIdType(uid: SceUID): SceKernelIdListType; external;
 
 type
   SceKernelThreadEventHandler = function(mask: int32; thid: SceUID; common: pointer): Pinteger;
@@ -564,15 +564,15 @@ type
     THREAD_DELETE = 8
   );
 
-function sceKernelRegisterThreadEventHandler(const name: Pchar; threadId: SceUID; mask: int32; handler: SceKernelThreadEventHandler; common: pointer): int32; cdecl; external;
+function sceKernelRegisterThreadEventHandler(const name: Pchar; threadId: SceUID; mask: int32; handler: SceKernelThreadEventHandler; common: pointer): int32; external;
 
-function sceKernelReleaseThreadEventHandler(uid: SceUID): int32; cdecl; external;
+function sceKernelReleaseThreadEventHandler(uid: SceUID): int32; external;
 
-function sceKernelReferThreadEventHandlerStatus(uid: SceUID; info: PSceKernelThreadEventHandlerInfo): int32; cdecl; external;
+function sceKernelReferThreadEventHandlerStatus(uid: SceUID; info: PSceKernelThreadEventHandlerInfo): int32; external;
 
-function sceKernelReferThreadProfiler: PpspDebugProfilerRegs; cdecl; external;
+function sceKernelReferThreadProfiler: PpspDebugProfilerRegs; external;
 
-function sceKernelReferGlobalProfiler: PpspDebugProfilerRegs; cdecl; external;
+function sceKernelReferGlobalProfiler: PpspDebugProfilerRegs; external;
 
 
 {$endif}
